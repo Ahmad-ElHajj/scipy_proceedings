@@ -2,7 +2,7 @@ version: 1
 extends: ../papers.yml
 project:
   # Update this to match `scipy-2025-<folder>` the folder should be `<firstname_surname>`
-  id: scipy-2025-00_myst_template
+  id: scipy-2025-myst_template
   # Ensure your title is the same as in your `main.md`
   title: A Numerical Perspective to Terraforming a Desert
   # subtitle:
@@ -45,3 +45,9 @@ project:
         - jupyter
         - sklearn1
         - sklearn2
+  exports:
+    - id: pdf
+      format: typst
+      template: https://github.com/curvenote-templates/scipy.git
+      article: main.md
+      output: full_text.pdf

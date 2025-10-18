@@ -10,9 +10,9 @@ You can find more information about the [proceedings' organising principles](#or
 
 **All** communication between authors and reviewers should be civil and
 respectful. There are no exceptions to this rule. Please see the [NumFOCUS Code of Conduct](https://numfocus.org/code-of-conduct)
-for more info. Attendees at SciPy 2024 are subject to the NumFOCUS Code of Conduct.
+for more info. Attendees at SciPy 2025 are subject to the NumFOCUS Code of Conduct.
 
-You can find the [schedule for 2024](#timeline-for-2024) below.
+You can find the [schedule for 2025](#timeline-for-2025) below.
 
 Please use @-mentions in issues and pull requests(PRs) to [contact the proceedings Co-Chairs](#contacting-the-proceedings-co-chairs).
 
@@ -84,55 +84,64 @@ The community is involved in the entire process for creating the proceedings, wh
 
 ## Contacting the Proceedings Co-Chairs
 
-The most effective way to contact the Proceedings Co-Chairs for issues related to this GitHub repository is to use GitHub's issues and "@"-mentioning the Co-Chairs.
+The most effective way to contact the Proceedings Co-Chairs for issues related to this GitHub repository is to use GitHub's issues and "@"-mentioning the Co-Chairs, either individually or with the team `@scipy-conference/2025-proceedings`.
 
-In 2024, the Proceedings Co-Chairs are:
+In 2025, the Proceedings Co-Chairs are:
 
-- Meghann Agarwal (@mepa)
 - Amey Ambade (@ameyxd)
-- Chris Calloway (@cbcunc)
 - Rowan Cockett (@rowanc1)
+- Ana Comesana (@anacomesana)
+- Sean Freeman (@freemansw1)
 - Sanhita Joshi (@sanhitamj)
+- Franklin Koch (@fwkoch)
 - Charles Lindsey (@cdlindsey)
 - Hongsup Shin (@hongsupshin)
 
-## Timeline for 2024
+## Timeline for 2025
 
 In addition to the following list, we break up the deadlines in the respective documents for authors and reviewers.
 
-- Apr 9: Reviewer invitations sent
-- Apr 23: Deadline to respond to offer to be a reviewer
-- Apr 26: Authors invited to submit full papers
-- May 3: Webinar offered to authors
-- Jun 7: Deadline to submit first draft by authors
-- Jun 8: Assignment of reviewers to papers
-- Jun 8: Open Review Period begins
-  - Reviewers comment on papers to authors during this period.
-  - Authors also respond to review comments with improvements to papers during this period.
-- Jul 3: Initial complete review
-  - Reviewers continue to comment on paper improvements during this period.
-  - Authors also respond to review comments with further improvements to papers during this period.
-- Aug 19: Final review deadline
+- May 2: Authors invited to submit full papers
+- May 9: Webinar offered to authors
+- May 16: Reviewer invitations sent
+- May 30: Deadline to respond to offer to be a reviewer
+- Jun 13: Deadline to submit first draft by authors, as GitHub pull request
+- Jun 15: Assignment of reviewers to papers
+- Jun 15: Open Review Period begins
+  - During this initial review period, authors may still refine their first draft.
+  - Reviewers may comment on papers during this period, with the understanding that authors may
+    still be working on substantial additions and edits.
+  - Authors and reviewers should be in open communication so reviewers do not spend all their energy
+    on an unfinished draft.
+  - Reviewers should at least provide initial, high-level feedback during this period.
+- Jul 10: Initial complete review
+  - At this point, the author should consider their submission a final draft.
+  - Reviewers continue to comment on the paper during this period.
+  - Any author revisions should only be in response to reviewer comments.
+- Aug 9: Final review deadline
+  - Reviewers must be done with their reviews at this point.
   - Authors continue to make revisions in response to final review comments during this period.
-- Sept 2: Final author revision deadline
-- Sept 2: Open Review Period ends
+- Aug 22: Final author revision deadline
+- Aug 22: Open Review Period ends
   - Authors put down their pens.
   - Reviewers make an up or down decision on publication readiness of papers during this period.
-- Sept 9: Final reviewer decision deadline
-- Sept 23: Proceedings final sign-off by editors
+- Aug 30: Final reviewer decision deadline
+- Sept 6: Proceedings final sign-off by editors
   - The publication process begins after final sign-off.
 
 ## Instructions for Authors
 
 Please submit your papers by 23:59 PST of the _Deadline to submit first draft_.
 
-Submit your papers as a MyST Markdown ([mystmd.org](https://mystmd.org)) or
+Submit your papers as a MyST Markdown ([mystmd.org](https://mystmd.org)), narrative Jupyter Notebook, or
 LaTeX file via PR against this repository.
 Please only use LaTeX if you are already familiar with writing papers in LaTeX.
-The build process are using the `mystmd` CLI, which allows us to support
+The build process uses the `mystmd` CLI, which allows us to support
 a web-first reading experience.
-In future years this will allow us to accept notebooks and computational
-environments, however, this is not available in 2024.
+
+If you are submitting a Jupyter Notebook, the SciPy Proceedings supports executable content and interactive widgets.
+By submitting a Jupyter Notebook, you are bringing your publication closer to your research, facilitating reproducibility, and allowing for interactive figures that more deeply communicate your results.
+If you are interested in submitting an executable, interactive notebook, please contact the Proceedings Co-chairs using the `@scipy-conference/2025-proceedings` team.
 
 During the Open Review Period authors should work with their reviewers to refine
 and improve their submission.
@@ -157,7 +166,7 @@ have final say in whether to accept or reject a paper.
 
 ### Getting Help
 
-An excellent webinar entitled ["SciPy Proceedings 2024: Quickstart and authoring tutorial"](https://www.youtube.com/watch?v=v97nJOCAWHI) is available on YouTube.
+An excellent webinar entitled ["SciPy Proceedings 2025: Quickstart and authoring tutorial"](https://www.youtube.com/watch?v=YGzBF-2wAWU) is available on YouTube.
 
 If you have a challenge with any technical aspect of authoring your paper in MyST or LaTeX,
 please do not hesitate to reach out via your GitHub pull request or issue on this repository.
@@ -165,29 +174,33 @@ A member of the Proceedings Co-chairs will help you directly or identify a work-
 
 ### Author Deadlines
 
-- Apr 26: Authors invited to submit full papers
-- May 3: Webinar offered to authors
-- Jun 7: Deadline to submit first draft by authors
-  - Reviewers comment on papers to authors during this period.
-  - Authors also respond to review comments with improvements to papers during this period.
-- Sept 2: Final author revision deadline
+- May 2: Authors invited to submit full papers
+- May 9: Webinar offered to authors
+- Jun 13: Deadline to submit first draft by authors
+  - During this initial review period, authors may still refine their first draft.
+  - Authors and reviewers should be in open communication so reviewers do not spend all their energy
+    on an unfinished draft.
+- Jul 10: Initial complete review
+  - At this point, the author should consider their submission a final draft.
+  - Any author revisions should only be in response to reviewer comments.
+- Aug 22: Final author revision deadline
   - Authors put down their pens.
 
 ### General Information and Guidelines for Authors
 
 - Papers are formatted using MyST ([mystmd.org](https://mystmd.org)) or LaTeX (which also uses [MyST](https://mystmd.org), please see notes on LaTeX below)
 - The paper is written and reviewed using the interactive HTML view (i.e. `myst start`), the PDF is built upon acceptance only
-- Example papers are provided in `papers/00_myst_template` and `papers/00_tex_template`
+- Example papers are provided in `papers/myst_template` and `papers/tex_template`
   - These papers provide examples of how to:
     - Label figures, equations and tables
     - Use math markup
     - Include code snippets
     - Use a BibTeX files and/or DOIs for citations
-- When creating your pull-request, add a pull-request label of `paper` to trigger the build process. If you do not add this, a proceedings chair member will add it for you.
+- When creating your pull-request, add a pull-request label of `draft` to trigger the build process. If you do not add this, a proceedings chair member will add it for you.
 - Authors may include a project or consortium (e.g. [The Jupyter Project](https://raw.githubusercontent.com/scipy-conference/scipy_proceedings/2018/papers/project_jupyter/paper.rst))
 - There must be at least one corresponding author, and this must be a specific person with a valid email address
 - Authors of papers from previous SciPys may change their name on their published work by contacting the Proceedings Co-chairs
-- All citations that have DOIs should include those DOIs in the paper's references section, see [`mybib.bib`](./papers/00_myst_template/mybib.bib).
+- All citations that have DOIs should include those DOIs in the paper's references section, see [`mybib.bib`](./papers/myst_template/mybib.bib).
 - All figures and tables should have captions.
 - Figures and tables should be positioned close to their explanatory text.
 - All abbreviations should be identified in your `myst.yml` ([docs](https://mystmd.org/guide/glossaries-and-terms#abbreviations))
@@ -196,9 +209,15 @@ A member of the Proceedings Co-chairs will help you directly or identify a work-
 - Images and figures should be reasonably sized and formatted for viewing online; typically less than 1 MB
 - Do not modify any files outside of your paper directory
 - When using the LaTeX option, please consider:
-  - SciPy is supporting _HTML_. LaTeX is not involved in reading or rendering (as of 2024 we use [Typst for building PDFs](https://github.com/curvenote-templates/scipy))
+  - SciPy is supporting _HTML_. LaTeX is not involved in reading or rendering; we use [Typst for building PDFs](https://github.com/curvenote-templates/scipy)
   - Custom LaTeX macros are **not** supported and some packages may not be supported
 - The paper should be at most 6000 words including figures but not including references; this is about 8 pages for the published PDF.
+
+### Policy on Previously Published Material
+
+Submissions to the SciPy Proceedings should be novel scientific articles that have not previously been reviewed and published. Submitting un-reviewed preprints is acceptable. You may also include content published in other contexts, e.g. software documentation, but it must be presented in a distinct way, as a scientific article.
+
+Final submission acceptance will be at the discretion of the Proceedings Co-Chairs. Please contact them if you have any worries about the novelty or publication history of your submission.
 
 ### Author Workflow
 
@@ -225,11 +244,11 @@ git clone https://github.com/mpacer/scipy_proceedings
 #### Author workflow steps
 
 > [!NOTE]
-> There is a [webinar on YouTube](https://www.youtube.com/watch?v=v97nJOCAWHI) that goes through the author submission process for 2024 submissions using [MyST Markdown](https://mystmd.org).
+> There is a [webinar on YouTube](https://www.youtube.com/watch?v=YGzBF-2wAWU) that goes through the author submission process for 2025 submissions using [MyST Markdown](https://mystmd.org).
 
 1. [Get a local copy](#getting-a-local-copy-of-the-scipy_proceedings-repo) of the `scipy_proceedings` repo.
 2. [Update your local copy](#getting-the-latest-branch) of the `scipy_proceedings` repo.
-3. [Create a new branch](#creating-a-new-branch) for your paper based off the latest `2024` branch.
+3. [Create a new branch](#creating-a-new-branch) for your paper based off the latest `2025` branch.
    - If you submit multiple papers, you will need a new branch for each.
 4. [Install MyST Markdown and Node](#setting-up-your-environment) and [copy a template](#setting-up-your-environment).
 5. [Write your paper](#write-your-paper), [commit changes](#commit-your-changes), and [build your paper](#preview-your-paper)
@@ -237,7 +256,6 @@ git clone https://github.com/mpacer/scipy_proceedings
    - If you want to alter other parts of the `scipy_proceedings` repo, do not include it in your
      submission's PR, create a separate PR against `dev`
      ([see below](#creating-build-system-prs) for more details).
-   - Creating build system PRs is deprecated in 2024. Curvenote is the build system now.
 7. Repeat steps 5 and 6, while also responding to reviewer feedback.
 
 #### Getting a local copy of the scipy_proceedings repo
@@ -267,18 +285,18 @@ upstream	<scheme>github.com/scipy-conference/scipy_proceedings.git (push)
 
 - Fetch the latest version of the `scipy_proceedings` repo
   - `git fetch upstream`
-- Check out the upstream `2024` branch
-  - `git checkout -b 2024 --track upstream/2024`
+- Check out the upstream `2025` branch
+  - `git checkout -b 2025 --track upstream/2025`
 
 #### Creating a new branch
 
-If you are submitting only one paper, you can use the `2024` branch directly.
+If you are submitting only one paper, you can use the `2025` branch directly.
 
-Otherwise, you will need to create a new branch based on `2024` and set its
+Otherwise, you will need to create a new branch based on `2025` and set its
 upstream to origin.
 
 ```
-git checkout 2024
+git checkout 2025
 git checkout -b <your_branch_name>
 git push --set-upstream origin <your_branch_name>
 ```
@@ -292,8 +310,8 @@ git push --set-upstream origin <your_branch_name>
   - if you are submitting one paper, we recommend you use `<firstname_surname>`
   - if you are submitting more than one paper, you will need to use a different
     directory name for each paper
-- Copy an example paper into your directory: either `papers/00_myst_template` or `papers/00_tex_template`
-  - Update the `id` in the `myst.yml` to by `scipy-2024-<your_directory_name>`
+- Copy an example paper into your directory: either `papers/myst_template` or `papers/tex_template`
+  - Update the `id` in the `myst.yml` to by `scipy-2025-<your_directory_name>`
 
 #### Write your paper
 
@@ -331,7 +349,7 @@ To preview your paper:
 
 Once you are ready to submit your paper, make a pull request on GitHub. **Please ensure that you file against the correct branch.**
 
-- Create a pull request against the `2024` branch
+- Create a pull request against the `2025` branch
 - Do not modify any files outside of your paper directory. Create a separate PR for any changes to the build system.
 - Ensure that your PR title begins with `Paper:`. Note: for the **first** commit in your PR, an editor will add the `paper` label, which will start the GitHub actions.
 
@@ -360,16 +378,12 @@ If it is not the same, please immediately contact us with a GitHub issue
 describing the discrepancy. Please include screenshots and an explanation of the
 differences. For best results, please [@-mention the Proceedings Co-Chairs](#contacting-the-proceedings-co-chairs).
 
-#### A note on notebooks for 2024
-
-We are interested in working towards full support for publishing computational notebooks as part of the proceedings, and are trialing this part of the submission process for interested authors - please get in touch with the Proceedings Co-Chairs with your interest.
-
 ## Instructions for Reviewers
 
 You will be reviewing authors' pull requests. While authors should have a proper
 draft of their paper ready for you by the _Deadline to submit first draft_.
 
-We ask that you read [this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2024/review_criteria.md) before beginning any reviews.
+We ask that you read [this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2025/review_criteria.md) before beginning any reviews.
 
 **All** communication between authors and reviewers should be civil and respectful at all times.
 
@@ -394,24 +408,24 @@ _Final Reviewer Decision_ deadline.
 
 ### Reviewer Deadlines
 
-- Apr 9: Reviewer invitations sent
-- Apr 23: Deadline to respond to offer to be a reviewer
-- Jun 8: Assignment of reviewers to papers
+- May 16: Reviewer invitations sent
+- May 30: Deadline to respond to offer to be a reviewer
+- Jun 15: Assignment of reviewers to papers
   - Reviewers comment on papers to authors during this period.
   - Authors also respond to review comments with improvements to papers during this period.
-- Jul 3: Initial complete review
+- Jul 10: Initial complete review
   - Reviewers continue to comment on paper improvements during this period.
   - Authors also respond to review comments with further improvements to papers during this period.
-- Aug 19: Final review deadline
+- Aug 9: Final review deadline
   - Authors continue to make revisions in response to final review comments during this period.
-- Sept 2: Final author revision deadline
+- Aug 22: Final author revision deadline
   - Authors put down their pens.
   - Reviewers make an up or down decision on publication readiness of papers during this period.
-- Sept 9: Final reviewer decision deadline
+- Aug 30: Final reviewer decision deadline
 
 ### Reviewer Workflow
 
-- Read [this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2024/review_criteria.md)
+- Read [this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2025/review_criteria.md)
 - Click on the Pull Requests Tab and find the papers assigned to you
 - A comment at the top of the PR will have a link to the paper to review online
 - After reading the paper online, you can start the review conversation however you prefer
@@ -429,7 +443,7 @@ _Final Reviewer Decision_ deadline.
 ## Review Criteria
 
 A small subcommittee of the SciPy 2017 organizing committee has created
-[this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2024/review_criteria.md)
+[this set of suggested review criteria](https://github.com/scipy-conference/scipy_proceedings/blob/2025/review_criteria.md)
 to help guide authors and reviewers alike. Suggestions and amendments to these
 review criteria are enthusiastically welcomed via discussion or pull request.
 
@@ -459,9 +473,9 @@ To information about how to manage the whole proceedings, please see
 
 #### Publisher Deadlines
 
-- Apr 26: Authors invited to submit full papers
+- May 2: Authors invited to submit full papers
   - The [build process](#build-process) is supported by Curvenote (a SciPy sponsor) and it is maintained throughout this period.
-- Sept 23: Proceedings final sign-off by editors
+- Sept 6: Proceedings final sign-off by editors
   - The publication process begins after final sign-off.
 
 ### Instructions for Editors
@@ -479,17 +493,17 @@ Editors should come to a final 'ready', 'unready' decision before the **Final Ed
 
 #### Editor Deadlines
 
-- Apr 9: Reviewer invitations sent
-- Apr 23: Deadline to respond to offer to be a reviewer
-- Apr 26: Authors invited to submit full papers
-- Jun 8: Assignment of reviewers to papers
+- May 2: Authors invited to submit full papers
+- May 16: Reviewer invitations sent
+- May 30: Deadline to respond to offer to be a reviewer
+- Jun 15: Assignment of reviewers to papers
   - Reviewers comment on papers to authors during this period.
   - Authors also respond to review comments with improvements to papers during this period.
-- Jul 3: Initial complete review
+- Jul 10: Initial complete review
   - Reviewers continue to comment on paper improvements during this period.
   - Authors also respond to review comments with further improvements to papers during this period.
   - Editors should verify that reviews have been completed
-- Sept 23: Proceedings final sign-off by editors
+- Sept 6: Proceedings final sign-off by editors
   - The publication process begins after final sign-off.
 
 ## Instructions for Slides
@@ -498,7 +512,7 @@ Editors should come to a final 'ready', 'unready' decision before the **Final Ed
 
 1. Get a local copy of the `scipy_proceedings` repo.
 2. Update your local copy of the `scipy_proceedings` repo.
-3. [Create a new branch](#creating-a-new-branch) for your paper based off the latest `2024` branch.
+3. [Create a new branch](#creating-a-new-branch) for your paper based off the latest `2025` branch.
 4. Inside the `presentations` folder, there are directories for:
    1. 3-minute lightning talk slide decks (lightning)
    2. Posters presented at the poster session (posters)
@@ -511,7 +525,7 @@ Editors should come to a final 'ready', 'unready' decision before the **Final Ed
 
 ```yaml
 version: 1
-extends: ../../proceedings.yml
+extends: ../../../proceedings.yml
 project:
   title: 'The title of your presentation'
   authors:
@@ -529,4 +543,4 @@ project:
 
 7. [Create a PR](#create-a-paper-pr)
 
-You can see examples of submissions in the `example` folder in each presentation directory.
+You can see examples of submissions in the `example` folder in each presentation directory. For slides and posters, you should use the corresponding prefix for your PR title, e.g. `Slides:`.
