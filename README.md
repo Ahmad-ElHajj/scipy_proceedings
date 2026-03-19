@@ -93,6 +93,7 @@ In 2026, the Proceedings Co-Chairs are:
 - Christopher Holloman
 - Sanhita Joshi (@sanhitamj)
 - Franklin Koch (@fwkoch)
+- Charles Lindsey (@cdlindsey)
 - Chong Shen Ng
 - Hongsup Shin (@hongsupshin)
 - Jennifer Yoon

@@ -41,6 +41,10 @@ project:
       email: franklin@curvenote.com
       affiliation: Curvenote
       id: franklin
+    - name: Charles Lindsey
+      email: lindseycster@gmail.com
+      affiliation: Aptos
+      id: charles
     - name: Hongsup Shin
       email: hongsup.shin@pm.me
       affiliation: Arm
