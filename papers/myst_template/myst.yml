@@ -1,8 +1,8 @@
 version: 1
 extends: ../papers.yml
 project:
-  # Update this to match `scipy-2025-<folder>` the folder should be `<firstname_surname>`
-  id: scipy-2025-myst_template
+  # Update this to match `scipy-2026-<folder>` the folder should be `<firstname_surname>`
+  id: scipy-2026-myst_template
   # Ensure your title is the same as in your `main.md`
   title: A Numerical Perspective to Terraforming a Desert
   # subtitle:
