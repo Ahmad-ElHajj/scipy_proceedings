@@ -8,25 +8,24 @@ project:
   description: Add a two sentence description about your article.
   # Authors should have affiliations, emails and ORCIDs if available
   authors:
-    - name: Gaius Caesar
-      email: jj@rome.it
+    - name: Ada Lovelace
+      email: ada.lovelace@example.org
       orcid: 0000-0000-0000-0000
       affiliations:
-        - Senate House, S.P.Q.R.
-        - Egyptian Embassy, S.P.Q.R.
-    - name: Mark Anthony
-      email: mark37@rome.it
+        - Analytical Society, London
+    - name: Chien-Shiung Wu
+      email: cs.wu@example.org
       affiliations:
-        - Egyptian Embassy, S.P.Q.R.
-    - name: Jarrod Millman
-      email: millman@rome.it
+        - Columbia University
+    - name: Katherine Johnson
+      email: k.johnson@example.org
       affiliations:
-        - Egyptian Embassy, S.P.Q.R.
-        - Yet another place, S.P.Q.R.
+        - NASA Langley Research Center
       corresponding: true
-    - name: Cleopatra
-      email: cleopatra@rome.it
-      affiliation: Ptolemaic Kingdom
+    - name: Alan Turing
+      email: alan.turing@example.org
+      affiliations:
+        - University of Manchester
   keywords:
     - terraforming
     - desert
