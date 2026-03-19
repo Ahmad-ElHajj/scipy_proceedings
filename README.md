@@ -174,8 +174,6 @@ A member of the Proceedings Co-chairs will help you directly or identify a work-
 
 ### Author Deadlines
 
-
-
 - Early May: Authors invited to submit full papers
 - ~1 week later: Webinar offered to authors
 - ~1 month later: Deadline to submit first draft by authors
@@ -330,6 +328,10 @@ git push --set-upstream origin <your_branch_name>
 - If you come across any challenges, ask the Proceedings Co-chairs for help via a GitHub issue or comment on your PR
 
 Note: The templates are setup for a _single_ MyST/LaTeX file in the top level of `<your_directory_name>`. If you have more than one file run `myst init --write-toc` ([docs](https://mystmd.org/guide/table-of-contents)), ensuring that the `root` is the main file of your manuscript.
+
+#### Supplementary material
+
+Supplementary material may be included with your paper. Simply include additional MyST markdown, Jupyter notebook, or LaTeX files in your folder. These will be published alongside your primary manuscript. Supplementary material will not add to the word count.
 
 #### Commit your changes
 
