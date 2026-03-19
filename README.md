@@ -308,6 +308,10 @@ git push --set-upstream origin <your_branch_name>
 - _Optional_: Create a new environment (using your choice of environment manager, e.g., `pyenv` or `conda`).
 - Install MyST Markdown from [mystmd.org](https://mystmd.org/guide/quickstart)
   - `pip install mystmd`
+- (Recommended) Install and enable git pre-commit hooks
+  - `pip install pre-commit`
+  - `pre-commit install`
+  - _Optional_: run once on the whole repo: `pre-commit run --all-files`
 - Create a new directory `papers/<your_directory_name>`
   - if you are submitting one paper, we recommend you use `<firstname_surname>`
   - if you are submitting more than one paper, you will need to use a different

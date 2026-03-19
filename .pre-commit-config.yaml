@@ -1,5 +1,5 @@
 ci:
-  autoupdate_commit_msg: "chore: [pre-commit.ci] pre-commit autoupdate"
+  autoupdate_commit_msg: 'chore: [pre-commit.ci] pre-commit autoupdate'
   autoupdate_schedule: quarterly
 
 repos:
@@ -35,11 +35,26 @@ repos:
     rev: 0.33.1
     hooks:
       - id: check-github-workflows
-        args: ["--verbose"]
+        args: ['--verbose']
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: "v3.6.1"
+    rev: 'v3.6.1'
     hooks:
       - id: prettier
         types_or: [yaml, html, css, scss, javascript, json, toml]
-        args: [--prose-wrap=always]
+        args: [--prose-wrap=always, --single-quote]
+
+  - repo: https://github.com/FlamingTempura/bibtex-tidy
+    rev: v1.14.0
+    hooks:
+      - id: bibtex-tidy
+        files: \.bib$
+        args:
+          - '--curly'
+          - '--numeric'
+          - '--tab'
+          - '--align=13'
+          - '--duplicates=key,doi'
+          - '--no-escape'
+          - '--sort-fields=title,shorttitle,author,year,month,day,journal,booktitle,location,on,publisher,address,series,volume,number,pages,doi,isbn,issn,url,urldate,copyright,category,note,metadata'
+          - '--no-remove-dupe-fields'
