@@ -102,32 +102,33 @@ In 2026, the Proceedings Co-Chairs are:
 
 In addition to the following list, we break up the deadlines in the respective documents for authors and reviewers.
 
-- Early May: Authors invited to submit full papers
-- ~1 week later: Webinar offered to authors
-- ~1 week later: Reviewer invitations sent
-- ~2 weeks later: Deadline to respond to offer to be a reviewer
-- ~2 days later~: Deadline to submit first draft by authors, as GitHub pull request
-- ~2 days later~: Assignment of reviewers to papers
-- Same as previous: Open Review Period begins
+- May 1: Authors invited to submit full papers
+- May 16: Webinar offered to authors
+- May 22: Reviewer survey sent
+- June 20: Deadline to submit first draft by authors, as GitHub pull request
+- June 22: Assignment of reviewers to papers
+- June 27: Reviewer invitations sent
+- June 27: Open Review Period begins
   - During this initial review period, authors may still refine their first draft.
   - Reviewers may comment on papers during this period, with the understanding that authors may
     still be working on substantial additions and edits.
   - Authors and reviewers should be in open communication so reviewers do not spend all their energy
     on an unfinished draft.
   - Reviewers should at least provide initial, high-level feedback during this period.
-- ~1 month later: Initial complete review
+- July 11: Backup reviewers assigned as necessary
+- July 25: Initial review complete
   - At this point, the author should consider their submission a final draft.
   - Reviewers continue to comment on the paper during this period.
   - Any author revisions should only be in response to reviewer comments.
-- ~1 month later: Final review deadline
+- August 22: Final review deadline
   - Reviewers must be done with their reviews at this point.
   - Authors continue to make revisions in response to final review comments during this period.
-- ~2 weeks later: Final author revision deadline
-- Same as previous: Open Review Period ends
+- August 30: Final author revision deadline
+- August 30: Open Review Period ends
   - Authors put down their pens.
   - Reviewers make an up or down decision on publication readiness of papers during this period.
-- ~1 week later: Final reviewer decision deadline
-- ~1 week later (early September): Proceedings final sign-off by editors
+- September 6: Final reviewer decision deadline
+- September 13: Proceedings final sign-off by editors
   - The publication process begins after final sign-off.
 
 ## Instructions for Authors
@@ -175,16 +176,19 @@ A member of the Proceedings Co-chairs will help you directly or identify a work-
 
 ### Author Deadlines
 
-- Early May: Authors invited to submit full papers
-- ~1 week later: Webinar offered to authors
-- ~1 month later: Deadline to submit first draft by authors
+- May 1: Authors invited to submit full papers
+- May 16: Webinar offered to authors
+- June 20: Deadline to submit first draft by authors, as GitHub pull request
+- June 22: Assignment of reviewers to papers
+- June 27: Reviewer invitations sent
+- June 27: Open Review Period begins
   - During this initial review period, authors may still refine their first draft.
   - Authors and reviewers should be in open communication so reviewers do not spend all their energy
     on an unfinished draft.
-- ~1 month later: Initial complete review
+- July 25: Initial review complete
   - At this point, the author should consider their submission a final draft.
   - Any author revisions should only be in response to reviewer comments.
-- ~1 month later: Final author revision deadline
+- August 30: Final author revision deadline
   - Authors put down their pens.
 
 ### General Information and Guidelines for Authors
@@ -417,20 +421,27 @@ _Final Reviewer Decision_ deadline.
 
 ### Reviewer Deadlines
 
-- Mid May: Reviewer invitations sent
-- ~2 weeks later: Deadline to respond to offer to be a reviewer
-- ~2 weeks later: Assignment of reviewers to papers
-  - Reviewers comment on papers to authors during this period.
-  - Authors also respond to review comments with improvements to papers during this period.
-- ~1 month later: Initial complete review
-  - Reviewers continue to comment on paper improvements during this period.
-  - Authors also respond to review comments with further improvements to papers during this period.
-- ~1 month later: Final review deadline
+- May 22: Reviewer survey sent
+- June 22: Assignment of reviewers to papers
+- June 27: Reviewer invitations sent
+- June 27: Open Review Period begins
+  - Reviewers may comment on papers during this period, with the understanding that authors may
+    still be working on substantial additions and edits.
+  - Authors and reviewers should be in open communication so reviewers do not spend all their energy
+    on an unfinished draft.
+  - Reviewers should at least provide initial, high-level feedback during this period.
+- July 11: Backup reviewers assigned as necessary
+- July 25: Initial review complete
+  - Reviewers continue to comment on the paper during this period.
+  - Any author revisions should only be in response to reviewer comments.
+- August 22: Final review deadline
+  - Reviewers must be done with their reviews at this point.
   - Authors continue to make revisions in response to final review comments during this period.
-- ~2 weeks later: Final author revision deadline
+- August 30: Open Review Period ends
   - Authors put down their pens.
   - Reviewers make an up or down decision on publication readiness of papers during this period.
-- ~1 week later: Final reviewer decision deadline
+- September 6: Final reviewer decision deadline
+
 
 ### Reviewer Workflow
 
@@ -497,18 +508,24 @@ Editors should come to a final 'ready', 'unready' decision before the **Final Ed
 
 #### Editor Deadlines
 
-- Early May: Authors invited to submit full papers
-- ~2 weeks later: Reviewer invitations sent
-- ~2 weeks later: Deadline to respond to offer to be a reviewer
-- ~2 weeks later: Assignment of reviewers to papers
-  - Reviewers comment on papers to authors during this period.
-  - Authors also respond to review comments with improvements to papers during this period.
-- ~1 month later: Initial complete review
-  - Reviewers continue to comment on paper improvements during this period.
-  - Authors also respond to review comments with further improvements to papers during this period.
+- May 1: Authors invited to submit full papers
+- May 22: Reviewer survey sent
+- June 22: Assignment of reviewers to papers
+- June 27: Reviewer invitations sent
+- June 27: Open Review Period begins
+  - Reviewers may comment on papers during this period, with the understanding that authors may
+    still be working on substantial additions and edits.
+  - Authors and reviewers should be in open communication so reviewers do not spend all their energy
+    on an unfinished draft.
+- July 11: Backup reviewers assigned as necessary
+- July 25: Initial review complete
+  - Editors should verify that reviews have been started
+- August 22: Final review deadline
   - Editors should verify that reviews have been completed
-- Early September: Proceedings final sign-off by editors
+- September 6: Final reviewer decision deadline
+- September 13: Proceedings final sign-off by editors
   - The publication process begins after final sign-off.
+
 
 ## Instructions for Slides
 
