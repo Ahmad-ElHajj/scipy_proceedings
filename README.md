@@ -408,6 +408,9 @@ While our basic approach is to have you and the author iterate, we ask you to
 complete an initial review and start that conversation by the _Initial Complete Review_
 deadline.
 
+To share your feedback with the authors, use inline comments feature in github; comment on the
+text files, e.g. `main.md`.
+
 We ask that by the _Final Reviewer Decision_ deadline you have a recommendation to
 either **accept** or **reject** the paper at that point and time.
 
