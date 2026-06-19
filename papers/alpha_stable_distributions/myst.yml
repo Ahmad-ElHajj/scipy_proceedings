@@ -47,11 +47,22 @@ project:
     - rule: doi-exists
       severity: ignore
       keys:
-        - Atr03
-        - terradesert
-        - jupyter
-        - sklearn1
-        - sklearn2
+        - taleb2022statisticalconsequencesfattails
+        - sko2
+        - zolo
+        - Zolotarev1986
+        - ChambersJ.M.1976AMfS
+        - SamorodnitskyGennady2000Snrp
+        - NiederreiterHarald1992Rnga
+        - NolanJohnP.1997Ncos
+        - NolanJohnP2020USDM
+        - LePageRaoul1981CtaS
+        - MullerMervinE.1959Anoa
+        - SchnabelStefan2022Asaf
+        - BentkusV.2001LSRo
+        - Wintner1941CauchySingularities
+        - SciPyLevyStableManual
+        - alma991015644117709436
   exports:
     - id: pdf
       format: typst
