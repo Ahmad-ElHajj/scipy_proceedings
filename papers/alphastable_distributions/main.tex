@@ -395,7 +395,7 @@ Whenever there is convergence to $\mathbf{X}$, we write
 \]
 \end{theorem}
 
-Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix~\ref{app:appendixerror}. 
+Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix in section ~\ref{app:appendixerror}. 
 
 In the following section, we present algorithms to sample according to well-known spectral measures, namely: Isotropic, Sub-Gaussian, Discrete, and Mixed spectral measures.
 
@@ -460,7 +460,7 @@ This algorithm achieves a sampling from the mixture of $\Lambda_1, \cdots, \Lamb
 
 \section{Implementation}
 
-Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in Appendix~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached.
+Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in the Appendix in section ~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached.
 \subsection{Univariate random number generator}
 In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. 
 \begin{lstlisting}[language=Python]
