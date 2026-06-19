@@ -1,0 +1,58 @@
+version: 1
+extends: ../papers.yml
+project:
+  # Update this to match `scipy-2026-<folder>` the folder should be `<firstname_surname>`
+  id: scipy-2026-alpha_stable_distributions
+  # Ensure your title is the same as in your `main.md`
+  title: Density Functions and Random Number Generators of Alpha-Stable Distributions
+  # subtitle:
+  description: Add a two sentence description about your article.
+  # Authors should have affiliations, emails and ORCIDs if available
+  authors:
+    - name: Wael Tabbara
+      email: wkt03@mail.aub.edu
+      affiliations: 
+        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+    - name: Sharafeddine Sharafeddine
+      email: ss4475@cornell.edu
+      affiliations:
+        - School of Electrical \& Computer Engineering, Cornell University, USA
+    - name: Ahmad El-Hajj
+      email: aae108@mail.aub.edu
+      affiliations:
+        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+      corresponding: true
+    - name: Jihad Fahs
+      email: jf19@aub.edu.lb
+      affiliations:
+        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+      orcid: 0000-0001-5670-7759
+    - name: Ibrahim Abou-Faycal
+      email: ia14@aub.edu.lb
+      affiliations:
+        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+      orcid: 0000-0002-1596-318X
+  # keywords:
+  #   - Heavy Tailed Data
+  #   - Heavy Tails
+  #   - Alpha Stable
+  #   - Levy Stable
+  # Add the abbreviations that you use in your paper here
+  abbreviations:
+    MyST: Markedly Structured Text
+  # It is possible to explicitly ignore the `doi-exists` check for certain citation keys
+  error_rules:
+    - rule: doi-exists
+      severity: ignore
+      keys:
+        - Atr03
+        - terradesert
+        - jupyter
+        - sklearn1
+        - sklearn2
+  exports:
+    - id: pdf
+      format: typst
+      template: https://github.com/curvenote-templates/scipy.git
+      article: main.md
+      output: full_text.pdf
