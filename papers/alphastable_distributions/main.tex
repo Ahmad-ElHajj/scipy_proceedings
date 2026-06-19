@@ -26,7 +26,7 @@
 \usepackage{subcaption} % in your preamble
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section] 
+\newtheorem{definition}{Definition}[section]
 \newtheorem{property}{Property}
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
@@ -50,7 +50,7 @@ Among heavy-tailed models, $\alpha$-stable distributions occupy a central theore
 
 A major practical limitation of $\alpha$-stable distributions is that their probability density functions (PDF)s generally do not admit closed-form expressions, except in the special cases of the Cauchy and Lévy distributions. Consequently, numerical tools are required for density evaluation, modeling, and simulation. Existing approaches for scalar $\alpha$-stable random variate generation, such as the Chambers--Mallows--Stuck (CMS) method~\cite{ChambersJ.M.1976AMfS}, are well established, but they do not directly address general multivariate $\alpha$-stable distributions. In the multivariate case, available simulation methods typically focus on special spectral measures, such as isotropic or sub-Gaussian models~\cite{nolancirc2013}, rather than arbitrary spectral measures.
 
-This paper presents AUB-HTP, a Python package for computational work with $\alpha$-stable distributions. The package provides scalar density computation using several numerical methods, including Zolotarev integral representations~\cite{Zolotarev1986}, Skorohod-Pollard-Bergstr{\"o}m formulas~\cite{sko2,Pollard1946LaplaceIntegral,Bergstrom1952ExpansionsStable}, and direct numerical inversion of the \textit{characteristic function}\footnote{The characteristic function of a random variable $X$ is given by the expected value of $e^{\ii tX}$, 
+This paper presents AUB-HTP, a Python package for computational work with $\alpha$-stable distributions. The package provides scalar density computation using several numerical methods, including Zolotarev integral representations~\cite{Zolotarev1986}, Skorohod-Pollard-Bergstr{\"o}m formulas~\cite{sko2,Pollard1946LaplaceIntegral,Bergstrom1952ExpansionsStable}, and direct numerical inversion of the \textit{characteristic function}\footnote{The characteristic function of a random variable $X$ is given by the expected value of $e^{\ii tX}$,
 \(
 \varphi_X(u) = \mathbb{E}[e^{\ii uX}].
 \)
@@ -65,8 +65,8 @@ We adopt the following conventions. The vector $\mathbf{x}\in\mathbb{R}^d$ repre
         \displaystyle \frac{1}{\Gamma(\alpha)\beta^{\alpha}} \, x^{\alpha-1} e^{-\frac{x}{\beta}} & \text{if}\; x>0\\
         0 & \text{otherwise},
     \end{cases}
-\end{equation*} 
-where $\Gamma(\cdot)$ is the Gamma function. 
+\end{equation*}
+where $\Gamma(\cdot)$ is the Gamma function.
 
 \section{Preliminaries on $\alpha$-Stable Distributions}
 We adopt the definition of a multivariate stable vector given in \cite{SamorodnitskyGennady2000Snrp}:
@@ -74,19 +74,19 @@ We adopt the definition of a multivariate stable vector given in \cite{Samorodni
 \begin{definition}
 A random vector $\mathbf{X}=(X_1,X_2,\cdot\cdot\cdot,X_d)^T$ is said to be a stable random vector in $\mathbb{R}^d$ if for any positive numbers A and B there is a positive number C and a vector $\mathbf{D}\in\mathbb{R}^d$ such that \begin{equation}\label{eq:eq 2}
 A\mathbf{X}^{(1)}+B\mathbf{X}^{(2)}=C\mathbf{X}+\mathbf{D},
-\end{equation} 
+\end{equation}
 where $\mathbf{X}^{(1)}$ and $\mathbf{X}^{(2)}$ are independent copies of $\mathbf{X}$. The vector $\mathbf{X}$ is called strictly stable if \eqref{eq:eq 2} holds with $\mathbf{D}=\mathbf{0}$ for any $A>0$ and $B>0$.
 \end{definition}
-In particular, we are interested in $\alpha$-stable~\footnote{The term $\alpha$-stable is used to refer to the stable family excluding the Gaussian law.} random vectors. 
- 
+In particular, we are interested in $\alpha$-stable~\footnote{The term $\alpha$-stable is used to refer to the stable family excluding the Gaussian law.} random vectors.
+
  \begin{definition}~\cite{SamorodnitskyGennady2000Snrp}
  \label{def:astable}
- Let $0<\alpha<2$, then $\mathbf{X}=(X_1,X_2,\cdot\cdot\cdot,X_d)$ is an $\alpha$-stable random vector in $\mathbb{R}^d$ if and only if there exists a finite measure \(\Lambda\) on $\mathbb{S}^{d-1}$ called the ``spectral" measure and a vector \(\boldsymbol{\mu}^{0}\) in $\mathbb{R}^d$ such that the characteristic function of $\mathbf{X}$ is given by 
+ Let $0<\alpha<2$, then $\mathbf{X}=(X_1,X_2,\cdot\cdot\cdot,X_d)$ is an $\alpha$-stable random vector in $\mathbb{R}^d$ if and only if there exists a finite measure \(\Lambda\) on $\mathbb{S}^{d-1}$ called the ``spectral" measure and a vector \(\boldsymbol{\mu}^{0}\) in $\mathbb{R}^d$ such that the characteristic function of $\mathbf{X}$ is given by
  \begin{equation}\label{eq:eq3}
     \phi_{\mathbf{X}}(\mathbf{t}) = \mathbb{E} \left[ \exp\{\ii \langle \mathbf{t},\mathbf{X}\rangle\} \right]= \exp\left\{-\int_{\mathbb{S}^{d-1}} \psi_\alpha(\langle \mathbf{t}, \mathbf{s} \rangle) \, \Lambda(d\mathbf{s}) + \ii \langle \mathbf{t},\boldsymbol{\mu}^0 \rangle\right\},
   \end{equation}
     and where \begin{equation*}
-    \psi_\alpha(u) = 
+    \psi_\alpha(u) =
 \begin{cases}
 \displaystyle |u|^\alpha \left[ 1 - \ii \operatorname{sign}(u) \tan \frac{\pi \alpha}{2} \right] & \alpha \ne 1 \\
 \displaystyle \, |u| \left[ 1 + \ii \frac{2}{\pi} \operatorname{sign}(u) \ln |u| \right] & \alpha = 1.
@@ -106,12 +106,12 @@ There two parameterizations $\mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ and 
 
 A random variable $X \sim \mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ if
 \[
-X \overset{d}{=} 
+X \overset{d}{=}
 \begin{cases}
 \gamma \left( Z - \beta \tan\left( \frac{\pi \alpha}{2} \right) \right) + \delta, & \alpha \neq 1 \\
 \gamma Z + \delta, & \alpha = 1.
 \end{cases}
-\]\noindent 
+\]\noindent
 
 The characteristic function of $X$ is given by
 \[
@@ -119,7 +119,7 @@ The characteristic function of $X$ is given by
 \begin{cases}
 \exp\left( -|\gamma u|^\alpha \left[ 1 + \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u)(|\gamma u|^{1 - \alpha} - 1) \right] + \ii \delta u \right), & \alpha \neq 1 \\
 \exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|\gamma u| \right] + \ii \delta u \right), & \alpha = 1.
-\end{cases}    
+\end{cases}
 \]
 
 This parameterization has the advantage of avoiding discontinuities near $\alpha = 1$ by adjusting the shift behavior. It is often preferred for numerical stability~\cite{NolanJohnP2020USDM}.
@@ -128,11 +128,11 @@ This parameterization has the advantage of avoiding discontinuities near $\alpha
 
 A random variable $X \sim \mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ if:
 \begin{equation}
-X \overset{d}{=} 
+X \overset{d}{=}
 \begin{cases}
 \gamma Z + \delta, & \alpha \neq 1 \\
 \gamma Z + \left( \delta + \beta \frac{2}{\pi} \gamma \log \gamma \right), & \alpha = 1,
-\end{cases}    
+\end{cases}
 \label{eq:Type_!}
 \end{equation}
 with a corresponding characteristic function given by
@@ -141,7 +141,7 @@ with a corresponding characteristic function given by
 \begin{cases}
 \exp\left( -|\gamma u|^\alpha \left[ 1 - \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u) \right] + \ii \delta u \right), & \alpha \neq 1 \\
 \exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|u| \right] + \ii \delta u \right), & \alpha = 1.
-\end{cases}    
+\end{cases}
 \]
 
 Unlike type-0, this parameterization requires an explicit adjustment to the location when $\alpha = 1$.
@@ -150,7 +150,7 @@ Unlike type-0, this parameterization requires an explicit adjustment to the loca
 
 %\paragraph*{Standardization}
 
-Note that the choice of parameterization directly affects the shift and symmetry of the distribution, especially when $\beta \neq 0$ and $\alpha$ is close to $1$. In both forms, the distribution can be standardized by setting $\gamma = 1$ and $\delta = 0$, in which case we use the abbreviations $\mathcal{S}(\alpha, \beta; 0)$ and $\mathcal{S}(\alpha, \beta; 1)$ respectively. 
+Note that the choice of parameterization directly affects the shift and symmetry of the distribution, especially when $\beta \neq 0$ and $\alpha$ is close to $1$. In both forms, the distribution can be standardized by setting $\gamma = 1$ and $\delta = 0$, in which case we use the abbreviations $\mathcal{S}(\alpha, \beta; 0)$ and $\mathcal{S}(\alpha, \beta; 1)$ respectively.
 
 In the univariate case, our package can simulate both parameterizations $k=0,1$.
 
@@ -185,7 +185,7 @@ then rescales the final density by $1/\gamma$. For the $\mathcal{S}_1$ parameter
 \begin{cases}
 \delta, & \alpha \neq 1\\
 \delta + \beta \dfrac{2}{\pi} \gamma \log \gamma & \alpha = 1,
-\end{cases}    
+\end{cases}
 \]
 as can be deduced from equation~\eqref{eq:Type_!}.
 
@@ -210,9 +210,9 @@ The switching points between methods are not fixed constants. They are instead s
 
 $\bullet$ For direct inversion in the $\mathcal{S}_1$ parameterization~\cite{NolanJohnP2020USDM}, the density is computed from the characteristic function. The standardized density is
 \begin{align*}
-    & f_{\alpha,\beta}(x) = \frac{1}{\pi} \int_0^\infty e^{-t^\alpha} \cos\!\left( xt-\beta\tan\left(\frac{\pi\alpha}{2}\right)t^\alpha\right) \,dt 
+    & f_{\alpha,\beta}(x) = \frac{1}{\pi} \int_0^\infty e^{-t^\alpha} \cos\!\left( xt-\beta\tan\left(\frac{\pi\alpha}{2}\right)t^\alpha\right) \,dt
     \quad \alpha \neq 1 \\
-    & f_{1,\beta}(x) = \frac{1}{\pi} \int_0^\infty e^{-t} \cos\!\left( xt+\frac{2}{\pi}\beta t\log t \right) \,dt 
+    & f_{1,\beta}(x) = \frac{1}{\pi} \int_0^\infty e^{-t} \cos\!\left( xt+\frac{2}{\pi}\beta t\log t \right) \,dt
     \qquad \qquad \alpha = 1, \text{ with the logarithmic correction.}
 \end{align*}
 These integrals are evaluated with \texttt{scipy.integrate.quad\_vec}.
@@ -222,24 +222,24 @@ These integrals are evaluated with \texttt{scipy.integrate.quad\_vec}.
 $\bullet$ For the middle region, the code uses Zolotarev's integral representation~\cite{Zolotarev1986}. For $\alpha\neq1$ and $x>0$,
 \[
 f_{\alpha,\beta}(x) = \frac{\alpha x^{\frac{1}{\alpha-1}}} {\pi |\alpha-1|}
-\int_{-\theta_0}^{\pi/2} V(\theta) \exp\!\left[ -x^{\frac{\alpha}{\alpha-1}}V(\theta)\right]\,d\theta,    
+\int_{-\theta_0}^{\pi/2} V(\theta) \exp\!\left[ -x^{\frac{\alpha}{\alpha-1}}V(\theta)\right]\,d\theta,
 \]
 where
 \[
 \theta_0= \frac{1}{\alpha}\arctan\!\left(\beta\tan\left(\frac{\pi\alpha}{2}\right)\right),
 \]
-and where $V(\theta)$ is evaluated following Zolotarev's formula~\cite{Zolotarev1986}. This integral is computed using the function \texttt{scipy.integrate.quad}. 
+and where $V(\theta)$ is evaluated following Zolotarev's formula~\cite{Zolotarev1986}. This integral is computed using the function \texttt{scipy.integrate.quad}.
 
 \smallskip
 \noindent
 $\bullet$ For the tail region, we use Skorohod-type series expansions \cite{sko2, Wintner1941CauchySingularities, Pollard1946LaplaceIntegral} of the form
 \[
-f_{\alpha,\beta}(x) \approx \frac{1}{\pi x} \sum_{n=1}^{N} a_n x^{-\alpha n},    
+f_{\alpha,\beta}(x) \approx \frac{1}{\pi x} \sum_{n=1}^{N} a_n x^{-\alpha n},
 \]
 where
 \[
 a_n = \frac{(-1)^{n-1}\Gamma(n\alpha+1)}{n!} \left( 1+\beta^2\tan^2\left(\frac{\pi\alpha}{2}\right) \right)^{n/2} \sin\!\left[n\left(
-\frac{\pi\alpha}{2} + \arctan\!\left( \beta\tan\left(\frac{\pi\alpha}{2}\right) \right) \right) \right].    
+\frac{\pi\alpha}{2} + \arctan\!\left( \beta\tan\left(\frac{\pi\alpha}{2}\right) \right) \right) \right].
 \]
 The number $N$ of terms used to calculate the series is appropriately chosen depending on the parameter range. In the current package, the $\alpha<1$ branch uses a larger truncation level, while the $\alpha>1$ branch requires fewer terms in the tested regimes.
 
@@ -300,7 +300,7 @@ The comparison recorded the following metrics:
     }.
     \]
 \end{itemize}
-The tests show close agreement across most of the parameter space, but they also reveal regions where the SciPy reference exhibits irregular numerical behavior. The strongest agreement occurs away from the narrow region around $\alpha=1$, where changes in the parameterization and the presence of logarithmic terms make density evaluation more sensitive. In this region, visual diagnostics are important because the relative difference may become large when the reference density is close to zero or numerically unstable. Figure~\ref{fig:pdf-error-near-mode} illustrates this behavior near $\alpha=1$ using the maximum relative difference measured around the mode. Away from $\alpha=1$, Figure~\ref{fig:pdf-error-near-mode} shows agreement with the SciPy reference.  Results for the remaining error metrics, parameter ranges, and tail evaluations, together with the complete benchmark data, are available in the Github repository\footnote{\href{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}}. 
+The tests show close agreement across most of the parameter space, but they also reveal regions where the SciPy reference exhibits irregular numerical behavior. The strongest agreement occurs away from the narrow region around $\alpha=1$, where changes in the parameterization and the presence of logarithmic terms make density evaluation more sensitive. In this region, visual diagnostics are important because the relative difference may become large when the reference density is close to zero or numerically unstable. Figure~\ref{fig:pdf-error-near-mode} illustrates this behavior near $\alpha=1$ using the maximum relative difference measured around the mode. Away from $\alpha=1$, Figure~\ref{fig:pdf-error-near-mode} shows agreement with the SciPy reference.  Results for the remaining error metrics, parameter ranges, and tail evaluations, together with the complete benchmark data, are available in the Github repository\footnote{\href{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{heatmap_maxrelerror_near_mode.png}
@@ -355,7 +355,7 @@ The speedup plot in Figure~\ref{fig:pdf-speedup} shows that our method is strict
 
 \section{Generating $\alpha$-Stable Random Vectors}
 
-In the univariate case, the package implements a numerically stable version of the Chambers, Mallows, and Stuck method which is presented in~\cite{ChambersJ.M.1976AMfS,NolanJohnP2020USDM}. In the multivariate setup, the proposed random number generator is based on a theoretical foundation that we state next. 
+In the univariate case, the package implements a numerically stable version of the Chambers, Mallows, and Stuck method which is presented in~\cite{ChambersJ.M.1976AMfS,NolanJohnP2020USDM}. In the multivariate setup, the proposed random number generator is based on a theoretical foundation that we state next.
 
 \subsection{The LePage series}
 
@@ -363,31 +363,31 @@ The LePage series~\cite{SamorodnitskyGennady2000Snrp} was first introduced in \c
 \begin{theorem}
 \label{thm:spec2}
  Let $\mathbf{V_1},\mathbf{V_2},\cdots$ be independent and identically distributed (i.i.d) random vectors in~$\mathbb{R}^d$ that are drawn according to a spectral measure $\Lambda$ where $\Lambda(\mathbb{S}^{d-1})>0$, i.e.,
- \[  
+ \[
      \Pr(\mathbf{V}\in A)=\frac{\Lambda(\mathbb{S}^{d-1} \cap A )}{\Lambda(\mathbb{S}^{d-1})} \;\;\forall\;A\in\mathcal{B}(\mathbb{R}^d).
- \] 
+ \]
  Let $E_1, E_2, \cdots$ be i.i.d. exponential random variables with mean 1, independent of  $\mathbf{V}_1, \mathbf{V}_2, \cdots$, and define
 \begin{equation}
 \label{LPseries}
 \Gamma_k \;=\; \sum_{i=1}^k E_i \qquad
-\qquad \mathbf{X}_n= c(\alpha)\sum_{k=1}^{n} \Gamma_k^{-1/\alpha}\,\mathbf{V}_k 
+\qquad \mathbf{X}_n= c(\alpha)\sum_{k=1}^{n} \Gamma_k^{-1/\alpha}\,\mathbf{V}_k
 \end{equation}
 where  \[
 c(\alpha)=\left(\frac{\kappa}{\Lambda(\mathbb{S}^{d-1})}\right)^{-\frac{1}{\alpha}} \qquad \& \qquad \kappa=\begin{cases}
 \dfrac{\Gamma(2-\alpha)\,\cos\!\bigl(\tfrac{\pi\alpha}{2}\bigr)}{1-\alpha}
 & \alpha\neq1\\
-\dfrac{\pi}{2} 
+\dfrac{\pi}{2}
 & \alpha=1.
-\end{cases}. 
+\end{cases}.
 \]
 \begin{itemize}
-\item[$\bullet$] For $0<\alpha<1$, $\mathbf{X}_n$ converges in total variation to a stable vector $\mathbf{X}$ with spectral measure $\Lambda$ and stability index $\alpha$. 
+\item[$\bullet$] For $0<\alpha<1$, $\mathbf{X}_n$ converges in total variation to a stable vector $\mathbf{X}$ with spectral measure $\Lambda$ and stability index $\alpha$.
 \item[$\bullet$] For $1 \leq \alpha < 2$, whenever
 \begin{equation}\label{eq:eq9}
 \int_{\mathbb{S}^{d-1}}s\Lambda(ds)=0,
 \end{equation}
 the random vector $\mathbf{X}_n$ converges in total variation to a stable vector $\mathbf{X}$ with spectral measure $\Lambda$ and stability index $\alpha$.
-\end{itemize} 
+\end{itemize}
 
 Whenever there is convergence to $\mathbf{X}$, we write
 \[
@@ -395,7 +395,7 @@ Whenever there is convergence to $\mathbf{X}$, we write
 \]
 \end{theorem}
 
-Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix in section ~\ref{app:appendixerror}. 
+Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix in section ~\ref{app:appendixerror}.
 
 In the following section, we present algorithms to sample according to well-known spectral measures, namely: Isotropic, Sub-Gaussian, Discrete, and Mixed spectral measures.
 
@@ -403,56 +403,56 @@ In the following section, we present algorithms to sample according to well-know
 
 \subsubsection{Discrete spectral measures}
 
-In the case of a discrete spectral measure with $M$ mass points, we store the point masses in an array $[\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_M]$ and draw randomly with the probability of each vector $\mathbf{v}_{i}$ 
+In the case of a discrete spectral measure with $M$ mass points, we store the point masses in an array $[\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_M]$ and draw randomly with the probability of each vector $\mathbf{v}_{i}$
 being
 \[
-\Pr(\mathbf{v}_{i})=\frac{\Lambda(\mathbf{v}_{i})}{\sum_{\ell=1}^{M}\Lambda(\mathbf{v}_{\ell})}.    
+\Pr(\mathbf{v}_{i})=\frac{\Lambda(\mathbf{v}_{i})}{\sum_{\ell=1}^{M}\Lambda(\mathbf{v}_{\ell})}.
 \]
 
 \subsubsection{Isotropic spectral measures}
 \label{sc:Iso}
 
-For an isotropic spectral measure, we sample the vectors $\{\mathbf{V}_k\}_{1 \leq k \leq n}$ uniformly on $\mathbb{S}^{d-1}$. To this end, several algorithms are available and we refer the reader to~\cite{SchnabelStefan2022Asaf} where various such algorithms are discussed. In our computations, we adopt the method presented in~\cite{MullerMervinE.1959Anoa} due to its simplicity and computational efficiency. Our package sets the spectral measure of the sphere to $1$, and then scales the truncated LePage series by an appropriate factor $q$ to adjust for the desired scale $\gamma$ given by the user: When the spectral measure of the sphere is 1, it can be verified that the characteristic function is given by 
+For an isotropic spectral measure, we sample the vectors $\{\mathbf{V}_k\}_{1 \leq k \leq n}$ uniformly on $\mathbb{S}^{d-1}$. To this end, several algorithms are available and we refer the reader to~\cite{SchnabelStefan2022Asaf} where various such algorithms are discussed. In our computations, we adopt the method presented in~\cite{MullerMervinE.1959Anoa} due to its simplicity and computational efficiency. Our package sets the spectral measure of the sphere to $1$, and then scales the truncated LePage series by an appropriate factor $q$ to adjust for the desired scale $\gamma$ given by the user: When the spectral measure of the sphere is 1, it can be verified that the characteristic function is given by
 \begin{equation*}
     \phi_{\mathbf{X}}(\mathbf{t})=\exp\left\{-\frac{\Gamma\left(\frac{d}{2}\right)}{\sqrt{\pi}}\frac{\Gamma\left(\frac{\alpha+1}{2}\right)}{\Gamma\left(\frac{\alpha+d}{2}\right)}\|\mathbf{t}\|^{\alpha}\right\}.
 \end{equation*}
 
-To achieve a scale $\gamma$, we therefore multiply the truncated series by 
+To achieve a scale $\gamma$, we therefore multiply the truncated series by
 \begin{equation*}
     q=\gamma\left[\frac{\Gamma\left(\frac{d}{2}\right)}{\sqrt{\pi}}\frac{\Gamma\left(\frac{\alpha+1}{2}\right)}{\Gamma\left(\frac{\alpha+d}{2}\right)}\right]^{-\frac{1}{\alpha}}.
-\end{equation*} 
+\end{equation*}
 
 \subsubsection{Sub-Gaussian (elliptical) spectral measures}
 \label{sub_guass_error}
 
-A sub-Gaussian random vector is characterized by a  positive-definite $d\times d$ shape matrix $\Sigma$. If $\vect{X}$ is a unit-scale  isotropic multivariate stable random vector with stability index $\alpha$ then $\vect{Y}=\Sigma^{\frac{1}{2}}\vect{X}$ is a sub-Gaussian random vector with shape matrix $\Sigma$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$~\cite{nolancirc2013}. As such, to sample from $\mathbf{Y}_n$, one can first sample a unit-scale isotropic random vector with the same stability index $\alpha$ using the LePage series as in Section~\ref{sc:Iso} and multiply it by the Cholesky decomposition $\Sigma^{\frac{1}{2}}$ of $\Sigma$. In section~\ref{discussion_on_error} in the appendix, we analyze the resulting Mean Square Error (MSE) of $\mathbf{Y}_n$.  
+A sub-Gaussian random vector is characterized by a  positive-definite $d\times d$ shape matrix $\Sigma$. If $\vect{X}$ is a unit-scale  isotropic multivariate stable random vector with stability index $\alpha$ then $\vect{Y}=\Sigma^{\frac{1}{2}}\vect{X}$ is a sub-Gaussian random vector with shape matrix $\Sigma$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$~\cite{nolancirc2013}. As such, to sample from $\mathbf{Y}_n$, one can first sample a unit-scale isotropic random vector with the same stability index $\alpha$ using the LePage series as in Section~\ref{sc:Iso} and multiply it by the Cholesky decomposition $\Sigma^{\frac{1}{2}}$ of $\Sigma$. In section~\ref{discussion_on_error} in the appendix, we analyze the resulting Mean Square Error (MSE) of $\mathbf{Y}_n$.
 
 A useful alternative would be to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case by sampling vectors $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplying them by $\Sigma^{\frac{1}{2}}$. Indeed, if  $\mathbf{X}_n$ is the $n$-terms LePage series, by Theorem~\ref{thm:spec2}, $\mathbf{X}_n$ converges in total variation to $\mathbf{X}$, and \begin{equation}
 \label{required V}
 \mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
 \end{equation}
-converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. %thus the required $\mathbf{V}_k$ are given in equation \eqref{required V}. Therefore, 
+converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. %thus the required $\mathbf{V}_k$ are given in equation \eqref{required V}. Therefore,
 The package first samples ${\bf V}_k$ and then computes the sum presented in~\eqref{required V} to sample a sub-Gaussian random vector ${\bf Y}_n$.
 
 \subsubsection{Mixed spectral measures}
 
-Now consider the scenario where the spectral measure at hand is a mixture of $L$ different spectral measures: $\Lambda_1, \Lambda_2, \cdots, \Lambda_L$. If $w_1, w_2, \cdots, w_L$ are their respective associated weights, the mixed spectral measure $\Lambda_{\text{mix}}$ is given by 
+Now consider the scenario where the spectral measure at hand is a mixture of $L$ different spectral measures: $\Lambda_1, \Lambda_2, \cdots, \Lambda_L$. If $w_1, w_2, \cdots, w_L$ are their respective associated weights, the mixed spectral measure $\Lambda_{\text{mix}}$ is given by
 \[
     \Lambda_{\text{mix}}=\sum_{i=1}^L w_i\Lambda_i.
 \]
 
-To sample from this spectral measure, we proceed as follows. 
+To sample from this spectral measure, we proceed as follows.
 \begin{itemize}
 \item[(i)] For each weight $w_i$ we associate its corresponding probability as \[
     p_i = \frac{w_i}{\sum_{\ell=1}^L w_\ell} \qquad i=1, \cdots, L.
 \]
 Then, we sort the probabilities in non-decreasing order that we assume --without loss of generality-- to be $p_1, \cdots, p_L$ hereafter.
 
-\item[(ii)] We draw   $U\sim\mathcal{U}[0,1]$, 
+\item[(ii)] We draw   $U\sim\mathcal{U}[0,1]$,
 \begin{itemize}
-\item[$\bullet$] If $U\leq p_1$ sample from $\Lambda_1$,  
-\item[$\bullet$] else if $U\leq p_1+p_2$, sample from $\Lambda_2$, 
-\item[$\bullet$] else iterate on the remaining spectral measures. 
+\item[$\bullet$] If $U\leq p_1$ sample from $\Lambda_1$,
+\item[$\bullet$] else if $U\leq p_1+p_2$, sample from $\Lambda_2$,
+\item[$\bullet$] else iterate on the remaining spectral measures.
 \end{itemize}
 \end{itemize}
 
@@ -462,7 +462,7 @@ This algorithm achieves a sampling from the mixture of $\Lambda_1, \cdots, \Lamb
 
 Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in the Appendix in section ~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached.
 \subsection{Univariate random number generator}
-In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. 
+In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default.
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 alpha=1
@@ -473,7 +473,7 @@ n=500000
 samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n)
 \end{lstlisting}
 
-In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-stable variables were sampled using our implementation, and plot the truncated histogram of values. Each histogram is overlayed by the pdf values which are computed using the SciPy \texttt{levy\_stable} numerical package. 
+In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-stable variables were sampled using our implementation, and plot the truncated histogram of values. Each histogram is overlayed by the pdf values which are computed using the SciPy \texttt{levy\_stable} numerical package.
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.32\textwidth}
@@ -535,11 +535,11 @@ samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n
 
 \subsection{Multivariate random number generator}
 
-\paragraph{Isotropic $\alpha$-stable random vector:} An isotropic $\alpha$-stable random vector with characteristic function 
+\paragraph{Isotropic $\alpha$-stable random vector:} An isotropic $\alpha$-stable random vector with characteristic function
 \[
     \phi_{\mathbf{X}}(\mathbf{t})=e^{-\gamma^{\alpha}\|\mathbf{t}\|^{\alpha}
 +\ii\mathbf{t}^T\boldsymbol{\mu}^0},
-\] 
+\]
 can be generated using the AUB-HTP package as follows:
 
 \begin{lstlisting}[language=Python]
@@ -553,7 +553,7 @@ n=500000
 sampler = IsotropicSampler(number_of_dimensions= d, alpha = alpha, gamma = gamma)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
 \end{lstlisting}
-where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\boldsymbol{\mu}^0$ represents the shift vector. Figure~\ref{isotropic} depicts scatter plots of the generated isotropic $\alpha$-stable random vectors.   
+where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\boldsymbol{\mu}^0$ represents the shift vector. Figure~\ref{isotropic} depicts scatter plots of the generated isotropic $\alpha$-stable random vectors.
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.32\textwidth}
@@ -577,7 +577,7 @@ where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\bol
     \label{isotropic}
 \end{figure}
 
-\paragraph{Elliptic $\alpha$-stable random vector:} An elliptic $\alpha$-stable random vector with shape matrix $\Sigma$ with the following characteristic function 
+\paragraph{Elliptic $\alpha$-stable random vector:} An elliptic $\alpha$-stable random vector with shape matrix $\Sigma$ with the following characteristic function
 \[
     \phi_{\mathbf{X}}(\mathbf{t})=e^{-(\mathbf{t}^T\Sigma \mathbf{t})^{\frac{\alpha}{2}} +\ii\mathbf{t}^T\boldsymbol{\mu}^0},
 \]
@@ -586,7 +586,7 @@ can also be generated using AUB-HTP. We note that the elliptic sampler takes the
     \label{MC_simulation_mass_estimation}
         \Lambda(\mathbb{S}^{d-1})=\mathbb{E}\left[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}\right]\approx\frac{1}{n}\sum_{i=1}^n\|\Sigma^{\frac{1}{2}}\mathbf{U}_i\|^{\alpha},
     \end{equation}
-where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed, 
+where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed,
 \begin{align}
         \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\\&\overset{(a)}{=}\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\\
 &\overset{(b)}{=}\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\\&\overset{(c)}{\leq} \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,
@@ -595,7 +595,7 @@ where equality $(a)$ is due to the Cholesky decomposition definition and in $(b)
 
 Finally, we note that the MSE resulting from estimating the total mass of the sphere using equation~\eqref{MC_simulation_mass_estimation} is given by~\cite[Theorem 1.1]{NiederreiterHarald1992Rnga}.
 
-An example code is as follows. 
+An example code is as follows.
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import EllipticSampler
@@ -607,7 +607,7 @@ sigma1=[[2,0.8],[0.8,1.5]]
 sampler =EllipticSampler(number_of_dimensions = 2, alpha = alpha, sigma = sigma1)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
 \end{lstlisting}
-Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices 
+Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices
 \[
     \Sigma_1=\begin{pmatrix}
 2 & 0.8 \\
@@ -640,12 +640,12 @@ Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable 
     \label{elliptic}
 \end{figure}
 
-\paragraph{Discrete spectral measures:} For an $\alpha$-stable random vector that has a discrete spectral measure with point masses at positions $\vect{v}_1, \cdots, \mathbf{v}_M$ and corresponding weights $w_1, \cdots, w_M$, the corresponding characteristic function is given by 
+\paragraph{Discrete spectral measures:} For an $\alpha$-stable random vector that has a discrete spectral measure with point masses at positions $\vect{v}_1, \cdots, \mathbf{v}_M$ and corresponding weights $w_1, \cdots, w_M$, the corresponding characteristic function is given by
 \[
-    \phi_{\mathbf{X}}(\mathbf{t})=\exp\left\{-\sum_{\ell=1}^M w_\ell\psi_{\alpha}(\mathbf{t}^T\mathbf{v}_\ell)+\ii\mathbf{t}^T\boldsymbol{\mu}^0\right\}. 
-\]  
+    \phi_{\mathbf{X}}(\mathbf{t})=\exp\left\{-\sum_{\ell=1}^M w_\ell\psi_{\alpha}(\mathbf{t}^T\mathbf{v}_\ell)+\ii\mathbf{t}^T\boldsymbol{\mu}^0\right\}.
+\]
 Such a vector can be generated as follows:
-    
+
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler
@@ -678,11 +678,11 @@ with corresponding scatter plots shown in Figure~\ref{fig:discrete}.
         \centering
         \includegraphics[width=\linewidth]{Figure_12.png}
     \caption{
-Masses $=[\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5}]$, 
+Masses $=[\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5}]$,
 weights $=[(1,0),(0,1),(-1,0),(\cos(\theta),-\sin(\theta)),$ \\ $(\cos(\pi - \theta),-\sin(\pi - \theta))]$, $\theta = \frac{13\pi}{20}$, $\alpha=0.1$,  $\boldsymbol{\mu}^{0T}=(0,0)$.
 }
     \end{subfigure}
-    \caption{Scatter plots each containing $5 \times 10^5$ points of  $\alpha$-stable distributions with a discrete spectral measure. The plots have been truncated to a range of 400 points within the shift vector. 
+    \caption{Scatter plots each containing $5 \times 10^5$ points of  $\alpha$-stable distributions with a discrete spectral measure. The plots have been truncated to a range of 400 points within the shift vector.
     \label{fig:discrete}}
 \end{figure}
 
@@ -719,17 +719,17 @@ where \texttt{spectral\_measures} is a list containing the spectral measures tha
     %\caption{Mixed spectral measures: $\alpha=0.3$; Isotropic with $\gamma=1$, and discrete with $\text{masses}=[(1,0),(0,1),(-1,0),(0,-1)], \text{weights}=[1,1,1,1], \boldsymbol{\mu}^{0 T}=(1000,1000)$. \label{fig:mylabel}}
 %\end{figure}
 
-\paragraph{Custom spectral measures:} The common spectral measures presented above are built-in into AUB-HTP. If the user wants to sample from an $\alpha$-stable random vector whose spectral measure is not built-in, this is made possible using a systematic procedure outlined in the following example:  
+\paragraph{Custom spectral measures:} The common spectral measures presented above are built-in into AUB-HTP. If the user wants to sample from an $\alpha$-stable random vector whose spectral measure is not built-in, this is made possible using a systematic procedure outlined in the following example:
 \begin{itemize}
 
-\item Say the user is interested in sampling a multivariate $\alpha$-stable random vector in dimension $d=2$ with $\alpha=0.3, \boldsymbol{\mu}^0=\mathbf{0}$, and whose spectral measure is uniform over the arcs $\left[-\frac{\pi}{4},\frac{\pi}{4}\right]$ and $\left[\frac{3\pi}{4},\frac{5\pi}{4}\right]$, that is, with probability $0.5$, we  draw a point uniformly on the arc $\left[\frac{3\pi}{4},\frac{5\pi}{4}\right]$, and with probability $0.5$, we draw a point uniformly on the arc $\left[-\frac{\pi}{4},\frac{\pi}{4}\right]$. 
+\item Say the user is interested in sampling a multivariate $\alpha$-stable random vector in dimension $d=2$ with $\alpha=0.3, \boldsymbol{\mu}^0=\mathbf{0}$, and whose spectral measure is uniform over the arcs $\left[-\frac{\pi}{4},\frac{\pi}{4}\right]$ and $\left[\frac{3\pi}{4},\frac{5\pi}{4}\right]$, that is, with probability $0.5$, we  draw a point uniformly on the arc $\left[\frac{3\pi}{4},\frac{5\pi}{4}\right]$, and with probability $0.5$, we draw a point uniformly on the arc $\left[-\frac{\pi}{4},\frac{\pi}{4}\right]$.
 
-\item We assign equal probabilities to both arcs and the spectral measure of each arc is half the total measure of the sphere. Generally, the probability of each region is the ratio of the spectral measure of the region to the total mass of the sphere. 
+\item We assign equal probabilities to both arcs and the spectral measure of each arc is half the total measure of the sphere. Generally, the probability of each region is the ratio of the spectral measure of the region to the total mass of the sphere.
 
 \item We create a class of the spectral measure sampler that we want by inheriting from the base class \\ \texttt{BaseSpectralMeasureSampler}. In the class that the user is creating, the function which samples the vectors $\mathbf{V}$ in Theorem \ref{thm:spec2} should be provided. Moreover, the dimension of the desired alpha-stable vector and the total mass of the unit sphere should be specified. The created spectral measure sampler is then passed as an argument to the \texttt{rvs()} method as shown in the following code.
 \end{itemize}
 
-The steps are presented below. 
+The steps are presented below.
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler
@@ -847,7 +847,7 @@ measure_weights=[0.5,0.5]
 mixed_sampler=MixedSampler(spectral_measures=spectral_measures,weights=measure_weights)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = mixed_sampler,
 shift = shift, size = n)
- 
+
 \end{lstlisting}
 
 The resulting scatterplot is shown in Figure~\ref{mix_discrete_and_custom}.
@@ -882,12 +882,12 @@ then $\forall a,b \in\mathbb{R}$, there exists an $n_0$ such that \begin{equatio
  \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} &\alpha< 1\\
 \frac{2\alpha }{2-\alpha}c^2 (\alpha)n^{1-\frac{2}{\alpha}} & \alpha\geq 1.
 \end{cases}
-\]    
+\]
 \end{theorem}
 
 The proof is as follows.
 
-We start with the case $\alpha<1$. We have 
+We start with the case $\alpha<1$. We have
 \[
     \|\mathbf{X}_n-\mathbf{X}\|=\left\|c(\alpha) \sum_{k=n+1}^{\infty}\Gamma_{k}^{-\frac{1}{\alpha}}\mathbf{V}_k\right\|\leq c(\alpha) \sum_{k=n+1}^{\infty}\left\|\Gamma_{k}^{-\frac{1}{\alpha}}\mathbf{V}_k\right\| = c(\alpha)\sum_{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}},
 \]
@@ -900,13 +900,13 @@ which implies
 &\overset{(b)}{=}c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty}\sqrt{\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}}\right)^2 \\
 &\overset{(c)}{<}c^{2}(\alpha) \left(\sum_{k=n+1}^{\infty}\sqrt{2k^{-\frac{2}{\alpha}}}\right)^2 \\
 &=2c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty}k^{-\frac{1}{\alpha}}\right)^2\nonumber\\
-&\overset{(d)}{\leq} \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} 
+&\overset{(d)}{\leq} \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}}
 \end{align}
 where inequality $(a)$ is due to the Cauchy-Schwarz inequality. The equality in $(b)$ is due to the fact that $\Gamma_k\sim\text{Gamma}(k,1),n\geq \frac{2}{\alpha}$, and $\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]=\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}$, and inequality $(c)$ is due to~\eqref{eq:eq12}. Inequality $(d)$ is due to the fact that \begin{equation}
     \sum_{k=n+1}^{\infty}k^{-\frac{1}{\alpha}}\leq\int_{n}^{\infty}x^{-\frac{1}{\alpha}}dx=\frac{\alpha}{1-\alpha}n^{1-\frac{1}{\alpha}}.
-    \end{equation} 
+    \end{equation}
 
-For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\cdot,n$, equation~\eqref{eq:eq9} implies $\mathbb{E}[\mathbf{V}]=\mathbf{0}$. Let $\mathbf{V}_j=(v_j^{1},v_j^{2},\cdot\cdot\cdot,v_j^{d})$ then we have 
+For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\cdot,n$, equation~\eqref{eq:eq9} implies $\mathbb{E}[\mathbf{V}]=\mathbf{0}$. Let $\mathbf{V}_j=(v_j^{1},v_j^{2},\cdot\cdot\cdot,v_j^{d})$ then we have
 \begin{align}
 \mathbb{E} \left[ \|\mathbf{X}_n - \mathbf{X}\|^2 \right]
 &= c^{2}(\alpha)\,
@@ -922,15 +922,15 @@ For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\
 &=c^{2}(\alpha)\sum_{k=n+1}^{\infty}\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}<2c^{2}(\alpha)\sum_{k=n+1}^{\infty}k^{-\frac{2}{\alpha}}\nonumber\\
 &\leq\frac{2\alpha}{2-\alpha}c^{2}(\alpha)n^{1-\frac{2}{\alpha}}, \nonumber
 \end{align}
-where equality $(a)$ is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
-    
+where equality $(a)$ is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$.
+
 
 One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$.
 
 \subsection{Sub-Gaussian error}
 \label{discussion_on_error}
 
-Sampling a multivariate sub-Gaussian $\alpha$-stable vector can be done by first computing the truncated series $\mathbf{X}_n$ for the isotropic spectral measure with unit-scale, and then applying $\mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$-- the desired shape matrix as described in Section~\ref{sub_guass_error}. The resulting MSE in that case satisfies 
+Sampling a multivariate sub-Gaussian $\alpha$-stable vector can be done by first computing the truncated series $\mathbf{X}_n$ for the isotropic spectral measure with unit-scale, and then applying $\mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$-- the desired shape matrix as described in Section~\ref{sub_guass_error}. The resulting MSE in that case satisfies
 \begin{align*}
     \mathbb{E} \left[ \|\vect{Y}_n-\vect{Y}\|^{2} \right]
     &=\mathbb{E} \left[ \left\|\Sigma^{\frac{1}{2}}(\vect{X}_n-\vect{X})\right\|^{2} \right] \\
@@ -940,4 +940,4 @@ Sampling a multivariate sub-Gaussian $\alpha$-stable vector can be done by first
     (\vect{X}_n-\vect{X})\right] \\
     & \leq \lambda_{\max}(\Sigma) \, \mathbb{E} \left[ \|\vect{X}_n-\vect{X}\|^2 \right],
 \end{align*}
-where we used the fact that $\|\mathbf{x}\|^2_{\Sigma} \leq \lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$, with $\lambda_{\max}(\Sigma)$ --the largest eigenvalue of $\Sigma$-- being the norm of matrix $\Sigma$~\cite{alma991015644117709436}. Finally, one can upperbound $\mathbb{E} \left[ \|\mathbf{X}_n-\mathbf{X}\|^2 \right]$ using Theorem~\ref{MSE}.  
+where we used the fact that $\|\mathbf{x}\|^2_{\Sigma} \leq \lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$, with $\lambda_{\max}(\Sigma)$ --the largest eigenvalue of $\Sigma$-- being the norm of matrix $\Sigma$~\cite{alma991015644117709436}. Finally, one can upperbound $\mathbb{E} \left[ \|\mathbf{X}_n-\mathbf{X}\|^2 \right]$ using Theorem~\ref{MSE}.
