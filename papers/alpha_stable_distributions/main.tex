@@ -596,10 +596,10 @@ can also be generated using AUB-HTP. We note that the elliptic sampler takes the
     \end{equation}
 where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed, 
 \begin{align}
-        \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\nonumber\\&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\label{cholesky}\\
-    &=\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\label{number}\\&\leq \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,\label{eq:ineq}
+        \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\\&\overset{(a)}{=}\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\\
+&\overset{(b)}{=}\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}{\Sigma}\right]\\&\overset{(c)}{\leq} \lambda{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,
 \end{align}
-where equation~\eqref{cholesky} is due to the Cholesky decomposition definition and where in equation~\eqref{number} we used the $\Sigma$-weighted norm $\|\mathbf{x}\|^2_{\Sigma}\triangleq\mathbf{x}^T\Sigma\mathbf{x}$. Finally, the inequality in equation~\eqref{eq:ineq} is due to the fact that $\|\mathbf{x}\|^2_{\Sigma}\leq\lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$ where $\lambda_{\text{max}}(\Sigma)$ is the largest eigenvalue of $\Sigma$, equal to the norm of matrix $\Sigma$~\cite{alma991015644117709436}.
+where equality (a) is due to the Cholesky decomposition definition and in $(b)$ we used the $\Sigma$-weighted norm $\|\mathbf{x}\|^2_{\Sigma}\triangleq\mathbf{x}^T\Sigma\mathbf{x}$. Finally, the inequality in $(c)$ is due to the fact that $\|\mathbf{x}\|^2_{\Sigma}\leq\lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$ where $\lambda_{\text{max}}(\Sigma)$ is the largest eigenvalue of $\Sigma$, equal to the norm of matrix $\Sigma$~\cite{alma991015644117709436}.
 
 Finally, we note that the MSE resulting from estimating the total mass of the sphere using equation~\eqref{MC_simulation_mass_estimation} is given by~\cite[Theorem 1.1]{NiederreiterHarald1992Rnga}.
 
@@ -898,16 +898,16 @@ We start with the case $\alpha<1$. We have
 \]
 which implies
 \begin{align}
-\mathbb{E} \left[ \|\mathbf{X}_n-\mathbf{X}\|^2 \right] & \leq \mathbb{E} \left[ \left(c(\alpha)\sum_{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\right)^2 \right]
+\mathbb{E} \left[ \|\mathbf{X}n-\mathbf{X}\|^2 \right] & \leq \mathbb{E} \left[ \left(c(\alpha)\sum{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\right)^2 \right]
 = c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty} \mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\mathbb{E}\left[\Gamma_{i}^{-\frac{1}{\alpha}}\Gamma_{j}^{-\frac{1}{\alpha}}\right]\right)\nonumber\\
-&\leq c^{2}(\alpha)\left( \sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\sqrt{\mathbb{E}\left[\Gamma_{i}^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\Gamma_{j}^{-\frac{2}{\alpha}}\right]}\right)  \label{eq:CS}\\
-&=c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+\left(\sum_{k=n+1}^{\infty}\sqrt{\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]}\right)^2-\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]\right)\label{eq:star}\\
-&=c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty}\sqrt{\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}}\right)^2 \label{eq:miss}\\
-&<c^{2}(\alpha) \left(\sum_{k=n+1}^{\infty}\sqrt{2k^{-\frac{2}{\alpha}}}\right)^2 \label{eq:justgamma}\\
+&\overset{(a)}{\leq} c^{2}(\alpha)\left( \sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\sqrt{\mathbb{E}\left[\Gamma_{i}^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\Gamma_{j}^{-\frac{2}{\alpha}}\right]}\right) \\
+&=c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+\left(\sum_{k=n+1}^{\infty}\sqrt{\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]}\right)^2-\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]\right)\\
+&\overset{(b)}{=}c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty}\sqrt{\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}}\right)^2 \\
+&\overset{(c)}{<}c^{2}(\alpha) \left(\sum_{k=n+1}^{\infty}\sqrt{2k^{-\frac{2}{\alpha}}}\right)^2 \\
 &=2c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty}k^{-\frac{1}{\alpha}}\right)^2\nonumber\\
-&\leq \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} \label{integral_bound}
+&\overset{(d)}{\leq} \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} 
 \end{align}
-where equation~\eqref{eq:CS} is due to the Cauchy-Schwarz inequality. Equation~\eqref{eq:miss} is due to the fact that $\Gamma_k\sim\text{Gamma}(k,1),n\geq \frac{2}{\alpha}$, and $\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]=\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}$, and inequality~\eqref{eq:justgamma} is due to~\eqref{eq:eq12}. Inequality \eqref{integral_bound} is due to the fact that \begin{equation}
+where inequality (a) is due to the Cauchy-Schwarz inequality. The equality in (b) is due to the fact that $\Gamma_k\sim\text{Gamma}(k,1),n\geq \frac{2}{\alpha}$, and $\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]=\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}$, and inequality (c) is due to~\eqref{eq:eq12}. Inequality (d) is due to the fact that \begin{equation}
     \sum_{k=n+1}^{\infty}k^{-\frac{1}{\alpha}}\leq\int_{n}^{\infty}x^{-\frac{1}{\alpha}}dx=\frac{\alpha}{1-\alpha}n^{1-\frac{1}{\alpha}}.
     \end{equation} 
 
@@ -916,18 +916,19 @@ For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\
 \mathbb{E} \left[ \|\mathbf{X}_n - \mathbf{X}\|^2 \right]
 &= c^{2}(\alpha)\,
 \mathbb{E}\left[
-  \Bigl\langle
+    \Bigl\langle
     \sum_{\ell=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_{\ell},
     \sum_{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k
-  \Bigr\rangle
-\right]\nonumber\\
-&=c^{2}(\alpha)\mathbb{E}\Biggl[\;\sum_{k=n+1}^{\infty}\sum_{\ell=n+1}^{\infty}\sum_{i=1}^{d}\Gamma_k^{-\frac{1}{\alpha}}\Gamma_{\ell}^{-\frac{1}{\alpha}}v_{k}^{i}v_{\ell}^{i}\Biggr]\nonumber\\
-&=c^{2}(\alpha)\left[\;\sum_{k=n+1}^{\infty}\sum_{\ell=n+1}^{\infty}\sum_{i=1}^{d}\mathbb{E}\left[\Gamma_k^{-\frac{1}{\alpha}}\Gamma_{\ell}^{-\frac{1}{\alpha}}\right]\mathbb{E}\left[v_{k}^{i}v_{\ell}^{i}]\right]\right] \label{eq:perp}\\
-&=c^{2}(\alpha)\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\|\mathbf{V}_k\|^2\right] \label{eq:mean0}\\
+    \Bigr\rangle
+\right]\\
+&=c^{2}(\alpha)\mathbb{E}\Biggl[\;\sum_{k=n+1}^{\infty}\sum_{\ell=n+1}^{\infty}\sum_{i=1}^{d}\Gamma_k^{-\frac{1}{\alpha}}\Gamma_{\ell}^{-\frac{1}{\alpha}}v_{k}^{i}v_{\ell}^{i}\Biggr]\\
+&\overset{(a)}{=}c^{2}(\alpha)\left[\;\sum_{k=n+1}^{\infty}\sum_{\ell=n+1}^{\infty}\sum_{i=1}^{d}\mathbb{E}\left[\Gamma_k^{-\frac{1}{\alpha}}\Gamma_{\ell}^{-\frac{1}{\alpha}}\right]\mathbb{E}\left[v_{k}^{i}v_{\ell}^{i}]\right]\right] \\
+&\overset{(b)}{=}c^{2}(\alpha)\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\|\mathbf{V}_k\|^2\right]\\
 &=c^{2}(\alpha)\sum_{k=n+1}^{\infty}\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}<2c^{2}(\alpha)\sum_{k=n+1}^{\infty}k^{-\frac{2}{\alpha}}\nonumber\\
 &\leq\frac{2\alpha}{2-\alpha}c^{2}(\alpha)n^{1-\frac{2}{\alpha}}, \nonumber
 \end{align}
-where equation~\eqref{eq:perp} is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and equation~\eqref{eq:mean0} is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
+where equality $(a)$ is due to the fact that $\mathbf{V}k \perp\!\!\!\perp \Gamma{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
+    
 
 One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$.
 
