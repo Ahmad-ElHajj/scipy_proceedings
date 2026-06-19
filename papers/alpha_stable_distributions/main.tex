@@ -593,7 +593,7 @@ can also be generated using AUB-HTP. We note that the elliptic sampler takes the
 where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed, 
 \begin{align}
         \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\\&\overset{(a)}{=}\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\\
-&\overset{(b)}{=}\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}{\Sigma}\right]\\&\overset{(c)}{\leq} \lambda{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,
+&\overset{(b)}{=}\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\\&\overset{(c)}{\leq} \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,
 \end{align}
 where equality $(a)$ is due to the Cholesky decomposition definition and in $(b)$ we used the $\Sigma$-weighted norm $\|\mathbf{x}\|^2_{\Sigma}\triangleq\mathbf{x}^T\Sigma\mathbf{x}$. Finally, the inequality in $(c)$ is due to the fact that $\|\mathbf{x}\|^2_{\Sigma}\leq\lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$ where $\lambda_{\text{max}}(\Sigma)$ is the largest eigenvalue of $\Sigma$, equal to the norm of matrix $\Sigma$~\cite{alma991015644117709436}.
 
@@ -894,7 +894,7 @@ We start with the case $\alpha<1$. We have
 \]
 which implies
 \begin{align}
-\mathbb{E} \left[ \|\mathbf{X}n-\mathbf{X}\|^2 \right] & \leq \mathbb{E} \left[ \left(c(\alpha)\sum{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\right)^2 \right]
+\mathbb{E} \left[ \|\mathbf{X}_n-\mathbf{X}\|^2 \right] & \leq \mathbb{E} \left[ \left(c(\alpha)\sum_{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}}\right)^2 \right]
 = c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty} \mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\mathbb{E}\left[\Gamma_{i}^{-\frac{1}{\alpha}}\Gamma_{j}^{-\frac{1}{\alpha}}\right]\right)\nonumber\\
 &\overset{(a)}{\leq} c^{2}(\alpha)\left( \sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\sqrt{\mathbb{E}\left[\Gamma_{i}^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\Gamma_{j}^{-\frac{2}{\alpha}}\right]}\right) \\
 &=c^{2}(\alpha)\left(\sum_{k=n+1}^{\infty} \mathbb{E}\left[ \Gamma_k^{-\frac{2}{\alpha}}\right]+\left(\sum_{k=n+1}^{\infty}\sqrt{\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]}\right)^2-\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]\right)\\
@@ -923,7 +923,7 @@ For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\
 &=c^{2}(\alpha)\sum_{k=n+1}^{\infty}\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}<2c^{2}(\alpha)\sum_{k=n+1}^{\infty}k^{-\frac{2}{\alpha}}\nonumber\\
 &\leq\frac{2\alpha}{2-\alpha}c^{2}(\alpha)n^{1-\frac{2}{\alpha}}, \nonumber
 \end{align}
-where equality $(a)$ is due to the fact that $\mathbf{V}k \perp\!\!\!\perp \Gamma{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
+where equality $(a)$ is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
     
 
 One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$.
