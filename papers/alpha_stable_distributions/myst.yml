@@ -55,5 +55,5 @@ project:
     - id: pdf
       format: typst
       template: https://github.com/curvenote-templates/scipy.git
-      article: main.md
+      article: main.tex
       output: full_text.pdf
