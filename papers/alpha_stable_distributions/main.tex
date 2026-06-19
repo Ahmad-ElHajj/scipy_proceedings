@@ -892,7 +892,6 @@ then $\forall a,b \in\mathbb{R}$, there exists an $n_0$ such that \begin{equatio
 \end{cases}
 \]    
 \end{theorem}
-\begin{proof}
 We start with the case $\alpha<1$. We have 
 \[
     \|\mathbf{X}_n-\mathbf{X}\|=\left\|c(\alpha) \sum_{k=n+1}^{\infty}\Gamma_{k}^{-\frac{1}{\alpha}}\mathbf{V}_k\right\|\leq c(\alpha) \sum_{k=n+1}^{\infty}\left\|\Gamma_{k}^{-\frac{1}{\alpha}}\mathbf{V}_k\right\| = c(\alpha)\sum_{k=n+1}^{\infty}\Gamma_k^{-\frac{1}{\alpha}},
@@ -929,7 +928,6 @@ For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\
 &\leq\frac{2\alpha}{2-\alpha}c^{2}(\alpha)n^{1-\frac{2}{\alpha}}, \nonumber
 \end{align}
 where equation~\eqref{eq:perp} is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and equation~\eqref{eq:mean0} is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$. 
-\end{proof}
 
 One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$.
 
