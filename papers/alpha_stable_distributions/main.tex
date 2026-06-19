@@ -42,7 +42,7 @@
 Heavy-tailed distributions are increasingly found to better fit empirical data in engineering, finance, physics, network science, and related fields. Among them, $\alpha$-stable distributions play a central role being limiting laws in the generalized central limit theorem: they are expected to be exceptionally good models whenever sums of multiple independent heavy-tailed sources are at play. Despite their theoretical importance, their practical use remains challenging: $\alpha$-stable probability densities generally do not have closed-form expressions, and numerical evaluation and random variate generation can be difficult, especially in the multivariate setting. This paper presents AUB-HTP, a Python package for numerical computation and simulation of $\alpha$-stable distributions. The package provides scalar density evaluation using several complementary methods, including Zolotarev-type integral representations, series formulas, and numerical inversion of characteristic functions. It also provides random variate generation for scalar and multivariate $\alpha$-stable distributions, with support for flexible spectral measures through LePage series representations. Numerical experiments demonstrate that AUB-HTP improves the accuracy, stability, and parameter coverage of existing tools for scalar density computation, while adding new capabilities for multivariate simulation. The package is designed to support reproducible computational work involving heavy-tailed models across a broad range of scientific applications.
 \end{abstract}
 
-\section{Introduction}\label{Introduction}
+\section{Introduction}
 
 Heavy-tailed distributions arise naturally in many scientific and engineering applications, including communications, signal processing, finance, physics, and network modeling~\cite{marcel2008,Tsih1995,crovella1998heavy,nolancirc2013,taleb2022statisticalconsequencesfattails}. In such settings, rare but large deviations occur more frequently than predicted by light-tailed models such as the Gaussian distribution. As a result, Gaussian-based modeling can significantly underestimate the probability and impact of extreme events.
 
@@ -167,11 +167,6 @@ In the univariate case, our package can simulate both parameterizations $k=0,1$.
 
 The AUB-HTP package provides numerical evaluation of scalar $\alpha$-stable probability density functions through a SciPy-like interface. This component complements the random number generator: the generator produces samples, while the density module provides the reference curve used for model verification, visualization, and numerical comparison.
 
-%For a scalar $\alpha$-stable random variable
-%\(
-%X \sim S(\alpha,\beta,\gamma,\delta;k),
-%\)
-%the parameters are the stability index $0<\alpha\leq2$, skewness $-1\leq\beta\leq1$, scale $\gamma>0$, location $\delta\in\mathbb{R}$, and parameterization index $k\in\{0,1\}$ \cite{NolanJohnP2020USDM}. 
 Except for  Cauchy and L\'evy laws, $\alpha$-stable distributions do not have a closed-form density, which must therefore be computed using numerical inversion or analytic representations that are valid in specific parameter regions.
 
 \smallskip
@@ -196,7 +191,7 @@ then rescales the final density by $1/\gamma$. For the $\mathcal{S}_1$ parameter
 \[
 \text{shift} =
 \begin{cases}
-\delta, & \alpha \neq 1\\[6pt]
+\delta, & \alpha \neq 1\\
 \delta + \beta \dfrac{2}{\pi} \gamma \log \gamma & \alpha = 1,
 \end{cases}    
 \]
@@ -259,8 +254,6 @@ The number $N$ of terms used to calculate the series is appropriately chosen dep
 \subsection{Validation}
 
 The density evaluator was tested against \texttt{scipy.stats.levy\_stable.pdf} on grids of $\alpha$, $\beta$, and $x$. The near-mode tests used $x\in[-10,10]$, while the tail tests examined values up to $x = 100$.
-%TODO SHARAF
-%UP TO VALUES OF X = 100
 
 
 The comparison recorded the following metrics:
@@ -386,15 +379,14 @@ The LePage series~\cite{SamorodnitskyGennady2000Snrp} was first introduced in \c
 \label{LPseries}
 \Gamma_k \;=\; \sum_{i=1}^k E_i \qquad
 \qquad \mathbf{X}_n= c(\alpha)\sum_{k=1}^{n} \Gamma_k^{-1/\alpha}\,\mathbf{V}_k 
-% \qquad  \mathbf{X}= c(\alpha)\sum_{k=1}^{\infty} \Gamma_k^{-1/\alpha}\,\mathbf{V}_k
 \end{equation}
 where  \[
 c(\alpha)=\left(\frac{\kappa}{\Lambda(\mathbb{S}^{d-1})}\right)^{-\frac{1}{\alpha}} \qquad \& \qquad \kappa=\begin{cases}
 \dfrac{\Gamma(2-\alpha)\,\cos\!\bigl(\tfrac{\pi\alpha}{2}\bigr)}{1-\alpha}
-& \alpha\neq1\\[1em]
+& \alpha\neq1\\
 \dfrac{\pi}{2} 
 & \alpha=1.
-\end{cases}   . 
+\end{cases}. 
 \]
 \begin{itemize}
 \item[$\bullet$] For $0<\alpha<1$, $\mathbf{X}_n$ converges in total variation to a stable vector $\mathbf{X}$ with spectral measure $\Lambda$ and stability index $\alpha$. 
@@ -411,16 +403,11 @@ Whenever there is convergence to $\mathbf{X}$, we write
 \]
 \end{theorem}
 
-%The proof of theorem \ref{thm:spec2} can be found in \cite{BentkusV.2001LSRo}.
-
-%(\textcolor{blue}{in remark 1 in the paper they say that when the shift vector is 0, they study the approximation of $\mathbf{X}$(G in that paper) by $\mathbf{X}_n$ in theorem \ref{thm:spec2} above and when $\mathbf{X}$ has a shift vector, one can study $\mathbf{X}_n+\boldsymbol{\mu}^0$ so this is implicitly meaning that $\mathbf{X}$ has no shift vector, i just wanted to clarify how I am citing here}). 
 Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix~\ref{app:appendixerror}. 
 
 In the following section, we present algorithms to sample according to well-known spectral measures, namely: Isotropic, Sub-Gaussian, Discrete, and Mixed spectral measures.
 
 \subsection{Common spectral measures}
-%In the error analysis of the entropy estimate, we will see that imposing the restriction $\|\vect{V}\|=1$ will be helpful in deriving bounds for the error. 
-%Without loss of generality,  we focus in this section on sampling vectors on the unit sphere $\mathbb{S}^{d-1}$ according to spectral measures.
 
 \subsubsection{Discrete spectral measures}
 
@@ -441,8 +428,7 @@ For an isotropic spectral measure, we sample the vectors $\{\mathbf{V}_k\}_{1 \l
 To achieve a scale $\gamma$, we therefore multiply the truncated series by 
 \begin{equation*}
     q=\gamma\left[\frac{\Gamma\left(\frac{d}{2}\right)}{\sqrt{\pi}}\frac{\Gamma\left(\frac{\alpha+1}{2}\right)}{\Gamma\left(\frac{\alpha+d}{2}\right)}\right]^{-\frac{1}{\alpha}}.
-\end{equation*}
-%which depends on the integral with respect to the Isotropic spectral measure in \eqref{eq:eq3}. 
+\end{equation*} 
 
 \subsubsection{Sub-Gaussian (elliptical) spectral measures}
 \label{sub_guass_error}
@@ -480,37 +466,20 @@ Then, we sort the probabilities in non-decreasing order that we assume --without
 
 This algorithm achieves a sampling from the mixture of $\Lambda_1, \cdots, \Lambda_L$ with probabilities $p_1, \cdots, p_L$ respectively.
 
-
-%the spectral measure boils down to point masses at +1 and -1. To sample a univariate $\alpha$-stable random variable $X\sim\mathcal{S}(\alpha,\beta,\,\gamma,\delta;k)$, we pick the $V_i$ randomly from the set $\{-1,1\}$. In the type 1 parameterization,  $\alpha,\beta,\gamma$ are related to $\Lambda(1)$ and $\Lambda(-1)$  using equations given in \cite{SamorodnitskyGennady2000Snrp}, then one can solve for $\Lambda(1)$ and $\Lambda(-1)$ , and we obtain the following equations \begin{equation}
-  %  \Lambda(-1)=\frac{\gamma^{\alpha}(1-\beta)}{2} \qquad \Lambda(1)=\frac{\gamma^{\alpha}(1+\beta)}{2},
-%\end{equation} 
-%then one can sample the $V_k$ from the set $\{-1,1\}$ according to the probabilities obtained using  equation \eqref{disc}. To sample with $\delta\neq0$, one can sample with $\delta=0$, and apply a shift or a rescale as in \cite{NolanJohnP2020USDM} . To sample for the type 0 parameterization,  one can also apply a shift or a rescale as in \cite{NolanJohnP2020USDM}. We note that this sampling method does not work when $\alpha\geq1$, and $\beta\neq0$, thus in this case a numerically stable version of the Chambers, Mallows, and Stuck method is used which is presented in \cite{NolanJohnP2020USDM}.
-
 \section{Implementation}
 
 Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in Appendix~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached.
- % In this section, we present our numerical functions and give examples on how they work. In all of the sampling methods, we first have to create a sampler based on the spectral measure that we desire, and then we call the function \texttt{sample\_alpha\_stable\_vector}
-% \begin{minted}[fontsize=\small, frame=single, linenos]{python}
-% def sample_alpha_stable_vector(
-%     alpha: float,
-%     spectral_measure: BaseSpectralMeasureSampler,
-%     number_of_samples: int,
-%     shift_vector,
-%     number_of_convergence_terms: int | None = None,
-% ):
-% \end{minted}
-% where alpha is the stability index, spectral\_measure is an object of type BaseSpectralMeasureSampler which contains the algorithm to sample the $\mathbf{V}_k$ in theorem \ref{thm:spec2}, number\_of\_samples is the number of terms we want to sample, shift\_vector is a list which represents $\boldsymbol{\mu}^0$, and the number\_of\_convergence\_terms is the number of terms taken from the LePage series. The number of terms is an optional argument if the user is interested in a high precision computation, but the software automatically selects convenient values of the number of terms to achieve low errors and a reasonable running time.
 \subsection{Univariate random number generator}
 In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. 
-\begin{minted}[fontsize=\small, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 alpha=1
 beta=0
 loc=0
 scale=1
 n=500000
-samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n )
-\end{minted}
+samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n)
+\end{lstlisting}
 
 In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-stable variables were sampled using our implementation, and plot the truncated histogram of values. Each histogram is overlayed by the pdf values which are computed using the SciPy \texttt{levy\_stable} numerical package. 
 \begin{figure}[H]
@@ -538,7 +507,7 @@ In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-s
 \end{figure}
 
 An example using the type 0 parameterization is presented in Figure~\ref{univariate0}.
-\begin{minted}[fontsize=\small, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 alpha=0.1
 beta=1
@@ -547,7 +516,7 @@ scale=10
 n=500000
 ht.alpha_stable.with_parameterization("S0")
 samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n )
-\end{minted}
+\end{lstlisting}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.32\textwidth}
@@ -581,7 +550,7 @@ samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n
 \] 
 can be generated using the AUB-HTP package as follows:
 
-\begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import IsotropicSampler
 alpha = 0.5
@@ -591,7 +560,7 @@ d = 2
 n=500000
 sampler = IsotropicSampler(number_of_dimensions= d, alpha = alpha, gamma = gamma)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
-\end{minted}
+\end{lstlisting}
 where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\boldsymbol{\mu}^0$ represents the shift vector. Figure~\ref{isotropic} depicts scatter plots of the generated isotropic $\alpha$-stable random vectors.   
 \begin{figure}[H]
     \centering
@@ -634,7 +603,8 @@ where equation~\eqref{cholesky} is due to the Cholesky decomposition definition 
 
 Finally, we note that the MSE resulting from estimating the total mass of the sphere using equation~\eqref{MC_simulation_mass_estimation} is given by~\cite[Theorem 1.1]{NiederreiterHarald1992Rnga}.
 
-    An example code is as follows. \begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+An example code is as follows. 
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import EllipticSampler
 alpha = 0.5
@@ -644,7 +614,7 @@ n=500000
 sigma1=[[2,0.8],[0.8,1.5]]
 sampler =EllipticSampler(number_of_dimensions = 2, alpha = alpha, sigma = sigma1)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
-\end{minted}
+\end{lstlisting}
 Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices 
 \[
     \Sigma_1=\begin{pmatrix}
@@ -684,7 +654,7 @@ Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable 
 \]  
 Such a vector can be generated as follows:
     
-\begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler
 alpha = 0.2
@@ -695,7 +665,7 @@ positions=[[1,0],[0,1],[-1,0],[0,-1]]
 weights=[1,1,1,1]
 sampler = DiscreteSampler(alpha = alpha, positions = positions,  weights = weights)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
-\end{minted}
+\end{lstlisting}
 with corresponding scatter plots shown in Figure~\ref{fig:discrete}.
 
 \begin{figure}[H]
@@ -726,7 +696,7 @@ weights $=[(1,0),(0,1),(-1,0),(\cos(\theta),-\sin(\theta)),$ \\ $(\cos(\pi - \th
 
 \paragraph{Mixed spectral measure:} For a mixed spectral measure, let $\Lambda_1, \cdots, \Lambda_L$ be $L$ spectral measures with associated weights $w_1, \cdots, w_L$, and consider their mixture $\Lambda_{\text{mix}} = \sum_{i=1}^L w_i \Lambda_i$. To sample according to this spectral measure, we proceed as follows:
 
-\begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler, IsotropicSampler, MixedSampler
 alpha = 0.3
@@ -749,7 +719,7 @@ measure_weights=[0.5,0.5]
 
 mixed_sampler=MixedSampler(spectral_measures=spectral_measures,weights=measure_weights)
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = mixed_sampler, shift = shift, size = n)
-\end{minted}
+\end{lstlisting}
 where \texttt{spectral\_measures} is a list containing the spectral measures that we are mixing, and \texttt{measure\_weights} contains the associated weight of each measure. The resulting scatter plot is shown in Figure~\ref{mix_isotropic_and_discrete}.
 %\begin{figure}[H]
 %    \centering
@@ -768,7 +738,7 @@ where \texttt{spectral\_measures} is a list containing the spectral measures tha
 \end{itemize}
 
 The steps are presented below. 
-\begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler
 alpha = 0.3
@@ -801,7 +771,7 @@ class ButterflySampler(BaseSpectralMeasureSampler):
         return 1.0
 
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler=ButterflySampler(), size = n, shift=shift)
-\end{minted}
+\end{lstlisting}
 
 We highlight that the mass of the sphere and the dimension should be specified when implementing the sub-class. The resulting scatter plot is shown in Figure \ref{custom_sp}. It is important to emphasize that when $\alpha \geq 1$, the custom spectral measure should satisfy the condition in equation~\eqref{eq:eq9}.
 
@@ -840,7 +810,7 @@ Mix between custom and discrete spectral measures.}
 
 One could mix a custom spectral measure, with another spectral measure. For example, we mix below equally the spectral measure defined above with the discrete spectral measure with $\text{masses}=[(1,0),(0,1),(-1,0),(0,-1)]$ and $ \text{weights}=[1,1,0.25,0.25],$ and the random vector has $\alpha=0.25$, $\boldsymbol{\mu}^{0 T}=(0,0)$.
 
-\begin{minted}[fontsize=\small,breaklines=true, frame=single, linenos]{python}
+\begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler, DiscreteSampler, MixedSampler
 alpha = 0.25
@@ -886,16 +856,9 @@ mixed_sampler=MixedSampler(spectral_measures=spectral_measures,weights=measure_w
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = mixed_sampler,
 shift = shift, size = n)
  
-\end{minted}
+\end{lstlisting}
 
 The resulting scatterplot is shown in Figure~\ref{mix_discrete_and_custom}.
-
-%\begin{figure}[H]
- %   \centering
-    %\includegraphics[width=0.6\textwidth]{Figure_15.png}
-    %\caption{$10^6$ points of the $\alpha$-stable distribution whose spectral measure is the result of a mix of the custom spectral measure and the discrete spectral measure.}
-%\end{figure}
-
 
 
 
@@ -924,7 +887,7 @@ then $\forall a,b \in\mathbb{R}$, there exists an $n_0$ such that \begin{equatio
 \label{MSE}
      Let $\mathbf{X}$ and $\mathbf{X}_n$ be as in Theorem~\ref{thm:spec2}, and assume in addition that $\|\mathbf{V}_k\|=1$ for all $k = 1, \cdots, n$. Let $n_0$ be the same as in~\eqref{eq:eq12} then $\forall n\geq \max\{n_0,\frac{2}{\alpha}\}$, $\mathbb{E}\|\mathbf{X}_n-\mathbf{X}\|^2\leq\delta_n$ where  \[
 \delta_n=\begin{cases}
- \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} &\alpha< 1\\[10pt]
+ \frac{2\alpha^2}{(1-\alpha)^2}c^{2}(\alpha)n^{2-\frac{2}{\alpha}} &\alpha< 1\\
 \frac{2\alpha }{2-\alpha}c^2 (\alpha)n^{1-\frac{2}{\alpha}} & \alpha\geq 1.
 \end{cases}
 \]    
@@ -948,11 +911,6 @@ which implies
 where equation~\eqref{eq:CS} is due to the Cauchy-Schwarz inequality. Equation~\eqref{eq:miss} is due to the fact that $\Gamma_k\sim\text{Gamma}(k,1),n\geq \frac{2}{\alpha}$, and $\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]=\frac{\Gamma(k-\frac{2}{\alpha})}{\Gamma(k)}$, and inequality~\eqref{eq:justgamma} is due to~\eqref{eq:eq12}. Inequality \eqref{integral_bound} is due to the fact that \begin{equation}
     \sum_{k=n+1}^{\infty}k^{-\frac{1}{\alpha}}\leq\int_{n}^{\infty}x^{-\frac{1}{\alpha}}dx=\frac{\alpha}{1-\alpha}n^{1-\frac{1}{\alpha}}.
     \end{equation} 
-    
-%Equation~\eqref{eq:star} is due
-%\begin{equation}
-%\left(\sum_{k=n+1}^{\infty}\sqrt{\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]}\right)^2=\sum_{k=n+1}^{\infty}\mathbb{E}\left[\Gamma_k^{-\frac{2}{\alpha}}\right]+2\sum_{n<i<j}\sqrt{\mathbb{E}\left[\Gamma_{i}^{-\frac{2}{\alpha}}\right]\mathbb{E}\left[\Gamma_{j}^{-\frac{2}{\alpha}}\right]}.
-%\end{equation}
 
 For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\cdot,n$, equation~\eqref{eq:eq9} implies $\mathbb{E}[\mathbf{V}]=\mathbf{0}$. Let $\mathbf{V}_j=(v_j^{1},v_j^{2},\cdot\cdot\cdot,v_j^{d})$ then we have 
 \begin{align}

@@ -7,31 +7,32 @@ project:
   title: Density Functions and Random Number Generators of Alpha-Stable Distributions
   # subtitle:
   description: The scipy-compatible python implementation of density functions \
-    and random number generators for heavy tailed (Alpha-Stable) data. 
+    and random number generators for alpha-stable random variables. 
   # Authors should have affiliations, emails and ORCIDs if available
   authors:
     - name: Wael Tabbara
       email: wkt03@mail.aub.edu
       affiliations: 
-        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+        - Electrical & Computer Eng. Department, American University of Beirut, Lebanon.
     - name: Sharafeddine Sharafeddine
       email: ss4475@cornell.edu
       affiliations:
-        - School of Electrical \& Computer Engineering, Cornell University, USA
+        - School of Electrical & Computer Engineering, Cornell University, USA.
+        - Electrical & Computer Eng. Department, American University of Beirut, Lebanon.
     - name: Ahmad El-Hajj
       email: aae108@mail.aub.edu
       affiliations:
-        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+        - Electrical & Computer Eng. Department, American University of Beirut, Lebanon
       corresponding: true
     - name: Jihad Fahs
       email: jf19@aub.edu.lb
       affiliations:
-        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+        - Electrical & Computer Eng. Department, American University of Beirut, Lebanon.
       orcid: 0000-0001-5670-7759
     - name: Ibrahim Abou-Faycal
       email: ia14@aub.edu.lb
       affiliations:
-        - Electrical \& Computer Eng. Department, American University of Beirut, Lebanon
+        - Electrical & Computer Eng. Department, American University of Beirut, Lebanon.
       orcid: 0000-0002-1596-318X
   # keywords:
   #   - Heavy Tailed Data
