@@ -1,4 +1,3 @@
-\documentclass{article}
 \usepackage{graphicx}
 \usepackage{amsmath, amssymb,amsthm}
 \usepackage{subcaption}
@@ -16,23 +15,13 @@
 \usepackage[a4paper, margin=0.75in]{geometry}
 \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
 \newcommand{\ii}{\mathrm{i}}
-\lstset{
-  basicstyle=\ttfamily,
-  commentstyle=\color{gray},
-  breaklines=true,
-  frame=single
-}
-\usepackage{graphicx}
-\usepackage{subcaption} % in your preamble
 
-\theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{property}{Property}
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage[font=small]{subcaption}
 \usepackage[font=small,labelfont=bf]{caption}
 \newcommand{\vect}[1]{\mathbf{#1}}
 
@@ -161,7 +150,7 @@ The AUB-HTP package provides numerical evaluation of scalar $\alpha$-stable prob
 
 Except for  Cauchy and L\'evy laws, $\alpha$-stable distributions do not have a closed-form density, which must therefore be computed using numerical inversion or analytic representations that are valid in specific parameter regions.
 
-\smallskip
+
 
 Towards fulfilling our main objective of reducing expensive quadrature calls while preserving accuracy across a wide range of $\alpha$, $\beta$, and sample values, the density evaluator combines three methods:
 \begin{itemize}
@@ -217,7 +206,8 @@ $\bullet$ For direct inversion in the $\mathcal{S}_1$ parameterization~\cite{Nol
 \end{align*}
 These integrals are evaluated with \texttt{scipy.integrate.quad\_vec}.
 
-\smallskip
+
+
 \noindent
 $\bullet$ For the middle region, the code uses Zolotarev's integral representation~\cite{Zolotarev1986}. For $\alpha\neq1$ and $x>0$,
 \[
@@ -230,7 +220,8 @@ where
 \]
 and where $V(\theta)$ is evaluated following Zolotarev's formula~\cite{Zolotarev1986}. This integral is computed using the function \texttt{scipy.integrate.quad}.
 
-\smallskip
+
+
 \noindent
 $\bullet$ For the tail region, we use Skorohod-type series expansions \cite{sko2, Wintner1941CauchySingularities, Pollard1946LaplaceIntegral} of the form
 \[

@@ -41,16 +41,16 @@ project:
         - Electrical & Computer Eng. Department, American University of Beirut,
           Lebanon.
       orcid: 0000-0002-1596-318X
-  # keywords:
-  #   - Heavy Tailed Data
-  #   - Heavy Tails
-  #   - Alpha Stable
-  #   - Levy Stable
+  keywords:
+    - Heavy Tailed Data
+    - Heavy Tails
+    - Alpha Stable
+    - Levy Stable
   # Add the abbreviations that you use in your paper here
   abbreviations:
     MyST: Markedly Structured Text
     PDF: Probability Density Function
-    CMS: Chambers–Mallows–Stuck
+    CMS: Chambers-Mallows-Stuck
     i.i.d: Independent and Identically Distributed
     MSE: Mean Square Error
     CDF: Commulative Distribution Function
@@ -60,6 +60,9 @@ project:
     - rule: doi-exists
       severity: ignore
       keys:
+        - kolmo1968
+        - Pollard1946LaplaceIntegral
+        - crovella1998heavy
         - taleb2022statisticalconsequencesfattails
         - sko2
         - zolo
@@ -71,6 +74,7 @@ project:
         - NolanJohnP2020USDM
         - LePageRaoul1981CtaS
         - MullerMervinE.1959Anoa
+        - NIST:DLMF
         - SchnabelStefan2022Asaf
         - BentkusV.2001LSRo
         - Wintner1941CauchySingularities
