@@ -86,6 +86,3 @@ project:
       template: https://github.com/curvenote-templates/scipy.git
       article: main.tex
       output: full_text.pdf
-site:
-  options:
-    style: ./custom.css
