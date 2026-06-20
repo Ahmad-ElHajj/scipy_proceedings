@@ -292,7 +292,7 @@ The comparison recorded the following metrics:
     \]
 \end{itemize}
 The tests show close agreement across most of the parameter space, but they also reveal regions where the SciPy reference exhibits irregular numerical behavior. The strongest agreement occurs away from the narrow region around $\alpha=1$, where changes in the parameterization and the presence of logarithmic terms make density evaluation more sensitive. In this region, visual diagnostics are important because the relative difference may become large when the reference density is close to zero or numerically unstable. Figure~\ref{fig:pdf-error-near-mode} illustrates this behavior near $\alpha=1$ using the maximum relative difference measured around the mode. Away from $\alpha=1$, Figure~\ref{fig:pdf-error-near-mode} shows agreement with the SciPy reference.  Results for the remaining error metrics, parameter ranges, and tail evaluations, together with the complete benchmark data, are available in the Github repository\footnote{\href{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}}.
-\begin{figure}[H]
+\begin{figure}
 \centering
 \includegraphics[width=0.8\linewidth]{heatmap_maxrelerror_near_mode.png}
 \caption{Maximum relative difference across $(\alpha,\beta)$ near the mode. Larger values near $\alpha=1$ mark the most sensitive numerical region.}
@@ -307,7 +307,7 @@ The main issue is that the SciPy PDF sometimes shows unusual zero or near-zero r
 
 To validate this, we generated visual diagnostic plots comparing the AUB-HTP with the \texttt{levy\_stable} PDF values. Figure~\ref{fig:stable-grid-zero-windows} shows several cases where the SciPy reference generates unexpected zero windows or sharp changes, while the PDF generated using our package remains smooth.
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \includegraphics[width=\linewidth]{stable_pdf_grid_zero_windows_ref.png}
 \caption{Visual comparison between AUB-HTP PDF generator and \texttt{scipy.stats.levy\_stable.pdf}. The plots zoom into regions where the SciPy reference becomes numerically zero or behaves irregularly. These regions explain why some relative difference values become large even when our generated density remains smooth.}
@@ -329,7 +329,7 @@ In the benchmark runs, the median speedup was approximately $58\times$, with lar
 \item reuse of precomputed cutoff functions.
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \includegraphics[width=0.9\linewidth]{speedup_vs_alpha.png}
 \caption{Median runtime speedup relative to \texttt{scipy.stats.levy\_stable.pdf}. The largest gains occur where the series expansions are selected.}
@@ -465,7 +465,7 @@ samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n
 \end{lstlisting}
 
 In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-stable variables were sampled using our implementation, and plot the truncated histogram of values. Each histogram is overlayed by the pdf values which are computed using the SciPy \texttt{levy\_stable} numerical package.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{0.32\textwidth}
         \centering
@@ -500,7 +500,7 @@ n=500000
 ht.alpha_stable.with_parameterization("S0")
 samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n )
 \end{lstlisting}
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{0.32\textwidth}
         \centering
@@ -545,7 +545,7 @@ sampler = IsotropicSampler(number_of_dimensions= d, alpha = alpha, gamma = gamma
 samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
 \end{lstlisting}
 where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\boldsymbol{\mu}^0$ represents the shift vector. Figure~\ref{isotropic} depicts scatter plots of the generated isotropic $\alpha$-stable random vectors.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{0.32\textwidth}
         \centering
@@ -608,7 +608,7 @@ Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable 
 -1 & 2
 \end{pmatrix}.
 \]
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{0.32\textwidth}
         \centering
@@ -651,21 +651,21 @@ samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampl
 \end{lstlisting}
 with corresponding scatter plots shown in Figure~\ref{fig:discrete}.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_10.png}
         \caption{$\text{Masses}=[1,1,1,1], \text{weights}=[(1,0),(0,1),(-1,0),(0,-1)], \alpha=0.2$, $\boldsymbol{\mu}^{0 T}=(0,0)$.}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_11.png}
         \caption{$\text{Masses}=[\frac{1}{4},\frac{1}{4},\frac{1}{4},\frac{1}{4}], \text{weights}=[(1,0),(0,1),(-1,0),(0,-1)], \alpha = 1.2$, $ \boldsymbol{\mu}^{0 T}=(1000,1000)$.}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_12.png}
     \caption{
@@ -758,23 +758,23 @@ samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampl
 
 We highlight that the mass of the sphere and the dimension should be specified when implementing the sub-class. The resulting scatter plot is shown in Figure \ref{custom_sp}. It is important to emphasize that when $\alpha \geq 1$, the custom spectral measure should satisfy the condition in equation~\eqref{eq:eq9}.
 
-\begin{figure}[t]
+\begin{figure}
     \centering
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_13.png}
         \caption{Mix between isotropic and discrete spectral measures.}
         \label{mix_isotropic_and_discrete}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_14.png}
         \caption{A custom spectral measure}
         \label{custom_sp}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}{0.32\textwidth}
         \centering
         \includegraphics[width=\linewidth]{Figure_15.png}
     \caption{
