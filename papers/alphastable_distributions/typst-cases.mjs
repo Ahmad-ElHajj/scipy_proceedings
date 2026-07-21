@@ -42,7 +42,8 @@ class LatexSubsetConverter {
       if (!token) return;
       // TeX treats adjacent letters as separate math atoms, whereas Typst
       // parses them as one identifier (for example, iuX or ii beta).
-      if (/[A-Za-z0-9)\]"]$/.test(output) && /^[A-Za-z]/.test(token)) output += ' ';
+      if (/[A-Za-z0-9)\]"]$/.test(output) && /^[A-Za-z]/.test(token))
+        output += ' ';
       output += token;
     };
 
@@ -111,8 +112,10 @@ class LatexSubsetConverter {
     const start = this.index;
     let depth = 1;
     while (this.index < this.value.length && depth > 0) {
-      if (this.value[this.index] === '{' && this.value[this.index - 1] !== '\\') depth += 1;
-      if (this.value[this.index] === '}' && this.value[this.index - 1] !== '\\') depth -= 1;
+      if (this.value[this.index] === '{' && this.value[this.index - 1] !== '\\')
+        depth += 1;
+      if (this.value[this.index] === '}' && this.value[this.index - 1] !== '\\')
+        depth -= 1;
       this.index += 1;
     }
     return this.value.slice(start, this.index - 1);
@@ -146,7 +149,11 @@ class LatexSubsetConverter {
     if (COMMANDS[name]) return COMMANDS[name];
     if (['displaystyle', 'textstyle'].includes(name)) return '';
     if ([',', ';', ':', '!', 'quad', 'qquad'].includes(name)) return ' ';
-    if (['left', 'right', 'big', 'bigl', 'bigr', 'Big', 'Bigl', 'Bigr'].includes(name)) {
+    if (
+      ['left', 'right', 'big', 'bigl', 'bigr', 'Big', 'Bigl', 'Bigr'].includes(
+        name,
+      )
+    ) {
       return this.convertDelimiter();
     }
     if (['frac', 'dfrac', 'tfrac'].includes(name)) {
@@ -158,7 +165,8 @@ class LatexSubsetConverter {
       const base = this.convertArgument();
       return `overset(${base}, ${above})`;
     }
-    if (name === 'operatorname') return `op(${JSON.stringify(this.rawArgument().trim())})`;
+    if (name === 'operatorname')
+      return `op(${JSON.stringify(this.rawArgument().trim())})`;
     if (name === 'text') return JSON.stringify(this.rawArgument().trim());
     if (name === 'mathrm') return `upright(${this.convertArgument()})`;
     if (name === 'mathbb') {
@@ -202,7 +210,9 @@ function convertCasesBody(body) {
     .filter(Boolean)
     .map((row) => {
       const cells = splitTopLevel(row, '&').map((cell) => convertLatex(cell));
-      return cells.length > 1 ? `${cells[0]} & ${cells.slice(1).join(' ')}` : cells[0];
+      return cells.length > 1
+        ? `${cells[0]} & ${cells.slice(1).join(' ')}`
+        : cells[0];
     });
 
   return `cases(${rows.map((row) => `${row},`).join(' ')})`;
@@ -235,7 +245,11 @@ const plugin = {
       plugin: (_, utils) => (tree) => {
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
-            if (typeof node.value !== 'string' || !node.value.includes(CASES_BEGIN)) return;
+            if (
+              typeof node.value !== 'string' ||
+              !node.value.includes(CASES_BEGIN)
+            )
+              return;
             const typst = convertMathWithCases(node.value);
             if (typst) node.typst = typst;
           });
