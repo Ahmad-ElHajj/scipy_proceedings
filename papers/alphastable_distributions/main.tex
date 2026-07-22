@@ -85,7 +85,7 @@ In the scalar case ($d = 1$) --and whenever $0<\alpha<2$, the spectral measure b
 
 \subsection*{Parameterizations of scalar $\alpha$-stable distributions}
 
-There two parameterizations $\mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ and $\mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ differ primarily in how they define the location (shift) of the distribution, particularly near $\alpha = 1$. For a given $\alpha$ and $\beta$, let $Z$ be a ``standard" $\alpha$-stable variable corresponding to $\gamma = 1$ and $\delta = 0$.
+The two parameterizations $\mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ and $\mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ differ primarily in how they define the location (shift) of the distribution, particularly near $\alpha = 1$. For a given $\alpha$ and $\beta$, let $Z$ be a ``standard" $\alpha$-stable variable corresponding to $\gamma = 1$ and $\delta = 0$.
 
 \begin{itemize}
 \item[$\bullet$] {\bf Parameterization $0$:}
@@ -417,7 +417,7 @@ A sub-Gaussian random vector is characterized by a  positive-definite $d\times d
 
 A useful alternative would be to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case by sampling vectors $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplying them by $\Sigma^{\frac{1}{2}}$. Indeed, if  $\mathbf{X}_n$ is the $n$-terms LePage series, by Theorem~\ref{thm:spec2}, $\mathbf{X}_n$ converges in total variation to $\mathbf{X}$, and \begin{equation}
 \label{required-v}
-\mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
+\mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=c(\alpha)\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=c(\alpha)\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
 \end{equation}
 converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. %thus the required $\mathbf{V}_k$ are given in equation \eqref{required-v}. Therefore,
 The package first samples ${\bf V}_k$ and then computes the sum presented in~\eqref{required-v} to sample a sub-Gaussian random vector ${\bf Y}_n$.
@@ -576,8 +576,8 @@ can also be generated using AUB-HTP. We note that the elliptic sampler takes the
     \end{equation}
 where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed,
 \begin{align}
-        \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\\&\overset{(a)}{=}\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\\
-&\overset{(b)}{=}\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\\&\overset{(c)}{\leq} \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,
+        \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\nonumber\\&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\label{cholesky}\\
+&=\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\label{number}\\&\leq \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,\label{eq:ineq}
 \end{align}
 where equality $(a)$ is due to the Cholesky decomposition definition and in $(b)$ we used the $\Sigma$-weighted norm $\|\mathbf{x}\|^2_{\Sigma}≜\mathbf{x}^T\Sigma\mathbf{x}$. Finally, the inequality in $(c)$ is due to the fact that $\|\mathbf{x}\|^2_{\Sigma}\leq\lambda_{\max}(\Sigma)\|\mathbf{x}\|^2$ where $\lambda_{\text{max}}(\Sigma)$ is the largest eigenvalue of $\Sigma$, equal to the norm of matrix $\Sigma$~\cite{alma991015644117709436}.
 
@@ -855,7 +855,7 @@ By bringing together density evaluation, flexible simulation, validation, runtim
 \section{Appendix: Error analysis for the LePage series estimate}
 \label{app:appendixerror}
 %\subsection{Resulting Error From LePage Series Estimate}
-In this appendix, we derive an upper bound on the mean square error of the LePage series estimate; we frequently use the following asymptotics of the gamma function from \cite{NIST:DLMF}: Let $x\in\mathbb{R}$ and $a$ and $b$ be non-negative scalars. Since
+In this appendix, we derive an upper bound on the mean square error of the LePage series estimate; we frequently use the following asymptotics of the gamma function from \cite{NIST:DLMF}: Let $x,a,b\in\mathbb{R}$, then we have 
 \[
 \lim_{x \to \infty} \frac{\Gamma(x+a)}{\Gamma(x+b) \, x^{a-b}} = 1,
 \]
