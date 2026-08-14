@@ -489,13 +489,15 @@ In Figure~\ref{univariate}, we present some examples where univariate $\alpha$-s
 An example using the type 0 parameterization is presented in Figure~\ref{univariate0}.
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
-alpha=0.1
-beta=1
-loc=-500
-scale=10
-n=500000
+
+alpha = 0.1
+beta = 1
+loc = -500
+scale = 10
+n = 500000
 ht.alpha_stable.with_parameterization("S0")
-samples=ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n )
+samples = ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n)
+
 \end{lstlisting}
 \begin{figure}
     \centering
@@ -533,13 +535,17 @@ can be generated using the AUB-HTP package as follows:
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import IsotropicSampler
+
 alpha = 0.5
 gamma = 1
-shift= [0,0]
+shift = [0, 0]
 d = 2
-n=500000
-sampler = IsotropicSampler(number_of_dimensions= d, alpha = alpha, gamma = gamma)
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
+n = 500000
+sampler = IsotropicSampler(number_of_dimensions=d, alpha=alpha, gamma=gamma)
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=sampler, shift=shift, size=n
+)
+
 \end{lstlisting}
 where $\alpha$ is the stability index, $\gamma$ is the scale parameter and $\boldsymbol{\mu}^0$ represents the shift vector. Figure~\ref{isotropic} depicts scatter plots of the generated isotropic $\alpha$-stable random vectors.
 \begin{figure}
@@ -634,17 +640,20 @@ Figure~\ref{elliptic} shows the scatter plots of the elliptical $\alpha$-stable 
 \]
 Such a vector can be generated as follows:
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[language=Python]    
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler
+
 alpha = 0.2
-shift= [0,0]
+shift = [0, 0]
 d = 2
-n=500000
-positions=[[1,0],[0,1],[-1,0],[0,-1]]
-weights=[1,1,1,1]
-sampler = DiscreteSampler(alpha = alpha, positions = positions,  weights = weights)
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = sampler,shift=shift, size = n)
+n = 500000
+positions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+weights = [1, 1, 1, 1]
+sampler = DiscreteSampler(alpha=alpha, positions=positions, weights=weights)
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=sampler, shift=shift, size=n
+)
 \end{lstlisting}
 with corresponding scatter plots shown in Figure~\ref{fig:discrete}.
 
@@ -679,26 +688,32 @@ weights $=[(1,0),(0,1),(-1,0),(\cos(\theta),-\sin(\theta)),$ \\ $(\cos(\pi - \th
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler, IsotropicSampler, MixedSampler
+
 alpha = 0.3
-shift= [1000,1000]
+shift = [1000, 1000]
 d = 2
-n=500000
-gamma=1
+n = 500000
+gamma = 1
 
 # Discrete Spectral Measure
-positions=[[1,0],[0,1],[-1,0],[0,-1]]
-weights=[1,1,1,1]
-sampler1 = DiscreteSampler(alpha = alpha, positions = positions,  weights = weights)
+positions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+weights = [1, 1, 1, 1]
+sampler1 = DiscreteSampler(alpha=alpha, positions=positions, weights=weights)
 
 # Isotropic Spectral Measure
-sampler2= IsotropicSampler(number_of_dimensions=d, alpha=alpha, gamma=gamma)
+sampler2 = IsotropicSampler(number_of_dimensions=d, alpha=alpha, gamma=gamma)
 
-#Spectral Measures and Their Associated Weights
-spectral_measures=[sampler1, sampler2]
-measure_weights=[0.5,0.5]
+# Spectral Measures and Their Associated Weights
+spectral_measures = [sampler1, sampler2]
+measure_weights = [0.5, 0.5]
 
-mixed_sampler=MixedSampler(spectral_measures=spectral_measures,weights=measure_weights)
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = mixed_sampler, shift = shift, size = n)
+mixed_sampler = MixedSampler(
+    spectral_measures=spectral_measures, weights=measure_weights
+)
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=mixed_sampler, shift=shift, size=n
+)
+
 \end{lstlisting}
 where \texttt{spectral\_measures} is a list containing the spectral measures that we are mixing, and \texttt{measure\_weights} contains the associated weight of each measure. The resulting scatter plot is shown in Figure~\ref{mix_isotropic_and_discrete}.
 %\begin{figure}[H]
@@ -721,22 +736,22 @@ The steps are presented below.
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler
+
 alpha = 0.3
-shift= [0,0]
+shift = [0, 0]
 d = 2
-n=500000
+n = 500000
+
 
 class ButterflySampler(BaseSpectralMeasureSampler):
-    def sample(self, number_of_samples: int, random_state = None):
+    def sample(self, number_of_samples: int, random_state=None):
         p = np.random.rand(number_of_samples)
         theta = np.empty(number_of_samples)
 
         mask = p <= 0.5
         theta[mask] = np.random.uniform(-np.pi / 4, np.pi / 4, size=mask.sum())
         theta[~mask] = np.random.uniform(
-            3 * np.pi / 4,
-            5 * np.pi / 4,
-            size=(~mask).sum()
+            3 * np.pi / 4, 5 * np.pi / 4, size=(~mask).sum()
         )
 
         x = np.cos(theta)
@@ -750,7 +765,11 @@ class ButterflySampler(BaseSpectralMeasureSampler):
     def mass(self) -> float:
         return 1.0
 
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler=ButterflySampler(), size = n, shift=shift)
+
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=ButterflySampler(), size=n, shift=shift
+)
+
 \end{lstlisting}
 
 We highlight that the mass of the sphere and the dimension should be specified when implementing the sub-class. The resulting scatter plot is shown in Figure \ref{custom_sp}. It is important to emphasize that when $\alpha \geq 1$, the custom spectral measure should satisfy the condition in equation~\eqref{eq:eq9}.
@@ -793,21 +812,22 @@ One could mix a custom spectral measure, with another spectral measure. For exam
 \begin{lstlisting}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler, DiscreteSampler, MixedSampler
+
 alpha = 0.25
-shift= [0,0]
+shift = [0, 0]
 d = 2
-n=1000000
+n = 1000000
+
+
 class ButterflySampler(BaseSpectralMeasureSampler):
-    def sample(self, number_of_samples: int, random_state = None):
+    def sample(self, number_of_samples: int, random_state=None):
         p = np.random.rand(number_of_samples)
         theta = np.empty(number_of_samples)
 
         mask = p <= 0.5
         theta[mask] = np.random.uniform(-np.pi / 4, np.pi / 4, size=mask.sum())
         theta[~mask] = np.random.uniform(
-            3 * np.pi / 4,
-            5 * np.pi / 4,
-            size=(~mask).sum()
+            3 * np.pi / 4, 5 * np.pi / 4, size=(~mask).sum()
         )
 
         x = np.cos(theta)
@@ -821,20 +841,26 @@ class ButterflySampler(BaseSpectralMeasureSampler):
     def mass(self) -> float:
         return 1.0
 
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler=ButterflySampler(), size = n, shift=shift)
+
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=ButterflySampler(), size=n, shift=shift
+)
 
 # Discrete Spectral Measure
-positions=[[1,0],[0,1],[-1,0],[0,-1]]
-weights=[1,1,0.25,0.25]
-sampler1 = DiscreteSampler(alpha = alpha, positions = positions, weights = weights)
+positions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+weights = [1, 1, 0.25, 0.25]
+sampler1 = DiscreteSampler(alpha=alpha, positions=positions, weights=weights)
 
-#Spectral Measures and Their Associated Weights
-spectral_measures=[sampler1, ButterflySampler()]
-measure_weights=[0.5,0.5]
+# Spectral Measures and Their Associated Weights
+spectral_measures = [sampler1, ButterflySampler()]
+measure_weights = [0.5, 0.5]
 
-mixed_sampler=MixedSampler(spectral_measures=spectral_measures,weights=measure_weights)
-samples = ht.multivariate_alpha_stable.rvs(alpha = alpha, spectral_measure_sampler = mixed_sampler,
-shift = shift, size = n)
+mixed_sampler = MixedSampler(
+    spectral_measures=spectral_measures, weights=measure_weights
+)
+samples = ht.multivariate_alpha_stable.rvs(
+    alpha=alpha, spectral_measure_sampler=mixed_sampler, shift=shift, size=n
+)
 
 \end{lstlisting}
 
