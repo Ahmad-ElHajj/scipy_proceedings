@@ -1,10 +1,15 @@
 // Project-local MyST compatibility transform. MyST currently drops LaTeX
-// `cases` environments during Typst export, so convert just the subset of
-// LaTeX used by this paper's case expressions into native Typst math.
+// `cases` environments during Typst export and translates the TeX shorthand
+// `\|` to a single Typst bar. Normalize double bars, then convert just the
+// subset of LaTeX used by this paper's case expressions into native Typst math.
 // This file intentionally has no npm dependencies so uvx builds remain
 // reproducible from a clean checkout.
 const CASES_BEGIN = String.raw`\begin{cases}`;
 const CASES_END = String.raw`\end{cases}`;
+const DOUBLE_BAR = String.raw`\|`;
+// Keep a terminating space because the shorthand may be immediately followed
+// by a letter (for example `\left\|c`); TeX ignores it after the command name.
+const DOUBLE_BAR_NAMED = String.raw`\Vert `;
 
 const COMMANDS = {
   alpha: 'alpha',
@@ -15,6 +20,7 @@ const COMMANDS = {
   pi: 'pi',
   Sigma: 'Sigma',
   Gamma: 'Gamma',
+  Vert: 'bar.v.double',
   infty: 'infinity',
   neq: '!=',
   ne: '!=',
@@ -245,11 +251,13 @@ const plugin = {
       plugin: (_, utils) => (tree) => {
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
-            if (
-              typeof node.value !== 'string' ||
-              !node.value.includes(CASES_BEGIN)
-            )
-              return;
+            if (typeof node.value !== 'string') return;
+
+            // MyST's Typst converter knows the named `\Vert` command, but its
+            // equivalent TeX shorthand `\|` currently falls through as `|`.
+            node.value = node.value.replaceAll(DOUBLE_BAR, DOUBLE_BAR_NAMED);
+
+            if (!node.value.includes(CASES_BEGIN)) return;
             const typst = convertMathWithCases(node.value);
             if (typst) node.typst = typst;
           });
