@@ -383,7 +383,7 @@ Whenever there is convergence to $\mathbf{X}$, we write
 \]
 \end{theorem}
 
-Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to Appendix in section ~\ref{app:appendixerror}.
+Theorem~\ref{thm:spec2} indicates that sampling a multivariate stable vector can be done by computing the truncated series as in equation \eqref{LPseries}. Since the vector $\mathbf{X}$ resulting from the series has a zero shift vector $\boldsymbol{\mu}^0 = {\bf 0}$~\cite[Remark 1]{BentkusV.2001LSRo}, we simply add $\boldsymbol{\mu}^0$ after sampling $\mathbf{X}_n$ using the LePage series, when needed. The analysis of the truncation error is deferred to subsection ~\ref{app:appendixerror} in the Appendix.
 
 In the following section, we present algorithms to sample according to well-known spectral measures, namely: Isotropic, Sub-Gaussian, Discrete, and Mixed spectral measures.
 
@@ -879,7 +879,7 @@ By bringing together density evaluation, flexible simulation, validation, runtim
 
 \appendix
 \section{Appendix: Error analysis for the LePage series estimate}
-\label{app:appendixerror}
+
 %\subsection{Resulting Error From LePage Series Estimate}
 In this appendix, we derive an upper bound on the mean square error of the LePage series estimate; we frequently use the following asymptotics of the gamma function from \cite{NIST:DLMF}: Let $x,a,b\in\mathbb{R}$, then we have
 \[
@@ -889,6 +889,8 @@ then $\forall a,b \in\mathbb{R}$, there exists an $n_0$ such that \begin{equatio
     \frac{\Gamma(k+a)}{\Gamma(k+b)} <2{k^{a-b}} \qquad \forall k\geq n_0.
 \end{equation}
 \subsection{The LePage series truncation error}
+\label{app:appendixerror}
+
 \begin{theorem}
 \label{MSE}
      Let $\mathbf{X}$ and $\mathbf{X}_n$ be as in Theorem~\ref{thm:spec2}, and assume in addition that $\|\mathbf{V}_k\|=1$ for all $k = 1, \cdots, n$. Let $n_0$ be the same as in~\eqref{eq:eq12} then $\forall n\geq \max\{n_0,\frac{2}{\alpha}\}$, $\mathbb{E}\|\mathbf{X}_n-\mathbf{X}\|^2\leq\delta_n$ where  \[
