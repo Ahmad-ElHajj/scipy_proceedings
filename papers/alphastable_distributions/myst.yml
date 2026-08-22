@@ -86,6 +86,13 @@ project:
         - Wintner1941CauchySingularities
         - SciPyLevyStableManual
         - alma991015644117709436
+        - Royuela-del-ValJavier2017l:FP
+        - Wuertz2016Stabledist
+        - teimouri2018alphastablerpackagemodelling
+        - Weron2004Computationally
+        - degroot2018probability
+        - robustanalysis
+        - JanickiAleksander1992Ciot
   exports:
     - id: pdf
       format: typst
