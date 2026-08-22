@@ -217,13 +217,13 @@ The metrics listed in Table~\ref{tab:error-metrics} were used to compare the AUB
 \textbf{Metric} & \textbf{Formula} \\
 \midrule
 Maximum absolute error &
-$\displaystyle \max_{1 \leq i \leq n}\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|$ \\
+$ \max_{1 \leq i \leq n}\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|$ \\
 Maximum relative error &
-$\displaystyle \max_{1 \leq i \leq n}\frac{\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|}{\max\left(\left|f_{\mathrm{SciPy}}(x_i)\right|,\varepsilon\right)}$ \\
+$ \max_{1 \leq i \leq n}\frac{\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|}{\max\left(\left|f_{\mathrm{SciPy}}(x_i)\right|,\varepsilon\right)}$ \\
 Mean absolute error &
-$\displaystyle \frac{1}{n}\sum_{i=1}^{n}\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|$ \\
+$ \frac{1}{n}\sum_{i=1}^{n}\left|\hat{f}(x_i)-f_{\mathrm{SciPy}}(x_i)\right|$ \\
 Runtime speedup factor against SciPy &
-$\displaystyle \frac{T_{\mathrm{SciPy}}}{T_{\mathrm{AUB\text{-}HTP}}}$ \\
+$ \frac{T_{\mathrm{SciPy}}}{T_{\mathrm{AUB\text{-}HTP}}}$ \\
 \bottomrule
 \end{tabular}
 \caption{Error and performance metrics comparing $\hat{f}$ against the SciPy reference $f_{\mathrm{SciPy}}$ over $\{x_i\}_{i=1}^{n}$, with $\varepsilon>0$ guarding against division by zero.}
@@ -364,6 +364,7 @@ To achieve a scale $\gamma$, we therefore multiply the truncated series by
 \textcolor{red}{converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.}
 
 \subsubsection{Mixed spectral measures}
+\label{mixtures}
 
 Now consider the scenario where the spectral measure at hand is a mixture of $L$ different spectral measures: $\Lambda_1, \Lambda_2, \cdots, \Lambda_L$. If $w_1, w_2, \cdots, w_L$ are their respective associated weights, the mixed spectral measure $\Lambda_{\text{mix}}$ is given by
 \[
@@ -729,9 +730,9 @@ In this example, the spectral measure has 4 point masses at $(1,0),(0,1),(-1,0),
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth}
+    \label{tab:discrete_4mass1.1}
         \centering
         \caption{KS Test Results for $\alpha=1.1$}
-        \label{tab:discrete_4mass1.1}
         \begin{tabular}{ccccc}
             \toprule
             $\theta$ & $\gamma$ & $\beta$ & $D$ & $p$ \\
