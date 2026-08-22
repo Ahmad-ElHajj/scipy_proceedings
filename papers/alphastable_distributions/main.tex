@@ -97,7 +97,7 @@ $X \overset{d}{=} \gamma Z + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 -
 $X \overset{d}{=} \gamma Z + \left( \delta + \beta \frac{2}{\pi} \gamma \log \gamma \right)$ & $\exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|u| \right] + \ii \delta u \right)$ & $\alpha = 1$
 \\ \hline
 \end{tabular} }
-\caption{Parametrization 0 and Parametrization 1. \label{eq:Type_!}}
+\caption{Parametrization 0 and Parametrization 1. \label{eq:type1}}
 \renewcommand{\arraystretch}{1}
 \end{center}
 \end{table}
@@ -358,7 +358,7 @@ To achieve a scale $\gamma$, we therefore multiply the truncated series by
 \textcolor{red}{A sub-Gaussian random vector is characterized by a  positive-definite $d\times d$ shape matrix $\Sigma$. If $\mathbf{X}$ is a unit-scale  isotropic multivariate stable random vector with stability index $\alpha$ then $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$ is a sub-Gaussian random vector with shape matrix $\Sigma$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$~\cite{nolancirc2013}.}
 
 \textcolor{red}{One way to sample sub-Gaussian random vectors is by using the definition presented in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp}. This is adopted whenever the $\alpha$-stable vector is purely sub-Gaussian. Whenever the sub-Gaussian spectral measure is an element of a mixture (see section \ref{mixtures} for mixed spectral measures), then the approach in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp} is no longer suitable.  Instead, we devise a new approach that is based on the following result: if $\mathbf{X}_n$ is the $n$-terms LePage series of an isotropic vector $\mathbf{X}$ with unit scale, then, by Theorem~\ref{thm:spec2}, $\mathbf{X}_n$ converges in total variation to $\mathbf{X}$, and} \begin{equation}
-\label{required V}
+\label{required_V}
 \mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=c(\alpha)\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=c(\alpha)\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
 \end{equation}
 \textcolor{red}{converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.}
