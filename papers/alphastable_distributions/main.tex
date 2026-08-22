@@ -86,14 +86,14 @@ The two parameterizations, \textcolor{red}{0 and 1 are denoted by $\mathcal{S}(\
 \textcolor{red}{
 \begin{tabular}{|l|l|l|} \hline
 $X \sim \mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ & Characteristic Function: $\mathbb{E}[e^{iuX}]$ & $\alpha$ \\ \hline \hline
-$X \overset{d}{=} \gamma \left( Z - \beta \tan\left( \frac{\pi \alpha}{2} \right) \right) + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 + \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u)(|\gamma u|^{1 - \alpha} - 1) \right] + \ii \delta u \right)$ & $\alpha \neq 1$ 
-\\ 
+$X \overset{d}{=} \gamma \left( Z - \beta \tan\left( \frac{\pi \alpha}{2} \right) \right) + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 + \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u)(|\gamma u|^{1 - \alpha} - 1) \right] + \ii \delta u \right)$ & $\alpha \neq 1$
+\\
 $X \overset{d}{=} \gamma Z + \delta$ & $\exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|\gamma u| \right] + \ii \delta u \right)$ & $\alpha = 1$
 \\ \hline
  \multicolumn{3}{c}{} \\ \hline
 $X \sim \mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ & Characteristic Function: $\mathbb{E}[e^{iuX}]$ & $\alpha$ \\ \hline \hline
-$X \overset{d}{=} \gamma Z + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 - \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u) \right] + \ii \delta u \right)$ & $\alpha \neq 1$ 
-\\ 
+$X \overset{d}{=} \gamma Z + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 - \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u) \right] + \ii \delta u \right)$ & $\alpha \neq 1$
+\\
 $X \overset{d}{=} \gamma Z + \left( \delta + \beta \frac{2}{\pi} \gamma \log \gamma \right)$ & $\exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|u| \right] + \ii \delta u \right)$ & $\alpha = 1$
 \\ \hline
 \end{tabular} }
@@ -361,7 +361,7 @@ To achieve a scale $\gamma$, we therefore multiply the truncated series by
 \label{required V}
 \mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=c(\alpha)\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=c(\alpha)\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
 \end{equation}
-\textcolor{red}{converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.} 
+\textcolor{red}{converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.}
 
 \subsubsection{Mixed spectral measures}
 
@@ -425,7 +425,7 @@ can also be generated using AUB-HTP. We note that the elliptic sampler takes the
         \Lambda(\mathbb{S}^{d-1})=\mathbb{E}\left[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}\right]\approx\frac{1}{n}\sum_{i=1}^n\|\Sigma^{\frac{1}{2}}\mathbf{U}_i\|^{\alpha},
     \end{equation}
 where the equality is due to~ \cite[proposition 2.5.8]{SamorodnitskyGennady2000Snrp}, and where  $\mathbf{U}_1,\mathbf{U}_2,\ldots\mathbf{U}_n$ are i.i.d. samples according to $\mathbf{U}\sim\mathcal{U}(\mathbb{S}^{d-1})$. Equation~\eqref{MC_simulation_mass_estimation} is justified by the application of the Weak Law of Large Numbers (WLLN) because the random variable $\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{\alpha}$ has a finite second moment. Indeed,
-\begin{align} 
+\begin{align}
         \mathbb{E}[\|\Sigma^{\frac{1}{2}}\mathbf{U}\|^{2\alpha}]&=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^{\frac{1}{2}T}\Sigma^{\frac{1}{2}}\mathbf{U}\right)^{\alpha}\right]\nonumber\\&\overset{(a)}=\mathbb{E}\left[\left(\mathbf{U}^T\Sigma^T\mathbf{U}\right)^{\alpha}\right]\label{cholesky}\\
 &\overset{(b)}=\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}_{\Sigma}\right]\label{number}\\&\overset{(c)}\leq \lambda_{\text{max}}^{\alpha}(\Sigma)\mathbb{E}\left[\|\mathbf{U}\|^{2\alpha}\right]=\lambda_{\text{max}}^{\alpha}(\Sigma)<\infty,\label{eq:ineq}
 \end{align}
@@ -450,7 +450,7 @@ samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler
 # sampler = IsotropicSampler(number_of_dimensions=d, alpha=alpha, gamma=gamma)
 # samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler=sampler, shift=shift, size=n)
 \end{lstlisting}
-\textcolor{red}{Figures \ref{elliptic1} and \ref{elliptic2} show the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices} 
+\textcolor{red}{Figures \ref{elliptic1} and \ref{elliptic2} show the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices}
 \[
     \Sigma_1=\begin{pmatrix}
 2 & 0.8 \\
@@ -702,7 +702,7 @@ The resulting scatterplot is shown in Figure~\ref{mix_discrete_and_custom}.
 \textcolor{red}{\subsection{Isotropic Test}
  The sampled vectors used in this test have unit scale. Since the spectral measure is isotropic, the distribution of the projected values is invariant to the direction of projection. We therefore project along the $x$-axis and vary only the norm of the projection vector, using $(1,0)$, $(2,0)$, $(3,0)$, $(4,0)$, and $(5,0)$. The resulting one-dimensional projections retain the same stability index $\alpha$ as the original vector, with $\beta=0$, $\delta=0$, and scale parameters $\gamma=1,2,3,4,5$, respectively.}
 
-\textcolor{red}{We report the results of the conducted tests for $\alpha=0.6$ and $\alpha=1.1$: the results on all the projected vectors gave $D=0.0021$, $p=0.344$ for  $\alpha=0.6$, and $D=0.0013$, $p=0.9$, for $\alpha=1.1$. Both results indicate good fit.} 
+\textcolor{red}{We report the results of the conducted tests for $\alpha=0.6$ and $\alpha=1.1$: the results on all the projected vectors gave $D=0.0021$, $p=0.344$ for  $\alpha=0.6$, and $D=0.0013$, $p=0.9$, for $\alpha=1.1$. Both results indicate good fit.}
 
 \textcolor{red}{\subsection{Discrete Test}
 In this example, the spectral measure has 4 point masses at $(1,0),(0,1),(-1,0),(0,-1)$ with all masses having weight $0.25$. We project along the vector $(\cos\theta,\sin\theta)$ and we vary $\theta\in\left\{0,\frac{\pi}{4},\frac{\pi}{2},\frac{3\pi}{4},\pi,\frac{5\pi}{4},\frac{3\pi}{2},\frac{7\pi}{4}\right\}.$ Tables \ref{tab:discrete_4mass0.6} and \ref{tab:discrete_4mass1.1} show the theoretical values of $\gamma$ and $\beta$ that the univariate stable projections should have (all projections have $\delta=0$), the $D$ statistic, and the $p$-value. Indeed, we can see that for both values of $\alpha$ and for most projection directions, the $D$ statistic is small and the $p$-value is relatively large, which indicates a good fit. There are a few cases in which the $D$ statistic is small but the $p$-value is small as well. In these cases, albeit the value of $p$ is low, the fit is still deemed satisfactory (by virtue of the low value of $D$). This is due to the known fact that the KS test is highly sensitive at large sample sizes resulting in possibly low $p$-values even when the observed discrepancy is practically negligible. For a more detailed discussion on the sensitivity of the KS test, we refer the reader to \cite[Section 10.6]{degroot2018probability}.
