@@ -37,7 +37,7 @@ Among heavy-tailed models, $\alpha$-stable distributions occupy a central theore
 
 A major practical limitation of $\alpha$-stable distributions is that their probability density functions (PDF)s generally do not admit closed-form expressions, except in the special cases of the Cauchy and Lévy distributions. Consequently, numerical tools are required for density evaluation, modeling, and simulation. Existing approaches for scalar $\alpha$-stable random variate generation, such as the Chambers--Mallows--Stuck (CMS) method~\cite{ChambersJ.M.1976AMfS}, are well established, but they do not directly address general multivariate $\alpha$-stable distributions. In the multivariate case, available simulation methods typically focus on special spectral measures, such as isotropic or sub-Gaussian models~\cite{nolancirc2013}, rather than arbitrary spectral measures.
 
-\textcolor{red}{Available numerical packages for $\alpha$-stable distributions include \cite{Royuela-del-ValJavier2017l:FP} that provides an R and C++ implementation for $\alpha$-stable random variable generation using a modified version of the CMS method~\cite{ChambersJ.M.1976AMfS,NolanJohnP2020USDM}. In \cite{teimouri2018alphastablerpackagemodelling} the authors provide an R package that supports generating an $\alpha$-stable random variable using the same modified CMS method; a random variable from a truncated $\alpha$-stable distribution distribution; an $\alpha$-stable random vector with a sub-Gaussian spectral measure, and other bivariate $\alpha$-stable random vectors. The work in \cite{RJ-2022-056} presents another $\alpha$-stable package which references \cite{teimouri2018alphastablerpackagemodelling} as well. When it comes to density computations, the \texttt{libstable} package \cite{Royuela-del-ValJavier2017l:FP} is based on Zolotarev's integral representation \cite{Zolotarev1986} computed using Gauss-Kronrod quadrature over the entire parameter space. The package does the evaluations in C/C++ and provides a MATLAB front-end in addition to an R package. The \texttt{alphastable} R package \cite{teimouri2018alphastablerpackagemodelling} evaluates the density using Skorohod-type asymptotic series \cite{sko2,Pollard1946LaplaceIntegral,Bergstrom1952ExpansionsStable} wherever those series converge. The package falls back to \texttt{stabledist} \cite{Wuertz2016Stabledist} elsewhere, which computes the density via Zolotarev's integral representation \cite{Zolotarev1986} using adaptive quadrature. }
+Available numerical packages for $\alpha$-stable distributions include \cite{Royuela-del-ValJavier2017l:FP} that provides an R and C++ implementation for $\alpha$-stable random variable generation using a modified version of the CMS method~\cite{ChambersJ.M.1976AMfS,NolanJohnP2020USDM}. In \cite{teimouri2018alphastablerpackagemodelling} the authors provide an R package that supports generating an $\alpha$-stable random variable using the same modified CMS method; a random variable from a truncated $\alpha$-stable distribution distribution; an $\alpha$-stable random vector with a sub-Gaussian spectral measure, and other bivariate $\alpha$-stable random vectors. The work in \cite{RJ-2022-056} presents another $\alpha$-stable package which references \cite{teimouri2018alphastablerpackagemodelling} as well. When it comes to density computations, the \texttt{libstable} package \cite{Royuela-del-ValJavier2017l:FP} is based on Zolotarev's integral representation \cite{Zolotarev1986} computed using Gauss-Kronrod quadrature over the entire parameter space. The package does the evaluations in C/C++ and provides a MATLAB front-end in addition to an R package. The \texttt{alphastable} R package \cite{teimouri2018alphastablerpackagemodelling} evaluates the density using Skorohod-type asymptotic series \cite{sko2,Pollard1946LaplaceIntegral,Bergstrom1952ExpansionsStable} wherever those series converge. The package falls back to \texttt{stabledist} \cite{Wuertz2016Stabledist} elsewhere, which computes the density via Zolotarev's integral representation \cite{Zolotarev1986} using adaptive quadrature.
 
 This paper presents AUB-HTP, a Python package for computational work with $\alpha$-stable distributions. The package provides scalar density computation using several numerical methods, including Zolotarev integral representations~\cite{Zolotarev1986}, Skorohod-Pollard-Bergstr{\"o}m formulas~\cite{sko2,Pollard1946LaplaceIntegral,Bergstrom1952ExpansionsStable}, and direct numerical inversion of the \textit{characteristic function}\footnote{The characteristic function of a random variable $X$ is given by the expected value of $e^{\ii tX}$,
 \(
@@ -58,7 +58,7 @@ We adopt the following conventions. The vector $\mathbf{x}\in\mathbb{R}^d$ repre
 where $\Gamma(\cdot)$ is the Gamma function.
 
 \section{Preliminaries on $\alpha$-Stable Distributions}
-\textcolor{red}{For a definition of multivariate stable vectors, we refer the reader to \cite[Definition 2.1.1]{SamorodnitskyGennady2000Snrp}.} In particular, we are interested in $\alpha$-stable~\footnote{The term $\alpha$-stable is used to refer to the stable family excluding the Gaussian law.} random vectors.
+For a definition of multivariate stable vectors, we refer the reader to \cite[Definition 2.1.1]{SamorodnitskyGennady2000Snrp}. In particular, we are interested in $\alpha$-stable~\footnote{The term $\alpha$-stable is used to refer to the stable family excluding the Gaussian law.} random vectors.
 
  \begin{definition}~\cite{SamorodnitskyGennady2000Snrp}
  \label{def:astable}
@@ -79,11 +79,11 @@ In the scalar case ($d = 1$) --and whenever $0<\alpha<2$, the spectral measure b
 
 \subsection*{Parameterizations of scalar $\alpha$-stable distributions}
 
-The two parameterizations, \textcolor{red}{0 and 1 are denoted by $\mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ and $\mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ respectively and} differ primarily in how they define the location (shift) of the distribution, particularly near $\alpha = 1$. For a given $\alpha$ and $\beta$, let $Z$ be a ``standard" $\alpha$-stable variable corresponding to $\gamma = 1$ and $\delta = 0$.
+The two parameterizations, 0 and 1 are denoted by $\mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ and $\mathcal{S}(\alpha, \beta, \gamma, \delta; 1)$ respectively and differ primarily in how they define the location (shift) of the distribution, particularly near $\alpha = 1$. For a given $\alpha$ and $\beta$, let $Z$ be a ``standard" $\alpha$-stable variable corresponding to $\gamma = 1$ and $\delta = 0$.
 \begin{table}[!htb]
 \begin{center}
 \renewcommand{\arraystretch}{1.5}
-\textcolor{red}{
+
 \begin{tabular}{|l|l|l|} \hline
 $X \sim \mathcal{S}(\alpha, \beta, \gamma, \delta; 0)$ & Characteristic Function: $\mathbb{E}[e^{iuX}]$ & $\alpha$ \\ \hline \hline
 $X \overset{d}{=} \gamma \left( Z - \beta \tan\left( \frac{\pi \alpha}{2} \right) \right) + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 + \ii\beta \tan\left( \frac{\pi \alpha}{2} \right) \operatorname{sign}(u)(|\gamma u|^{1 - \alpha} - 1) \right] + \ii \delta u \right)$ & $\alpha \neq 1$
@@ -96,15 +96,15 @@ $X \overset{d}{=} \gamma Z + \delta$ & $\exp\left( -|\gamma u|^\alpha \left[ 1 -
 \\
 $X \overset{d}{=} \gamma Z + \left( \delta + \beta \frac{2}{\pi} \gamma \log \gamma \right)$ & $\exp\left( -|\gamma u| \left[ 1 + \ii\beta \frac{2}{\pi} \operatorname{sign}(u) \log|u| \right] + \ii \delta u \right)$ & $\alpha = 1$
 \\ \hline
-\end{tabular} }
+\end{tabular}
 \caption{Parametrization 0 and Parametrization 1. \label{eq:type1}}
 \renewcommand{\arraystretch}{1}
 \end{center}
 \end{table}
 
-\textcolor{red}{
+
 Parameterization 0 has the advantage of avoiding discontinuities near $\alpha = 1$ by adjusting the shift behavior and is often preferred for numerical stability~\cite{NolanJohnP2020USDM}.
-On the other hand, explicit adjustment to the location is done when $\alpha = 1$ for parameterization 1.}
+On the other hand, explicit adjustment to the location is done when $\alpha = 1$ for parameterization 1.
 
 
 Note that the choice of parameterization directly affects the shift and symmetry of the distribution, especially when $\beta \neq 0$ and $\alpha$ is close to $1$. In both forms, the distribution can be standardized by setting $\gamma = 1$ and $\delta = 0$, in which case we use the abbreviations $\mathcal{S}(\alpha, \beta; 0)$ and $\mathcal{S}(\alpha, \beta; 1)$ respectively.
@@ -201,13 +201,13 @@ a_n = \frac{(-1)^{n-1}\Gamma(n\alpha+1)}{n!} \left( 1+\beta^2\tan^2\left(\frac{\
 -\frac{\pi\alpha}{2} + \arctan\left( \beta\tan\left(\frac{\pi\alpha}{2}\right) \right) \right) \right].
 \]
 The number $N$ of terms used to calculate the series is appropriately chosen depending on the parameter range. In the current package, the $\alpha<1$ branch uses a larger truncation level, while the $\alpha>1$ branch requires fewer terms in the tested regimes.
-\textcolor{red}{In some cases, minor spikes occurred at disjoint points away from the mode due to numerical irregularities. These spikes were detected by checking locations where monotonicity is violated. This is resolved by applying --after the density is computed, a smoothing step enforcing monotonicity of $f_{\alpha,\beta}$ on either side of the mode.}
+In some cases, minor spikes occurred at disjoint points away from the mode due to numerical irregularities. These spikes were detected by checking locations where monotonicity is violated. This is resolved by applying --after the density is computed, a smoothing step enforcing monotonicity of $f_{\alpha,\beta}$ on either side of the mode.
 
 \subsection{Validation}
 
 The density evaluator was tested against \texttt{scipy.stats.levy\_stable.pdf} on grids of $\alpha$, $\beta$, and $x$. The near-mode tests used $x\in[-10,10]$, while the tail tests examined values up to $x = 100$.
 
-\textcolor{red}{
+
 The metrics listed in Table~\ref{tab:error-metrics} were used to compare the AUB-HTP PDF generator with that of SciPy.
 \begin{table}[!htbp]
 \centering
@@ -228,7 +228,7 @@ $ \frac{T_{\mathrm{SciPy}}}{T_{\mathrm{AUB\text{-}HTP}}}$ \\
 \end{tabular}
 \caption{Error and performance metrics comparing $\hat{f}$ against the SciPy reference $f_{\mathrm{SciPy}}$ over $\{x_i\}_{i=1}^{n}$, with $\varepsilon>0$ guarding against division by zero.}
 \label{tab:error-metrics}
-\end{table}}
+\end{table}
 
 The tests show close agreement across most of the parameter space, but they also reveal regions where the SciPy reference exhibits irregular numerical behavior. The strongest agreement occurs away from the narrow region around $\alpha=1$, where changes in the parameterization and the presence of logarithmic terms make density evaluation more sensitive. In this region, visual diagnostics are important because the relative difference may become large when the reference density is close to zero or numerically unstable. Figure~\ref{fig:pdf-error-near-mode} illustrates this behavior near $\alpha=1$ using the maximum relative difference measured around the mode. Away from $\alpha=1$, Figure~\ref{fig:pdf-error-near-mode} shows agreement with the SciPy reference.  Results for the remaining error metrics, parameter ranges, and tail evaluations, together with the complete benchmark data, are available in the Github repository\footnote{\href{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}{https://github.com/AUB-HTP/AUB-HTP/tree/main/benchmarks}}.
 \begin{figure}
@@ -285,11 +285,11 @@ The speedup plot in Figure~\ref{fig:pdf-speedup} shows that our method is strict
 
 \section{Generating $\alpha$-Stable Random Vectors}
 
-\textcolor{red}{In the univariate case, the package implements a numerically stable version of the Chambers, Mallows, and Stuck method which is presented in~\cite{NolanJohnP2020USDM,WERON1996165}, and it is the same method as in \cite{Royuela-del-ValJavier2017l:FP,teimouri2018alphastablerpackagemodelling}. This method is commonly considered to be the fastest and most accurate \cite{Weron2004Computationally}}. In the multivariate setup, the proposed random number generator is based on a theoretical foundation that we state next.
+In the univariate case, the package implements a numerically stable version of the Chambers, Mallows, and Stuck method which is presented in~\cite{NolanJohnP2020USDM,WERON1996165}, and it is the same method as in \cite{Royuela-del-ValJavier2017l:FP,teimouri2018alphastablerpackagemodelling}. This method is commonly considered to be the fastest and most accurate \cite{Weron2004Computationally}. In the multivariate setup, the proposed random number generator is based on a theoretical foundation that we state next.
 
 \subsection{The LePage series}
 
-\textcolor{red}{The LePage series~\cite{SamorodnitskyGennady2000Snrp} was first introduced in \cite{LePageRaoul1981CtaS}, and it was suggested as a simulation method in \cite{Weron2004Computationally}. This series allows for simulating a multivariate stable vector with a stability index $\alpha$ and a given spectral measure through the use of the following theorem~\cite[Theorem 4]{BentkusV.2001LSRo}}.
+The LePage series~\cite{SamorodnitskyGennady2000Snrp} was first introduced in \cite{LePageRaoul1981CtaS}, and it was suggested as a simulation method in \cite{Weron2004Computationally}. This series allows for simulating a multivariate stable vector with a stability index $\alpha$ and a given spectral measure through the use of the following theorem~\cite[Theorem 4]{BentkusV.2001LSRo}.
 \begin{theorem}
 \label{thm:spec2}
  Let $\mathbf{V_1},\mathbf{V_2},\cdots$ be independent and identically distributed (i.i.d) random vectors in~$\mathbb{R}^d$ that are drawn according to a spectral measure $\Lambda$ where $\Lambda(\mathbb{S}^{d-1})>0$, i.e.,
@@ -355,13 +355,13 @@ To achieve a scale $\gamma$, we therefore multiply the truncated series by
 \subsubsection{Sub-Gaussian (elliptical) spectral measures}
 \label{sub_guass_error}
 
-\textcolor{red}{A sub-Gaussian random vector is characterized by a  positive-definite $d\times d$ shape matrix $\Sigma$. If $\mathbf{X}$ is a unit-scale  isotropic multivariate stable random vector with stability index $\alpha$ then $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$ is a sub-Gaussian random vector with shape matrix $\Sigma$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$~\cite{nolancirc2013}.}
+A sub-Gaussian random vector is characterized by a  positive-definite $d\times d$ shape matrix $\Sigma$. If $\mathbf{X}$ is a unit-scale  isotropic multivariate stable random vector with stability index $\alpha$ then $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$ is a sub-Gaussian random vector with shape matrix $\Sigma$ where $\Sigma^{\frac{1}{2}}$ is the Cholesky decomposition of $\Sigma$~\cite{nolancirc2013}.
 
-\textcolor{red}{One way to sample sub-Gaussian random vectors is by using the definition presented in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp}. This is adopted whenever the $\alpha$-stable vector is purely sub-Gaussian. Whenever the sub-Gaussian spectral measure is an element of a mixture (see section \ref{mixtures} for mixed spectral measures), then the approach in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp} is no longer suitable.  Instead, we devise a new approach that is based on the following result: if $\mathbf{X}_n$ is the $n$-terms LePage series of an isotropic vector $\mathbf{X}$ with unit scale, then, by Theorem~\ref{thm:spec2}, $\mathbf{X}_n$ converges in total variation to $\mathbf{X}$, and} \begin{equation}
+One way to sample sub-Gaussian random vectors is by using the definition presented in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp}. This is adopted whenever the $\alpha$-stable vector is purely sub-Gaussian. Whenever the sub-Gaussian spectral measure is an element of a mixture (see section \ref{mixtures} for mixed spectral measures), then the approach in~\cite[Definition 2.5.1]{SamorodnitskyGennady2000Snrp} is no longer suitable.  Instead, we devise a new approach that is based on the following result: if $\mathbf{X}_n$ is the $n$-terms LePage series of an isotropic vector $\mathbf{X}$ with unit scale, then, by Theorem~\ref{thm:spec2}, $\mathbf{X}_n$ converges in total variation to $\mathbf{X}$, and \begin{equation}
 \label{required_V}
 \mathbf{Y}_n=\Sigma^{\frac{1}{2}}\mathbf{X}_n=c(\alpha)\Sigma^{\frac{1}{2}}\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{U}_k=c(\alpha)\sum_{k=1}^n\Gamma_k^{-\frac{1}{\alpha}}\mathbf{V}_k \qquad \text{where } \mathbf{V}_k=\Sigma^{\frac{1}{2}}\mathbf{U}_k,
 \end{equation}
-\textcolor{red}{converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.}
+converges in total variation to $\mathbf{Y}=\Sigma^{\frac{1}{2}}\mathbf{X}$, which is the desired sub-Gaussian random vector. Hence, to sample the vectors $\mathbf{V}_k$ for the sub-Gaussian case, the software samples  $\mathbf{U}_k$ uniformly distributed on the unit sphere and multiplies them by $\Sigma^{\frac{1}{2}}$.}
 
 \subsubsection{Mixed spectral measures}
 \label{mixtures}
@@ -390,10 +390,10 @@ This algorithm achieves a sampling from the mixture of $\Lambda_1, \cdots, \Lamb
 
 \section{Implementation}
 
-Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in the Appendix in section ~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached. \textcolor{red}{After varying the values of $\alpha$ and the total mass of the unit sphere, a suitable value for the mean square error threshold, one that leads to sufficiently accurate results with reasonable consumption of time and memory is 0.01.}
+Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in the Appendix in section ~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached. After varying the values of $\alpha$ and the total mass of the unit sphere, a suitable value for the mean square error threshold, one that leads to sufficiently accurate results with reasonable consumption of time and memory is 0.01.
 \subsection{Univariate random number generator}
-In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. \textcolor{red}{A sample call for both parametrizations is shown in the following block of code.}
-\begin{lstlisting}[language=Python]
+In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. A sample call for both parametrizations is shown in the following block of code.}
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 
 alpha = 1
@@ -405,7 +405,7 @@ samples = ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size
 # For the type 0 parametrization use:
 # ht.alpha_stable.with_parameterization("S0")
 # samples = ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size=n)
-\end{lstlisting}
+\end{verbatim}
 
 \subsection{Multivariate random number generator}
 
@@ -414,7 +414,7 @@ samples = ht.alpha_stable.rvs(alpha=alpha, beta=beta, loc=loc, scale=scale, size
     \phi_{\mathbf{X}}(\mathbf{t})=e^{-\gamma^{\alpha}\|\mathbf{t}\|^{\alpha}
 +\ii\mathbf{t}^T\boldsymbol{\mu}^0},
 \]
-can be generated using the AUB-HTP. \textcolor{red}{A sample syntax --commented out-- is shown below in the section of the Ellipcitc $\alpha$-stable random vector.}
+can be generated using the AUB-HTP. A sample syntax --commented out-- is shown below in the section of the Ellipcitc $\alpha$-stable random vector.
 
 \paragraph{Elliptic $\alpha$-stable random vector:} An elliptic $\alpha$-stable random vector with shape matrix $\Sigma$ with the following characteristic function
 \[
@@ -435,7 +435,7 @@ where equality $(a)$ is due to the Cholesky decomposition definition and where i
 Finally, we note that the MSE resulting from estimating the total mass of the sphere using equation~\eqref{MC_simulation_mass_estimation} is given by~\cite[Theorem 1.1]{NiederreiterHarald1992Rnga}.
 
 An example code for both isotropic and elliptic cases is shown as follows.
-\begin{lstlisting}[language=Python]
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 from aub_htp.random import IsotropicSampler, EllipticSampler
 
@@ -450,8 +450,8 @@ samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler
 # For an Isotropic spectral measure use:
 # sampler = IsotropicSampler(number_of_dimensions=d, alpha=alpha, gamma=gamma)
 # samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler=sampler, shift=shift, size=n)
-\end{lstlisting}
-\textcolor{red}{Figures \ref{elliptic1} and \ref{elliptic2} show the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices}
+\end{verbatim}
+Figures \ref{elliptic1} and \ref{elliptic2} show the scatter plots of the elliptical $\alpha$-stable random vector, where we use the following shape matrices
 \[
     \Sigma_1=\begin{pmatrix}
 2 & 0.8 \\
@@ -461,7 +461,7 @@ samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler
 -1 & 2
 \end{pmatrix}.
 \]
-\textcolor{red}{Figure \ref{isotropic_one} shows the scatterplot of an isotropical vector associated with the commented code.}
+Figure \ref{isotropic_one} shows the scatterplot of an isotropical vector associated with the commented code.}
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.32\textwidth}
@@ -495,7 +495,7 @@ samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler
 \]
 Such a vector can be generated as follows:
 
-\begin{lstlisting}[language=Python]
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler
 
@@ -507,7 +507,7 @@ positions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
 weights = [1, 1, 1, 1]
 sampler = DiscreteSampler(alpha=alpha, positions=positions, weights=weights)
 samples = ht.multivariate_alpha_stable.rvs(alpha=alpha, spectral_measure_sampler=sampler, shift=shift, size=n)
-\end{lstlisting}
+\end{verbatim}
 with corresponding scatter plots shown in Figure~\ref{fig:discrete}.
 
 \begin{figure}
@@ -538,7 +538,7 @@ weights $=[(1,0),(0,1),(-1,0),(\cos(\theta),-\sin(\theta)),$ \\ $(\cos(\pi - \th
 
 \paragraph{Mixed spectral measure:} For a mixed spectral measure, let $\Lambda_1, \cdots, \Lambda_L$ be $L$ spectral measures with associated weights $w_1, \cdots, w_L$, and consider their mixture $\Lambda_{\text{mix}} = \sum_{i=1}^L w_i \Lambda_i$. To sample according to this spectral measure, we proceed as follows:
 
-\begin{lstlisting}[language=Python]
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 from aub_htp.random import DiscreteSampler, IsotropicSampler, MixedSampler
 
@@ -567,7 +567,7 @@ samples = ht.multivariate_alpha_stable.rvs(
     alpha=alpha, spectral_measure_sampler=mixed_sampler, shift=shift, size=n
 )
 
-\end{lstlisting}
+\end{verbatim}
 where \texttt{spectral\_measures} is a list containing the spectral measures that we are mixing, and \texttt{measure\_weights} contains the associated weight of each measure. The resulting scatter plot is shown in Figure~\ref{mix_isotropic_and_discrete}.
 %\begin{figure}[H]
 %    \centering
@@ -586,7 +586,7 @@ where \texttt{spectral\_measures} is a list containing the spectral measures tha
 \end{itemize}
 
 The steps are presented below.
-\begin{lstlisting}[language=Python]
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler
 
@@ -625,7 +625,7 @@ samples = ht.multivariate_alpha_stable.rvs(
     spectral_measure_sampler=ButterflySampler(),
     size=n,
     shift=shift)
-\end{lstlisting}
+\end{verbatim}
 
 We highlight that the mass of the sphere and the dimension should be specified when implementing the sub-class. The resulting scatter plot is shown in Figure \ref{custom_sp}. It is important to emphasize that when $\alpha \geq 1$, the custom spectral measure should satisfy the condition in equation~\eqref{eq:eq9}.
 
@@ -664,7 +664,7 @@ Mix between custom and discrete spectral measures.}
 
 One could mix a custom spectral measure, with another spectral measure. For example, we mix below equally the spectral measure defined above with the discrete spectral measure with $\text{masses}=[(1,0),(0,1),(-1,0),(0,-1)]$ and $ \text{weights}=[1,1,0.25,0.25],$ and the random vector has $\alpha=0.25$, $\boldsymbol{\mu}^{0 T}=(0,0)$.
 
-\begin{lstlisting}[language=Python]
+\begin{verbatim}[language=Python]
 import aub_htp as ht
 from aub_htp.random import BaseSpectralMeasureSampler, DiscreteSampler, MixedSampler
 
@@ -693,19 +693,19 @@ mixed_sampler = MixedSampler(spectral_measures=spectral_measures,
 samples = ht.multivariate_alpha_stable.rvs(
     alpha=alpha, spectral_measure_sampler=mixed_sampler, shift=shift, size=n)
 
-\end{lstlisting}
+\end{verbatim}
 
 The resulting scatterplot is shown in Figure~\ref{mix_discrete_and_custom}.
 
 \section{Random Variate Generation Validation}
 
-\textcolor{red}{To validate the correctness of our random variate generation, we conducted a projection based goodness of fit test. By the stability property, if $\mathbf{X}$ is an $\alpha$-stable random vector in $\mathbb{R}^d$, then $\boldsymbol{\theta}^T\mathbf{X}$ is an $\alpha$-stable random variable $\forall \boldsymbol{\theta}\in\mathbb{R}^d$ \cite[Theorem 2.1.2]{SamorodnitskyGennady2000Snrp}. One way to test the correctness of our generator is therefore to sample random vectors from AUB-HTP, compute the projection of these vectors on some other vectors, and then test the correctness of the resulting projection values which should theoretically have a univariate $\alpha$-stable distribution. To test the goodness of fit of the resulting projection values, we use the Kolmogorov-Smirnov (KS) test. For details about the formulation of the test, we refer the reader to \cite[Section 10.6]{degroot2018probability}. We use the implementation of the test provided in the STABLE 5.3 Matlab package \cite{robustanalysis}. The test returns the $D$ statistic (see \cite[equation 10.6.2]{degroot2018probability}) and the $p$-value associated with the test. Smaller values of $D$ and larger values of $p$ indicate a good fit. In all of the following tests, we determined the theoretical values of $\beta,\gamma,$ and $\delta$ using \cite[equation. 2.3.3, equation. 2.3.4,  equation. 2.3.5]{SamorodnitskyGennady2000Snrp}; we sampled using AUB-HTP vectors with a mean square error less than 0.001; the dimension of the sampled vector was chosen to be $d=2$; the shift vector was chosen to be $\boldsymbol{\mu}^{0T}=\mathbf{0}$; and 200000 sampled vectors were generated for the test.  We tested two spectral measures, Isotropic and Discrete.}
-\textcolor{red}{\subsection{Isotropic Test}
- The sampled vectors used in this test have unit scale. Since the spectral measure is isotropic, the distribution of the projected values is invariant to the direction of projection. We therefore project along the $x$-axis and vary only the norm of the projection vector, using $(1,0)$, $(2,0)$, $(3,0)$, $(4,0)$, and $(5,0)$. The resulting one-dimensional projections retain the same stability index $\alpha$ as the original vector, with $\beta=0$, $\delta=0$, and scale parameters $\gamma=1,2,3,4,5$, respectively.}
+To validate the correctness of our random variate generation, we conducted a projection based goodness of fit test. By the stability property, if $\mathbf{X}$ is an $\alpha$-stable random vector in $\mathbb{R}^d$, then $\boldsymbol{\theta}^T\mathbf{X}$ is an $\alpha$-stable random variable $\forall \boldsymbol{\theta}\in\mathbb{R}^d$ \cite[Theorem 2.1.2]{SamorodnitskyGennady2000Snrp}. One way to test the correctness of our generator is therefore to sample random vectors from AUB-HTP, compute the projection of these vectors on some other vectors, and then test the correctness of the resulting projection values which should theoretically have a univariate $\alpha$-stable distribution. To test the goodness of fit of the resulting projection values, we use the Kolmogorov-Smirnov (KS) test. For details about the formulation of the test, we refer the reader to \cite[Section 10.6]{degroot2018probability}. We use the implementation of the test provided in the STABLE 5.3 Matlab package \cite{robustanalysis}. The test returns the $D$ statistic (see \cite[equation 10.6.2]{degroot2018probability}) and the $p$-value associated with the test. Smaller values of $D$ and larger values of $p$ indicate a good fit. In all of the following tests, we determined the theoretical values of $\beta,\gamma,$ and $\delta$ using \cite[equation. 2.3.3, equation. 2.3.4,  equation. 2.3.5]{SamorodnitskyGennady2000Snrp}; we sampled using AUB-HTP vectors with a mean square error less than 0.001; the dimension of the sampled vector was chosen to be $d=2$; the shift vector was chosen to be $\boldsymbol{\mu}^{0T}=\mathbf{0}$; and 200000 sampled vectors were generated for the test.  We tested two spectral measures, Isotropic and Discrete.
+\subsection{Isotropic Test}
+ The sampled vectors used in this test have unit scale. Since the spectral measure is isotropic, the distribution of the projected values is invariant to the direction of projection. We therefore project along the $x$-axis and vary only the norm of the projection vector, using $(1,0)$, $(2,0)$, $(3,0)$, $(4,0)$, and $(5,0)$. The resulting one-dimensional projections retain the same stability index $\alpha$ as the original vector, with $\beta=0$, $\delta=0$, and scale parameters $\gamma=1,2,3,4,5$, respectively.
 
-\textcolor{red}{We report the results of the conducted tests for $\alpha=0.6$ and $\alpha=1.1$: the results on all the projected vectors gave $D=0.0021$, $p=0.344$ for  $\alpha=0.6$, and $D=0.0013$, $p=0.9$, for $\alpha=1.1$. Both results indicate good fit.}
+We report the results of the conducted tests for $\alpha=0.6$ and $\alpha=1.1$: the results on all the projected vectors gave $D=0.0021$, $p=0.344$ for  $\alpha=0.6$, and $D=0.0013$, $p=0.9$, for $\alpha=1.1$. Both results indicate good fit.
 
-\textcolor{red}{\subsection{Discrete Test}
+\subsection{Discrete Test}
 In this example, the spectral measure has 4 point masses at $(1,0),(0,1),(-1,0),(0,-1)$ with all masses having weight $0.25$. We project along the vector $(\cos\theta,\sin\theta)$ and we vary $\theta\in\left\{0,\frac{\pi}{4},\frac{\pi}{2},\frac{3\pi}{4},\pi,\frac{5\pi}{4},\frac{3\pi}{2},\frac{7\pi}{4}\right\}.$ Tables \ref{tab:discrete_4mass0.6} and \ref{tab:discrete_4mass1.1} show the theoretical values of $\gamma$ and $\beta$ that the univariate stable projections should have (all projections have $\delta=0$), the $D$ statistic, and the $p$-value. Indeed, we can see that for both values of $\alpha$ and for most projection directions, the $D$ statistic is small and the $p$-value is relatively large, which indicates a good fit. There are a few cases in which the $D$ statistic is small but the $p$-value is small as well. In these cases, albeit the value of $p$ is low, the fit is still deemed satisfactory (by virtue of the low value of $D$). This is due to the known fact that the KS test is highly sensitive at large sample sizes resulting in possibly low $p$-values even when the observed discrepancy is practically negligible. For a more detailed discussion on the sensitivity of the KS test, we refer the reader to \cite[Section 10.6]{degroot2018probability}.
 \begin{table}[h]
     \centering
@@ -824,4 +824,4 @@ For the case $\alpha\geq1$, since $\|\mathbf{V}_k\|=1\;\forall \;k=1,\cdot\cdot\
 where equality $(a)$ is due to the fact that $\mathbf{V}_k \perp\!\!\!\perp \Gamma_{k}$ and $(b)$ is justified since $v_k^{i} \perp\!\!\!\perp v^{i}_{\ell}$, $\forall \, k\neq\ell$ and $\mathbb{E}[v^{i}_k]=0$, $\forall \,k$. The rest of the equalities and inequalities follow by similar steps as in the case $\alpha<1$.
 
 
-One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$. \textcolor{red}{In the one dimensional case, the mean square error of the LePage series can be found in \cite{JanickiAleksander1992Ciot}.}
+One can clearly see that the bound on the error decays faster for smaller values of $\alpha$. This indicates that this sampling method can appropriately handle the difficult region of small values of $\alpha$. In the one dimensional case, the mean square error of the LePage series can be found in \cite{JanickiAleksander1992Ciot}.
