@@ -1,7 +1,8 @@
 // Project-local MyST compatibility transform. MyST currently drops LaTeX
-// `cases` environments during Typst export and translates the TeX shorthand
-// `\|` to a single Typst bar. Normalize double bars, then convert just the
-// subset of LaTeX used by this paper's case expressions into native Typst math.
+// `cases` environments during Typst export, translates the TeX shorthand `\|`
+// to a single Typst bar, and loses the header semantics of table sections after
+// an empty full-width `\multicolumn` separator. Repair those constructs in the
+// document tree before export.
 // This file intentionally has no npm dependencies so uvx builds remain
 // reproducible from a clean checkout.
 const CASES_BEGIN = String.raw`\begin{cases}`;
@@ -242,13 +243,77 @@ function convertMathWithCases(value) {
   return typst.trim();
 }
 
+function hasVisibleContent(node) {
+  if (!node || typeof node !== 'object') return false;
+  if (node.type === 'thematicBreak') return true;
+  if (typeof node.value === 'string' && node.value.trim()) return true;
+  return Array.isArray(node.children) && node.children.some(hasVisibleContent);
+}
+
+function restoreTableSectionHeaders(tree, utils) {
+  utils.selectAll('table', tree).forEach((table) => {
+    if (!Array.isArray(table.children)) return;
+
+    for (let index = 1; index < table.children.length; index += 1) {
+      const separator = table.children[index - 1];
+      const header = table.children[index];
+      if (
+        separator?.type !== 'tableRow' ||
+        header?.type !== 'tableRow' ||
+        separator.children?.length !== 1 ||
+        separator.children[0]?.type !== 'tableCell' ||
+        !(separator.children[0].colspan > 1) ||
+        hasVisibleContent(separator.children[0]) ||
+        !Array.isArray(header.children)
+      )
+        continue;
+
+      // LaTeX uses the empty spanning row as a visual section boundary. The
+      // SciPy Typst template suppresses horizontal rules after the first row,
+      // so make this particular rule cell content instead. A thematic break is
+      // rendered as a full-width line by both HTML and Typst exporters.
+      separator.children[0].children = [{ type: 'thematicBreak' }];
+
+      // MyST otherwise treats the next section header as ordinary body data.
+      header.children.forEach((cell) => {
+        if (!Array.isArray(cell.children) || cell.children.length === 0) return;
+        if (
+          cell.children.length === 1 &&
+          cell.children[0]?.type === 'strong'
+        )
+          return;
+        cell.children = [{ type: 'strong', children: cell.children }];
+      });
+
+      const columnCount = header.children.reduce(
+        (count, cell) => count + (cell.colspan ?? 1),
+        0,
+      );
+      table.children.splice(index + 1, 0, {
+        type: 'tableRow',
+        children: [
+          {
+            type: 'tableCell',
+            colspan: columnCount,
+            align: 'center',
+            children: [{ type: 'thematicBreak' }],
+          },
+        ],
+      });
+      index += 1;
+    }
+  });
+}
+
 const plugin = {
-  name: 'Typst cases compatibility',
+  name: 'MyST LaTeX compatibility',
   transforms: [
     {
       name: 'typst-cases-compatibility',
       stage: 'document',
       plugin: (_, utils) => (tree) => {
+        restoreTableSectionHeaders(tree, utils);
+
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
             if (typeof node.value !== 'string') return;
