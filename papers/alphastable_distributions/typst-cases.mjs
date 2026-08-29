@@ -282,10 +282,7 @@ function restoreTableSectionHeaders(tree, utils) {
       // MyST otherwise treats the next section header as ordinary body data.
       header.children.forEach((cell) => {
         if (!Array.isArray(cell.children) || cell.children.length === 0) return;
-        if (
-          cell.children.length === 1 &&
-          cell.children[0]?.type === 'strong'
-        )
+        if (cell.children.length === 1 && cell.children[0]?.type === 'strong')
           return;
         cell.children = [{ type: 'strong', children: cell.children }];
       });
@@ -362,7 +359,8 @@ function restoreNonFloatingProofEnvironments(tree, utils, source) {
 
     const offset = node.position?.start?.offset ?? 0;
     const within = rule?.within;
-    const prefix = within === 'section' ? latexSectionNumber(source, offset) : '';
+    const prefix =
+      within === 'section' ? latexSectionNumber(source, offset) : '';
     const counterName = rule?.shared ?? kind;
     const counterKey = `${counterName}:${prefix}`;
     const next = (counters.get(counterKey) ?? 0) + 1;
@@ -414,8 +412,7 @@ function latexEquationNumbers(source) {
   if (typeof source !== 'string') return { environments, numbersByLabel };
 
   let counter = 0;
-  const pattern =
-    /\\begin\{(equation\*?|align\*?)\}([\s\S]*?)\\end\{\1\}/g;
+  const pattern = /\\begin\{(equation\*?|align\*?)\}([\s\S]*?)\\end\{\1\}/g;
   for (const match of source.matchAll(pattern)) {
     const name = match[1];
     const body = match[2];
@@ -431,9 +428,7 @@ function latexEquationNumbers(source) {
       continue;
     }
 
-    const rows = name === 'align'
-      ? body.split(/\\\\(?=\s*(?:&|$))/m)
-      : [body];
+    const rows = name === 'align' ? body.split(/\\\\(?=\s*(?:&|$))/m) : [body];
     for (const row of rows) {
       if (!row.trim() || /\\(?:nonumber|notag)\b/.test(row)) continue;
       counter += 1;
@@ -510,8 +505,8 @@ function restoreLatexHeadingNumbering(tree, utils, source) {
   const headings = utils
     .selectAll('heading', tree)
     .filter((node) => typeof node.position?.start?.offset === 'number')
-    .sort((left, right) =>
-      left.position.start.offset - right.position.start.offset,
+    .sort(
+      (left, right) => left.position.start.offset - right.position.start.offset,
     );
   const counters = { section: 0, subsection: 0, subsubsection: 0 };
   const numbersByLabel = new Map();
@@ -537,9 +532,7 @@ function restoreLatexHeadingNumbering(tree, utils, source) {
         counters.subsubsection = 0;
         if (appendix) {
           appendixSection += 1;
-          number = String.fromCharCode(
-            'A'.charCodeAt(0) + appendixSection - 1,
-          );
+          number = String.fromCharCode('A'.charCodeAt(0) + appendixSection - 1);
         } else {
           counters.section += 1;
           number = String(counters.section);
@@ -685,9 +678,7 @@ function restoreSubfigureCaptions(tree, utils) {
     gridChildren.push({ type: 'raw', typst: ')\n' });
     container.children = [
       { type: 'div', children: gridChildren },
-      ...container.children.filter(
-        (child) => !subfigures.includes(child),
-      ),
+      ...container.children.filter((child) => !subfigures.includes(child)),
     ];
   });
 }
