@@ -305,6 +305,40 @@ function restoreTableSectionHeaders(tree, utils) {
   });
 }
 
+function restoreNonFloatingTheorems(tree, utils) {
+  let theoremNumber = 0;
+  utils.selectAll('proof', tree).forEach((node) => {
+    if (node.kind !== 'theorem' || !Array.isArray(node.children)) return;
+
+    theoremNumber += 1;
+    const number = node.enumerator ?? theoremNumber;
+    const title = `Theorem ${number}.`;
+    const label = node.identifier
+      ? [
+          {
+            type: 'raw',
+            typst: `#metadata(none) <${node.identifier}>\n`,
+          },
+        ]
+      : [];
+
+    // MyST's Typst proof helper hard-codes `float: true`, unlike LaTeX theorem
+    // environments. Use the equivalent non-floating admonition container so
+    // the theorem remains at its source position. Keep an explicit label for
+    // cross-references because the proof node normally emits that label.
+    node.type = 'admonition';
+    node.kind = 'important';
+    node.children = [
+      {
+        type: 'admonitionTitle',
+        children: [{ type: 'text', value: title }],
+      },
+      ...label,
+      ...node.children,
+    ];
+  });
+}
+
 const plugin = {
   name: 'MyST LaTeX compatibility',
   transforms: [
@@ -313,6 +347,7 @@ const plugin = {
       stage: 'document',
       plugin: (_, utils) => (tree) => {
         restoreTableSectionHeaders(tree, utils);
+        restoreNonFloatingTheorems(tree, utils);
 
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
