@@ -5,6 +5,8 @@
 // document tree before export.
 // This file intentionally has no npm dependencies so uvx builds remain
 // reproducible from a clean checkout.
+import { readFileSync } from 'node:fs';
+
 const CASES_BEGIN = String.raw`\begin{cases}`;
 const CASES_END = String.raw`\end{cases}`;
 const DOUBLE_BAR = String.raw`\|`;
@@ -308,17 +310,71 @@ function restoreTableSectionHeaders(tree, utils) {
   });
 }
 
-function restoreNonFloatingProofEnvironments(tree, utils) {
-  const counters = { definition: 0, theorem: 0 };
-  utils.selectAll('proof', tree).forEach((node) => {
-    if (!(node.kind in counters) || !Array.isArray(node.children)) return;
+function latexSectionNumber(source, offset) {
+  let section = 0;
+  let appendix = false;
+  let appendixSection = 0;
+  const prefix = source.slice(0, offset);
 
-    counters[node.kind] += 1;
-    const number = node.enumerator ?? counters[node.kind];
+  for (const line of prefix.split('\n')) {
+    const code = line.replace(/(^|[^\\])%.*/, '$1');
+    if (/\\appendix\b/.test(code)) {
+      appendix = true;
+      appendixSection = 0;
+    }
+    if (!/\\section\s*\{/.test(code)) continue;
+    if (appendix) appendixSection += 1;
+    else section += 1;
+  }
+
+  return appendix
+    ? String.fromCharCode('A'.charCodeAt(0) + appendixSection - 1)
+    : String(section);
+}
+
+function latexProofRules(source) {
+  const rules = new Map();
+  if (typeof source !== 'string') return rules;
+
+  // \newtheorem{definition}{Definition}[section]
+  const pattern =
+    /\\newtheorem\s*\{([^}]+)\}(?:\s*\[([^\]]+)\])?\s*\{([^}]+)\}(?:\s*\[([^\]]+)\])?/g;
+  for (const match of source.matchAll(pattern)) {
+    rules.set(match[1].toLowerCase(), {
+      shared: match[2]?.toLowerCase(),
+      title: match[3],
+      within: match[4]?.toLowerCase(),
+    });
+  }
+  return rules;
+}
+
+function restoreNonFloatingProofEnvironments(tree, utils, source) {
+  const rules = latexProofRules(source);
+  const counters = new Map();
+  const numbersByLabel = new Map();
+  utils.selectAll('proof', tree).forEach((node) => {
+    if (!Array.isArray(node.children)) return;
+
+    const kind = node.kind?.toLowerCase();
+    const rule = rules.get(kind);
+    if (!rule && !['definition', 'theorem'].includes(kind)) return;
+
+    const offset = node.position?.start?.offset ?? 0;
+    const within = rule?.within;
+    const prefix = within === 'section' ? latexSectionNumber(source, offset) : '';
+    const counterName = rule?.shared ?? kind;
+    const counterKey = `${counterName}:${prefix}`;
+    const next = (counters.get(counterKey) ?? 0) + 1;
+    counters.set(counterKey, next);
+
+    const number = prefix ? `${prefix}.${next}` : String(next);
     const supplement =
-      node.kind[0].toUpperCase() + node.kind.slice(1).toLowerCase();
+      rule?.title ?? kind[0].toUpperCase() + kind.slice(1).toLowerCase();
     const title = `${supplement} ${number}.`;
     node.enumerator = String(number);
+    if (node.identifier)
+      numbersByLabel.set(node.identifier.toLowerCase(), String(number));
     const label = node.identifier
       ? [
           {
@@ -342,6 +398,225 @@ function restoreNonFloatingProofEnvironments(tree, utils) {
       ...label,
       ...node.children,
     ];
+  });
+
+  utils.selectAll('crossReference', tree).forEach((node) => {
+    const number = numbersByLabel.get(node.identifier?.toLowerCase());
+    if (!number) return;
+    node.enumerator = number;
+    node.children = [{ type: 'text', value: number }];
+  });
+}
+
+function latexEquationNumbers(source) {
+  const environments = [];
+  const numbersByLabel = new Map();
+  if (typeof source !== 'string') return { environments, numbersByLabel };
+
+  let counter = 0;
+  const pattern =
+    /\\begin\{(equation\*?|align\*?)\}([\s\S]*?)\\end\{\1\}/g;
+  for (const match of source.matchAll(pattern)) {
+    const name = match[1];
+    const body = match[2];
+    const entry = {
+      start: match.index,
+      end: match.index + match[0].length,
+      enumerated: !name.endsWith('*'),
+      number: undefined,
+    };
+
+    if (!entry.enumerated) {
+      environments.push(entry);
+      continue;
+    }
+
+    const rows = name === 'align'
+      ? body.split(/\\\\(?=\s*(?:&|$))/m)
+      : [body];
+    for (const row of rows) {
+      if (!row.trim() || /\\(?:nonumber|notag)\b/.test(row)) continue;
+      counter += 1;
+      entry.number ??= String(counter);
+      for (const label of commandArguments(row, 'label'))
+        numbersByLabel.set(label.toLowerCase(), String(counter));
+    }
+    environments.push(entry);
+  }
+
+  return { environments, numbersByLabel };
+}
+
+function restoreLatexEquationNumbering(tree, utils, source) {
+  if (typeof source !== 'string') return;
+  const { environments, numbersByLabel } = latexEquationNumbers(source);
+
+  utils.selectAll('math', tree).forEach((node) => {
+    const offset = node.position?.start?.offset;
+    if (typeof offset !== 'number') return;
+    const environment = environments.find(
+      (candidate) => offset >= candidate.start && offset < candidate.end,
+    );
+
+    // TeX only numbers equation/align (without a star). MyST otherwise assigns
+    // counters to every display written with \[...\], shifting later refs.
+    const mathNode = { ...node };
+    delete mathNode.key;
+    for (const key of Object.keys(node)) delete node[key];
+    node.type = 'div';
+
+    if (!environment || !environment.enumerated) {
+      // The SciPy Typst template numbers every block equation globally. Keep
+      // LaTeX's \[...\] and starred environments in a local unnumbered scope.
+      mathNode.enumerated = false;
+      delete mathNode.enumerator;
+      node.children = [
+        {
+          type: 'raw',
+          typst: '#[\n#set math.equation(numbering: none)\n',
+        },
+        mathNode,
+        { type: 'raw', typst: '\n]\n' },
+      ];
+      return;
+    }
+
+    mathNode.enumerated = true;
+    const labelNumber = numbersByLabel.get(
+      (mathNode.label ?? mathNode.identifier)?.toLowerCase(),
+    );
+    const number = labelNumber ?? environment.number;
+    mathNode.enumerator = number;
+    node.children = [
+      {
+        type: 'raw',
+        // Typst's counter otherwise includes the unnumbered displays above.
+        typst: `#counter(math.equation).update(${Number(number) - 1})\n`,
+      },
+      mathNode,
+    ];
+  });
+
+  utils.selectAll('crossReference', tree).forEach((node) => {
+    const number = numbersByLabel.get(node.identifier?.toLowerCase());
+    if (!number) return;
+    node.enumerator = number;
+    node.children = [{ type: 'text', value: `(${number})` }];
+  });
+}
+
+function restoreLatexHeadingNumbering(tree, utils, source) {
+  if (typeof source !== 'string') return;
+  const headings = utils
+    .selectAll('heading', tree)
+    .filter((node) => typeof node.position?.start?.offset === 'number')
+    .sort((left, right) =>
+      left.position.start.offset - right.position.start.offset,
+    );
+  const counters = { section: 0, subsection: 0, subsubsection: 0 };
+  const numbersByLabel = new Map();
+  let appendixSection = 0;
+
+  headings.forEach((node) => {
+    const offset = node.position.start.offset;
+    const command = source
+      .slice(offset, offset + 40)
+      .match(/^\\(section|subsection|subsubsection|paragraph)(\*)?\s*\{/);
+    if (!command) return;
+
+    const kind = command[1];
+    const starred = Boolean(command[2]);
+    const appendix = source.lastIndexOf('\\appendix', offset) >= 0;
+    let number;
+
+    // article.cls numbers through subsubsection by default; paragraph headings
+    // and starred headings are deliberately unnumbered in the TeX source.
+    if (!starred && kind !== 'paragraph') {
+      if (kind === 'section') {
+        counters.subsection = 0;
+        counters.subsubsection = 0;
+        if (appendix) {
+          appendixSection += 1;
+          number = String.fromCharCode(
+            'A'.charCodeAt(0) + appendixSection - 1,
+          );
+        } else {
+          counters.section += 1;
+          number = String(counters.section);
+        }
+      } else if (kind === 'subsection') {
+        counters.subsection += 1;
+        counters.subsubsection = 0;
+        const section = appendix
+          ? String.fromCharCode('A'.charCodeAt(0) + appendixSection - 1)
+          : String(counters.section);
+        number = `${section}.${counters.subsection}`;
+      } else {
+        counters.subsubsection += 1;
+        number = `${counters.section}.${counters.subsection}.${counters.subsubsection}`;
+      }
+    }
+
+    if (number && node.identifier)
+      numbersByLabel.set(node.identifier.toLowerCase(), number);
+
+    if (!starred && kind !== 'paragraph' && !appendix) {
+      node.enumerator = number;
+      return;
+    }
+
+    const headingNode = { ...node };
+    delete headingNode.key;
+    headingNode.enumerated = false;
+    delete headingNode.enumerator;
+    if (number)
+      headingNode.children = [
+        { type: 'text', value: `${number}. ` },
+        ...(headingNode.children ?? []),
+      ];
+    for (const key of Object.keys(node)) delete node[key];
+    node.type = 'div';
+
+    if (starred || kind === 'paragraph') {
+      node.children = [
+        {
+          type: 'raw',
+          typst: '#block(above: 1.2em, below: 0.6em)[#text(weight: "bold")[',
+        },
+        ...(headingNode.children ?? []),
+        { type: 'raw', typst: ']]\n' },
+        ...(headingNode.identifier
+          ? [
+              {
+                type: 'raw',
+                typst: `#metadata(none) <${headingNode.identifier}>\n`,
+              },
+            ]
+          : []),
+      ];
+      return;
+    }
+
+    node.children = [
+      { type: 'raw', typst: '#[\n#set heading(numbering: none)\n' },
+      headingNode,
+      ...(headingNode.identifier
+        ? [
+            {
+              type: 'raw',
+              typst: `#metadata(none) <${headingNode.identifier}>\n`,
+            },
+          ]
+        : []),
+      { type: 'raw', typst: '\n]\n' },
+    ];
+  });
+
+  utils.selectAll('crossReference', tree).forEach((node) => {
+    const number = numbersByLabel.get(node.identifier?.toLowerCase());
+    if (!number) return;
+    node.enumerator = number;
+    node.children = [{ type: 'text', value: number }];
   });
 }
 
@@ -417,15 +692,169 @@ function restoreSubfigureCaptions(tree, utils) {
   });
 }
 
+function commandArguments(value, command) {
+  const argumentsFound = [];
+  const marker = `\\${command}`;
+  let searchFrom = 0;
+
+  while (searchFrom < value.length) {
+    const commandStart = value.indexOf(marker, searchFrom);
+    if (commandStart < 0) break;
+    let index = commandStart + marker.length;
+    while (/\s/.test(value[index] ?? '')) index += 1;
+    if (value[index] !== '{') {
+      searchFrom = index;
+      continue;
+    }
+
+    const argumentStart = ++index;
+    let depth = 1;
+    while (index < value.length && depth > 0) {
+      if (value[index] === '{' && value[index - 1] !== '\\') depth += 1;
+      if (value[index] === '}' && value[index - 1] !== '\\') depth -= 1;
+      index += 1;
+    }
+    if (depth === 0)
+      argumentsFound.push(value.slice(argumentStart, index - 1).trim());
+    searchFrom = index;
+  }
+
+  return argumentsFound;
+}
+
+function captionFromLatex(value) {
+  const children = [];
+  let index = 0;
+
+  while (index < value.length) {
+    const mathStart = value.indexOf('$', index);
+    if (mathStart < 0) {
+      if (value.slice(index))
+        children.push({ type: 'text', value: value.slice(index) });
+      break;
+    }
+    if (mathStart > index)
+      children.push({ type: 'text', value: value.slice(index, mathStart) });
+    const mathEnd = value.indexOf('$', mathStart + 1);
+    if (mathEnd < 0) {
+      children.push({ type: 'text', value: value.slice(mathStart) });
+      break;
+    }
+    children.push({
+      type: 'inlineMath',
+      value: value.slice(mathStart + 1, mathEnd),
+    });
+    index = mathEnd + 1;
+  }
+
+  return { type: 'caption', children: [{ type: 'paragraph', children }] };
+}
+
+function restoreIndependentGroupedTables(tree, utils, source) {
+  utils.selectAll('container', tree).forEach((container) => {
+    if (
+      container.kind !== 'table' ||
+      !Array.isArray(container.children) ||
+      !container.position ||
+      typeof source !== 'string'
+    )
+      return;
+
+    const groupedTables = container.children.filter(
+      (child) =>
+        child?.type === 'container' &&
+        child.kind === 'table' &&
+        child.subcontainer === true,
+    );
+    if (groupedTables.length < 2) return;
+
+    const sourceSlice = source.slice(
+      container.position.start.offset,
+      container.position.end.offset,
+    );
+    const captions = commandArguments(sourceSlice, 'caption');
+    const labels = commandArguments(sourceSlice, 'label');
+    const tables = groupedTables.map((group) =>
+      group.children?.find((child) => child?.type === 'table'),
+    );
+    if (
+      captions.length !== groupedTables.length ||
+      labels.length !== groupedTables.length ||
+      tables.some((table) => !table)
+    )
+      return;
+
+    const gridChildren = [
+      { type: 'raw', typst: '#grid(columns: 2, gutter: 8pt,\n' },
+    ];
+    const hiddenTargets = [];
+
+    tables.forEach((table, index) => {
+      const caption = captionFromLatex(captions[index]);
+      const label = labels[index];
+      gridChildren.push(
+        { type: 'raw', typst: '[\n#figure([\n' },
+        table,
+        { type: 'raw', typst: '], caption: [\n' },
+        ...caption.children,
+        {
+          type: 'raw',
+          typst: `\n], kind: "table", supplement: [Table]) <${label}>\n],\n`,
+        },
+      );
+      hiddenTargets.push({
+        type: 'container',
+        kind: 'table',
+        label,
+        identifier: label,
+        children: [],
+      });
+    });
+    gridChildren.push({ type: 'raw', typst: ')\n' });
+
+    // The TeX has two independently captioned tables inside minipages. MyST
+    // otherwise turns them into subfigures (Table 3 and Table 3a). Render the
+    // same side-by-side layout while retaining two independent counter targets.
+    container.type = 'div';
+    delete container.kind;
+    delete container.label;
+    delete container.identifier;
+    container.children = [
+      ...gridChildren,
+      { type: 'raw', typst: '#metadata(none)\n', children: hiddenTargets },
+    ];
+  });
+}
+
+function restoreExplicitReferenceSyntax(tree, utils) {
+  utils.selectAll('crossReference', tree).forEach((node) => {
+    // tex-to-myst represents `\eqref` as an empty reference. Supplying the
+    // literal TeX template prevents a mismatched label prefix/target kind from
+    // turning `equation~\eqref{...}` into e.g. “equation Table 1”.
+    if (!node.children?.length)
+      node.children = [{ type: 'text', value: '(%s)' }];
+  });
+}
+
 const plugin = {
   name: 'MyST LaTeX compatibility',
   transforms: [
     {
       name: 'typst-cases-compatibility',
       stage: 'document',
-      plugin: (_, utils) => (tree) => {
+      plugin: (_, utils) => (tree, file) => {
+        let source;
+        try {
+          source = file?.path ? readFileSync(file.path, 'utf8') : undefined;
+        } catch {
+          source = undefined;
+        }
+        restoreExplicitReferenceSyntax(tree, utils);
+        restoreLatexEquationNumbering(tree, utils, source);
+        restoreLatexHeadingNumbering(tree, utils, source);
+        restoreIndependentGroupedTables(tree, utils, source);
         restoreTableSectionHeaders(tree, utils);
-        restoreNonFloatingProofEnvironments(tree, utils);
+        restoreNonFloatingProofEnvironments(tree, utils, source);
         restoreSubfigureCaptions(tree, utils);
 
         for (const type of ['math', 'inlineMath']) {
