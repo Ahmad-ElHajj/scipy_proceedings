@@ -156,7 +156,9 @@ class LatexSubsetConverter {
     const name = this.commandName();
     if (COMMANDS[name]) return COMMANDS[name];
     if (['displaystyle', 'textstyle'].includes(name)) return '';
-    if ([',', ';', ':', '!', 'quad', 'qquad'].includes(name)) return ' ';
+    if ([',', ';', ':', '!'].includes(name)) return ' ';
+    if (name === 'quad') return 'quad';
+    if (name === 'qquad') return 'quad quad';
     if (
       ['left', 'right', 'big', 'bigl', 'bigr', 'Big', 'Bigl', 'Bigr'].includes(
         name,
@@ -316,6 +318,7 @@ function restoreNonFloatingProofEnvironments(tree, utils) {
     const supplement =
       node.kind[0].toUpperCase() + node.kind.slice(1).toLowerCase();
     const title = `${supplement} ${number}.`;
+    node.enumerator = String(number);
     const label = node.identifier
       ? [
           {
