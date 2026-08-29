@@ -392,7 +392,7 @@ This algorithm achieves a sampling from the mixture of $\Lambda_1, \cdots, \Lamb
 
 Whenever the LePage series is used, the package chooses the number of terms to achieve an MSE less than 0.01 using Theorem~\ref{MSE} in the Appendix in section ~\ref{app:appendixerror}. This number is capped at 50,000 terms and a warning is issued whenever this cap is reached. After varying the values of $\alpha$ and the total mass of the unit sphere, a suitable value for the mean square error threshold, one that leads to sufficiently accurate results with reasonable consumption of time and memory is 0.01.
 \subsection{Univariate random number generator}
-In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. A sample call for both parametrizations is shown in the following block of code.}
+In the univariate case, the software samples $X \sim\mathcal{S}(\alpha,\beta,\gamma,\delta;k)$, and the type 1 parameterization is used by default. A sample call for both parametrizations is shown in the following block of code.
 \begin{verbatim}[language=Python]
 import aub_htp as ht
 
