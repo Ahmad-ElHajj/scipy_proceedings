@@ -8,6 +8,7 @@
 const CASES_BEGIN = String.raw`\begin{cases}`;
 const CASES_END = String.raw`\end{cases}`;
 const DOUBLE_BAR = String.raw`\|`;
+const NEGATIVE_THIN_SPACE = String.raw`\!`;
 // Keep a terminating space because the shorthand may be immediately followed
 // by a letter (for example `\left\|c`); TeX ignores it after the command name.
 const DOUBLE_BAR_NAMED = String.raw`\Vert `;
@@ -305,14 +306,16 @@ function restoreTableSectionHeaders(tree, utils) {
   });
 }
 
-function restoreNonFloatingTheorems(tree, utils) {
-  let theoremNumber = 0;
+function restoreNonFloatingProofEnvironments(tree, utils) {
+  const counters = { definition: 0, theorem: 0 };
   utils.selectAll('proof', tree).forEach((node) => {
-    if (node.kind !== 'theorem' || !Array.isArray(node.children)) return;
+    if (!(node.kind in counters) || !Array.isArray(node.children)) return;
 
-    theoremNumber += 1;
-    const number = node.enumerator ?? theoremNumber;
-    const title = `Theorem ${number}.`;
+    counters[node.kind] += 1;
+    const number = node.enumerator ?? counters[node.kind];
+    const supplement =
+      node.kind[0].toUpperCase() + node.kind.slice(1).toLowerCase();
+    const title = `${supplement} ${number}.`;
     const label = node.identifier
       ? [
           {
@@ -323,9 +326,9 @@ function restoreNonFloatingTheorems(tree, utils) {
       : [];
 
     // MyST's Typst proof helper hard-codes `float: true`, unlike LaTeX theorem
-    // environments. Use the equivalent non-floating admonition container so
-    // the theorem remains at its source position. Keep an explicit label for
-    // cross-references because the proof node normally emits that label.
+    // and definition environments. Use an equivalent non-floating admonition
+    // so each environment remains at its source position. Keep an explicit
+    // label for cross-references because the proof node normally emits it.
     node.type = 'admonition';
     node.kind = 'important';
     node.children = [
@@ -347,7 +350,7 @@ const plugin = {
       stage: 'document',
       plugin: (_, utils) => (tree) => {
         restoreTableSectionHeaders(tree, utils);
-        restoreNonFloatingTheorems(tree, utils);
+        restoreNonFloatingProofEnvironments(tree, utils);
 
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
@@ -356,6 +359,11 @@ const plugin = {
             // MyST's Typst converter knows the named `\Vert` command, but its
             // equivalent TeX shorthand `\|` currently falls through as `|`.
             node.value = node.value.replaceAll(DOUBLE_BAR, DOUBLE_BAR_NAMED);
+
+            // TeX's `\!` is a small -3mu adjustment (about -1/6 em), but the
+            // Typst converter emits `#h(-1em)`. That exaggerated shift makes
+            // adjacent symbols overlap, so prefer Typst's normal math spacing.
+            node.value = node.value.replaceAll(NEGATIVE_THIN_SPACE, '');
 
             if (!node.value.includes(CASES_BEGIN)) return;
             const typst = convertMathWithCases(node.value);
