@@ -753,6 +753,25 @@ function commandArguments(value, command) {
   return argumentsFound;
 }
 
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
+function captionMathHtml(value) {
+  const alphaEquality = value.match(/^\s*\\alpha\s*=\s*([0-9.]+)\s*$/);
+  if (alphaEquality) {
+    return `<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="mord mathnormal">α</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mord">${escapeHtml(alphaEquality[1])}</span></span></span></span>`;
+  }
+
+  // This fallback remains readable if another grouped-table caption uses a
+  // math expression outside the small subset handled above.
+  return `<span class="katex">${escapeHtml(value)}</span>`;
+}
+
 function captionFromLatex(value) {
   const children = [];
   let index = 0;
@@ -771,9 +790,12 @@ function captionFromLatex(value) {
       children.push({ type: 'text', value: value.slice(mathStart) });
       break;
     }
+    const mathValue = value.slice(mathStart + 1, mathEnd);
     children.push({
       type: 'inlineMath',
-      value: value.slice(mathStart + 1, mathEnd),
+      value: mathValue,
+      html: captionMathHtml(mathValue),
+      typst: convertLatex(mathValue),
     });
     index = mathEnd + 1;
   }
