@@ -345,6 +345,78 @@ function restoreNonFloatingProofEnvironments(tree, utils) {
   });
 }
 
+function restoreSubfigureCaptions(tree, utils) {
+  utils.selectAll('container', tree).forEach((container) => {
+    if (container.kind !== 'figure' || !Array.isArray(container.children))
+      return;
+
+    const subfigures = container.children.filter(
+      (child) =>
+        child?.type === 'container' &&
+        child.subcontainer === true &&
+        Array.isArray(child.children),
+    );
+    if (subfigures.length < 2) return;
+
+    const captions = subfigures.map((subfigure) =>
+      subfigure.children.find((child) => child?.type === 'caption'),
+    );
+    if (!captions.some(hasVisibleContent)) return;
+
+    // MyST's Typst exporter currently hard-codes `caption: []` for every
+    // subfigure. Build the equivalent grid in the document tree instead, so
+    // the exporter can still rewrite/copy image URLs while the original TeX
+    // subcaptions and labels remain visible. The parent container continues to
+    // provide the numbered Figure caption.
+    const columns = subfigures.length <= 3 ? subfigures.length : 2;
+    const gridChildren = [
+      {
+        type: 'raw',
+        typst: `#grid(columns: ${columns}, gutter: 8pt,\n`,
+      },
+    ];
+
+    subfigures.forEach((subfigure, index) => {
+      const caption = captions[index];
+      const content = subfigure.children.filter(
+        (child) => !['caption', 'legend'].includes(child?.type),
+      );
+      const letter = String.fromCharCode('a'.charCodeAt(0) + index);
+
+      gridChildren.push({ type: 'raw', typst: '[\n' });
+      content.forEach((child) => {
+        if (child?.type === 'image')
+          gridChildren.push({ type: 'raw', typst: '#' });
+        gridChildren.push(child);
+      });
+      gridChildren.push({
+        type: 'raw',
+        typst: `#align(center)[#set par(justify: false)\n#text(size: 7pt)[(${letter}) `,
+      });
+      if (caption?.children) gridChildren.push(...caption.children);
+      gridChildren.push({ type: 'raw', typst: ']\n]\n' });
+      if (subfigure.identifier) {
+        gridChildren.push({
+          type: 'raw',
+          typst: `#metadata(none) <${subfigure.identifier}>\n`,
+          // Raw Typst ignores children, but retaining a lightweight copy of
+          // the original target lets MyST resolve and number subfigure xrefs.
+          children: [{ ...subfigure, children: [] }],
+        });
+      }
+      gridChildren.push({ type: 'raw', typst: '],\n' });
+    });
+
+    gridChildren.push({ type: 'raw', typst: ')\n' });
+    container.children = [
+      { type: 'div', children: gridChildren },
+      ...container.children.filter(
+        (child) => !subfigures.includes(child),
+      ),
+    ];
+  });
+}
+
 const plugin = {
   name: 'MyST LaTeX compatibility',
   transforms: [
@@ -354,6 +426,7 @@ const plugin = {
       plugin: (_, utils) => (tree) => {
         restoreTableSectionHeaders(tree, utils);
         restoreNonFloatingProofEnvironments(tree, utils);
+        restoreSubfigureCaptions(tree, utils);
 
         for (const type of ['math', 'inlineMath']) {
           utils.selectAll(type, tree).forEach((node) => {
