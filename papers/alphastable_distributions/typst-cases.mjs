@@ -251,13 +251,46 @@ function convertMathWithCases(value) {
 function hasVisibleContent(node) {
   if (!node || typeof node !== 'object') return false;
   if (node.type === 'thematicBreak') return true;
+  if (node.type === 'raw' && typeof node.typst === 'string') return true;
   if (typeof node.value === 'string' && node.value.trim()) return true;
   return Array.isArray(node.children) && node.children.some(hasVisibleContent);
+}
+
+function typstTableRule() {
+  return {
+    type: 'raw',
+    typst: '#line(length: 100%, stroke: gray)',
+  };
+}
+
+function boldTableRow(row) {
+  row.children?.forEach((cell) => {
+    if (!Array.isArray(cell.children) || cell.children.length === 0) return;
+    if (cell.children.length === 1 && cell.children[0]?.type === 'strong')
+      return;
+    cell.children = [{ type: 'strong', children: cell.children }];
+  });
+}
+
+function typstTableRuleRow(columnCount) {
+  return {
+    type: 'tableRow',
+    children: [
+      {
+        type: 'tableCell',
+        colspan: columnCount,
+        align: 'center',
+        children: [typstTableRule()],
+      },
+    ],
+  };
 }
 
 function restoreTableSectionHeaders(tree, utils) {
   utils.selectAll('table', tree).forEach((table) => {
     if (!Array.isArray(table.children)) return;
+
+    let firstHeaderPadded = false;
 
     for (let index = 1; index < table.children.length; index += 1) {
       const separator = table.children[index - 1];
@@ -273,39 +306,43 @@ function restoreTableSectionHeaders(tree, utils) {
       )
         continue;
 
-      // LaTeX uses the empty spanning row as a visual section boundary. The
-      // SciPy Typst template suppresses horizontal rules after the first row,
-      // so make this particular rule cell content instead. A thematic break is
-      // rendered as a full-width line by both HTML and Typst exporters.
-      separator.children[0].children = [{ type: 'thematicBreak' }];
+      // LaTeX uses the empty spanning row as a visual section boundary. Keep
+      // the explicit line Typst-only: web themes apply large block margins to
+      // thematic breaks inside table cells, producing oversized empty rows.
+      // HTML already draws the table row borders needed at this boundary.
+      separator.children[0].children = [typstTableRule()];
 
       // MyST otherwise treats the next section header as ordinary body data.
-      header.children.forEach((cell) => {
-        if (!Array.isArray(cell.children) || cell.children.length === 0) return;
-        if (
-          cell.children.length === 1 &&
-          cell.children[0]?.type === 'strong'
-        )
-          return;
-        cell.children = [{ type: 'strong', children: cell.children }];
-      });
+      boldTableRow(header);
+
+      // The first title must receive the same explicit bold treatment as the
+      // restored section title. Matching spacer rows are added after scanning
+      // the table so they do not interfere with section-header detection.
+      if (!firstHeaderPadded) {
+        const firstHeader = table.children[0];
+        if (firstHeader?.type === 'tableRow') {
+          boldTableRow(firstHeader);
+          firstHeaderPadded = true;
+        }
+      }
 
       const columnCount = header.children.reduce(
         (count, cell) => count + (cell.colspan ?? 1),
         0,
       );
-      table.children.splice(index + 1, 0, {
-        type: 'tableRow',
-        children: [
-          {
-            type: 'tableCell',
-            colspan: columnCount,
-            align: 'center',
-            children: [{ type: 'thematicBreak' }],
-          },
-        ],
-      });
+      table.children.splice(index + 1, 0, typstTableRuleRow(columnCount));
       index += 1;
+    }
+
+    if (firstHeaderPadded) {
+      const firstHeader = table.children[0];
+      const columnCount = firstHeader.children.reduce(
+        (count, cell) => count + (cell.colspan ?? 1),
+        0,
+      );
+      // Mirror the second section exactly: spacer/rule, title, spacer/rule.
+      table.children.splice(0, 0, typstTableRuleRow(columnCount));
+      table.children.splice(2, 0, typstTableRuleRow(columnCount));
     }
   });
 }

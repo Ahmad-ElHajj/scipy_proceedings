@@ -144,7 +144,7 @@ then rescales the final density by $1/\gamma$. For the $\mathcal{S}_1$ parameter
 \delta + \beta \dfrac{2}{\pi} \gamma \log \gamma & \alpha = 1,
 \end{cases}
 \]
-as can be deduced from equation~\eqref{eq:type1}.
+as can be deduced from table~\ref{eq:type1}.
 
 Additionally, if $f_{\alpha,\beta}(x)$ is the PDF of a normalized $\alpha$-stable random variable, for negative evaluation points the code uses the symmetry relation \cite[proposition 1.1]{NolanJohnP2020USDM}
 \[
@@ -582,7 +582,7 @@ where \texttt{spectral\_measures} is a list containing the spectral measures tha
 
 \item We assign equal probabilities to both arcs and the spectral measure of each arc is half the total measure of the sphere. Generally, the probability of each region is the ratio of the spectral measure of the region to the total mass of the sphere.
 
-\item We create a class of the spectral measure sampler that we want by inheriting from the base class \\ \texttt{BaseSpectralMeasureSampler}. In the class that the user is creating, the function which samples the vectors $\mathbf{V}$ in Theorem \ref{thm:spec2} should be provided. Moreover, the dimension of the desired alpha-stable vector and the total mass of the unit sphere should be specified. The created spectral measure sampler is then passed as an argument to the \texttt{rvs()} method as shown in the following code.
+\item We create a class of the spectral measure sampler that we want by inheriting from the base class \texttt{BaseSpectralMeasureSampler}. In the class that the user is creating, the function which samples the vectors $\mathbf{V}$ in Theorem \ref{thm:spec2} should be provided. Moreover, the dimension of the desired alpha-stable vector and the total mass of the unit sphere should be specified. The created spectral measure sampler is then passed as an argument to the \texttt{rvs()} method as shown in the following code.
 \end{itemize}
 
 The steps are presented below.
