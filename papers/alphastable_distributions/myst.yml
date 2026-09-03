@@ -60,7 +60,8 @@ project:
     i.i.d: Independent and Identically Distributed
     MSE: Mean Square Error
     CDF: Commulative Distribution Function
-    AUB-HTP: AUB - Heavy Tails Package
+    AUB: American University of Beirut
+    HTP: Heavy Tails Package
   # It is possible to explicitly ignore the `doi-exists` check for certain citation keys
   error_rules:
     - rule: doi-exists

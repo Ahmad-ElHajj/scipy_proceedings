@@ -841,10 +841,21 @@ function restoreIndependentGroupedTables(tree, utils, source) {
       { type: 'raw', typst: '#grid(columns: 2, gutter: 8pt,\n' },
     ];
     const hiddenTargets = [];
-
     tables.forEach((table, index) => {
       const caption = captionFromLatex(captions[index]);
       const label = labels[index];
+
+      if (index > 0) {
+        // MyST's native thematic break reliably renders in the web app. Hide
+        // it from Typst inside a comment because the PDF keeps these tables
+        // side by side and therefore needs no horizontal separator.
+        gridChildren.push(
+          { type: 'raw', typst: '/*\n' },
+          { type: 'thematicBreak' },
+          { type: 'raw', typst: '*/\n' },
+        );
+      }
+
       gridChildren.push(
         { type: 'raw', typst: '[\n#figure([\n' },
         table,
